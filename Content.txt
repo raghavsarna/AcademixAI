@@ -1,3 +1,5 @@
+Color Scheme: #3750FE, #9B5AE2, #98C0D6, #6A0CBF, #00071B
+
 What We Do?
 🚀 Personalized Research Podcast
 Turn dense research papers into engaging, AI-generated podcasts tailored to your interests. Stay informed effortlessly—listen to cutting-edge insights on the go, anywhere, anytime.

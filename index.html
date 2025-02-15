@@ -9,8 +9,9 @@
 
 </head>
 <body>
+    <div id="vanta-background"></div>
     <div class='container'>
-        <video class='back-vid' loop autoplay muted plays-inline src="videos/galaxy.mp4" type="video/mp4"></video>
+        <!-- <video class='back-vid' loop autoplay muted plays-inline src="videos/galaxy.mp4" type="video/mp4"></video> -->
 
         <header>
             <div class="left">
@@ -72,22 +73,23 @@
             <h1 class="section-title autoDisplayAnimation">What we do?</h1>
             <div class="info-cards">
                 <div class="card">
-                    <h1>🚀 Personalized Research Podcast</h1>
+                    <h1>Personalized Research Podcast</h1>
                     <p>Turn dense research papers into engaging, AI-generated podcasts tailored to your interests. Stay informed effortlessly—listen to cutting-edge insights on the go, anywhere, anytime.</p>
                     <img src="images/grid1.png" alt="grid1">
                 </div>
                 <div class="card">
-                    <h1>💬 Chat with Papers & Dive Deep</h1>
+                    <h1>Chat with Papers & Dive Deep</h1>
                     <p>Interact with academic papers like never before! Ask questions, clarify concepts, and explore insights through an AI-powered chat that simplifies complex ideas and enhances your understanding.</p>
                     <img src="images/grid2.png" alt="grid2">
                 </div>
                 <div class="card">
-                    <h1>📜 Transform Any Paper into a Digestible Format</h1>
+                    <h1>Transform Any Paper into a Digestible Format</h1>
                     <p>Upload any research paper and let our AI break it down into concise, easy-to-understand summaries. We extract key insights, highlight crucial findings, and even convert content into audio—so you can grasp knowledge in minutes, not hours.</p>
-                    <video autoplay loop muted plays-inline src="videos/glob.mp4" type="video/mp4"></video>
+                    <!-- <video autoplay loop muted plays-inline src="videos/glob.mp4" type="video/mp4"></video> -->
+                    <img src="images/grid3.png" alt="grid3">
                 </div>
                 <div class="card">
-                    <h1>📩 Stay on Top of Cutting-Edge Research with a Daily Newsletter</h1>
+                    <h1>Stay on Top of Cutting-Edge Research with a Daily Newsletter</h1>
                     <p>Get the latest breakthroughs in AI, ML, and beyond—delivered straight to your inbox. Our AI-curated newsletter provides bite-sized, impactful summaries of trending papers, ensuring you never fall behind in the fast-moving world of research.</p>
                     <img src="images/grid4.png" alt="grid4">
                 </div>
@@ -101,7 +103,8 @@
             <h1 class="section-title autoDisplayAnimation">Latest Research</h1>
             <div class="project-card autoBlur">
                 <div class="project-vidbox">
-                    <video src="videos/project1.mp4"></video>
+                    <!-- <video src="videos/project1.mp4"></video> -->
+                    <img src="images/paper1.jpg" alt="AI Breakthroughs">
                 </div>
 
                 <div class="project-info fadeInRight">
@@ -112,7 +115,8 @@
 
             <div class="project-card">
                 <div class="project-vidbox autoBlur">
-                    <video src="videos/project2.mp4"></video>
+                    <!-- <video src="videos/project2.mp4"></video> -->
+                    <img src="images/paper2.jpg" alt="Neural Networks Evolution">
                 </div>
 
                 <div class="project-info fadeInRight">
@@ -123,7 +127,8 @@
 
             <div class="project-card">
                 <div class="project-vidbox autoBlur">
-                    <video src="videos/project3.mp4"></video>
+                    <!-- <video src="videos/project3.mp4"></video> -->
+                    <img src="images/paper3.jpg" alt="AI in Practice">
                 </div>
 
                 <div class="project-info fadeInRight">
@@ -171,5 +176,22 @@
     </div>
 
     <script src="app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script> 
+    <script> VANTA.NET({ 
+        el: "#vanta-background", 
+        mouseControls: true, 
+        touchControls: true, 
+        gyroControls: false, 
+        minHeight: 200.00, 
+        minWidth: 200.00, 
+        scale: 1.00, 
+        scaleMobile: 1.00, 
+        color: 0x6a0cbf, 
+        backgroundColor: 0x50508, 
+        points: 9.00, 
+        maxDistance: 22.00, 
+        spacing: 19.00 }) </script> 
+        <script src="app.js"></script>
 </body>
 </html> 

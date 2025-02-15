@@ -1,0 +1,32 @@
+What We Do?
+🚀 Personalized Research Podcast
+Turn dense research papers into engaging, AI-generated podcasts tailored to your interests. Stay informed effortlessly—listen to cutting-edge insights on the go, anywhere, anytime.
+
+💬 Chat with Papers & Dive Deep
+Interact with academic papers like never before! Ask questions, clarify concepts, and explore insights through an AI-powered chat that simplifies complex ideas and enhances your understanding.
+
+📜 Transform Any Paper into a Digestible Format
+Upload any research paper and let our AI break it down into concise, easy-to-understand summaries. We extract key insights, highlight crucial findings, and even convert content into audio—so you can grasp knowledge in minutes, not hours.
+
+📩 Stay on Top of Cutting-Edge Research with a Daily Newsletter
+Get the latest breakthroughs in AI, ML, and beyond—delivered straight to your inbox. Our AI-curated newsletter provides bite-sized, impactful summaries of trending papers, ensuring you never fall behind in the fast-moving world of research.
+
+
+Here are three sample newsletter entries for your static website:
+
+1️⃣ 🚀 Breakthroughs in AI: February Highlights
+Stay ahead with key insights on the latest AI/ML advancements, including cutting-edge research on transformer efficiency, ethical AI, and groundbreaking deep learning models.
+
+2️⃣ 🧠 Neural Networks Evolve: What’s Next?
+Explore how next-gen neural networks are revolutionizing AI. This issue covers innovative architectures, improved efficiency techniques, and the latest trends in deep learning research.
+
+3️⃣ 📊 From Papers to Practice: AI in the Real World
+Discover how recent AI research is shaping industries. We break down key studies on AI in healthcare, finance, and automation—making complex ideas accessible and actionable.
+
+
+Our Goal
+💡 Breaking Barriers to Research
+Accessing and understanding research shouldn’t be a challenge. We simplify complex papers, providing AI-powered summaries, podcasts, and discussions—so anyone, from students to professionals, can stay informed without struggling through jargon or paywalls. Knowledge should be open, accessible, and engaging for everyone.
+
+🎓 Engaged Learning
+Passively reading research isn’t enough. Our interactive platform lets you chat with papers, ask AI-powered questions, and explore insights in a dynamic way. Whether through audio, summaries, or discussions, we make learning immersive, intuitive, and tailored to your curiosity—because understanding research should be as exciting as the discoveries themselves!

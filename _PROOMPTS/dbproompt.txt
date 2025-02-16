@@ -1,0 +1,66 @@
+I have to create a database structure (many databases) for a website which summarizes research papers from many sources and has a feature of compiling papers and summarizing as newsletter, summarizing a complex custom uploaded paper, chatting with the paper, converting the paper into audio podcast. 
+
+There are supposed to be 7 databases and the following are the attributes that i have thought for them:
+1. User Data: user_id, email, hashed password, preferences
+2. Individual paper: doi, title, authors, source, data, summary
+3. Compiled newsletter (from individual papers through an llm): summary_id, date, picture, content
+4. User upload: user_id, doi, timestamp, original_pdf, summary
+5. Chat: chat_id, user_id, doi/summary_id, messages
+6. Newsletter Podcast: summary_id, content, podcast_url
+7. Custom Uploaded Paper's Podcast: doi, summary, podcast_url
+
+Make sure that if one paper (from any source) if has been in the database, is not going to get processed again. 
+
+Elaborate this and plan it out for me. Also give me an LLM prompt to get this database generated (sql database) for integrating in a static html website.
+
+
+
+
+
+
+
+Users Table
+user_id: Integer, Primary Key, Auto-increment or UUID
+email: String, Unique, Not Null
+hashed_password: String, Not Null
+preferences: JSON/Text (holds user preferences)
+
+Papers Table
+doi: String, Primary Key (unique identifier for each paper)
+title: String, Not Null
+authors: String, Not Null
+source: String, Not Null
+data: Text (raw data/content of the paper)
+summary: Text (processed summary of the paper)
+Note: Before processing a new paper upload, the DOI should be checked to avoid duplicate entries.
+
+Newsletter Table
+summary_id: Integer, Primary Key, Auto-increment
+date: DateTime, Not Null
+picture: String (URL or path to an image)
+content: Text, Not Null
+
+UserUpload Table
+upload_id: Integer, Primary Key, Auto-increment
+user_id: Integer, Foreign Key → Users.user_id, Not Null
+doi: String (used to cross-check against Papers)
+timestamp: DateTime, Defaults to current time
+original_pdf: String (file path or URL)
+summary: Text (user provided summary)
+
+Chat Table
+chat_id: Integer, Primary Key, Auto-increment
+user_id: Integer, Foreign Key → Users.user_id, Not Null
+paper_doi: String, Foreign Key → Papers.doi, Nullable
+summary_id: Integer, Foreign Key → Newsletter.summary_id, Nullable
+messages: JSON/Text (stores the conversation messages)
+
+NewsletterPodcast Table
+summary_id: Integer, Primary Key and Foreign Key → Newsletter.summary_id
+content: Text, Not Null (podcast content description)
+podcast_url: String, Not Null (link to the podcast audio)
+
+CustomPaperPodcast Table
+doi: String, Primary Key and Foreign Key → Papers.doi
+summary: Text, Not Null (podcast summary)
+podcast_url: String, Not Null (link to the podcast audio)

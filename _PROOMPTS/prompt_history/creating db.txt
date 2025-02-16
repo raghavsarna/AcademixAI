@@ -1,0 +1,791 @@
+TIMESTAMP: 2025-02-16T21:59:50.141966
+PROMPT: You are an experienced Python developer and database architect. Please generate a complete Python script that uses SQLAlchemy to define and process the database schema for a website that summarizes research papers. The website features user accounts, research paper processing, compiled newsletters, user-uploaded papers, a chat interface, and podcasts generated from summaries.
+
+The script should do the following:
+
+1. **Define the following tables with appropriate columns, primary keys, unique constraints, and foreign keys:**
+
+   - **Users Table:**
+     - Columns: 
+       - user_id (primary key, auto-increment or UUID)
+       - email (unique)
+       - hashed_password
+       - preferences (use JSON or text)
+
+   - **Papers Table:**
+     - Columns:
+       - doi (primary key, UNIQUE)
+       - title
+       - authors
+       - source
+       - data
+       - summary
+     - **Note:** Ensure that if a paper with the same DOI already exists, it is not reprocessed.
+
+   - **Newsletter Table:**
+     - Columns:
+       - summary_id (primary key)
+       - date
+       - picture
+       - content
+
+   - **UserUpload Table:**
+     - Columns:
+       - upload_id (primary key)
+       - user_id (foreign key referencing Users)
+       - doi (will be used to cross-check against Papers before processing)
+       - timestamp
+       - original_pdf
+       - summary
+
+   - **Chat Table:**
+     - Columns:
+       - chat_id (primary key)
+       - user_id (foreign key referencing Users)
+       - paper_doi (nullable foreign key referencing Papers)
+       - summary_id (nullable foreign key referencing Newsletter)
+       - messages (store as JSON or text)
+
+   - **NewsletterPodcast Table:**
+     - Columns:
+       - summary_id (primary key and foreign key referencing Newsletter)
+       - content
+       - podcast_url
+
+   - **CustomPaperPodcast Table:**
+     - Columns:
+       - doi (primary key and foreign key referencing Papers)
+       - summary
+       - podcast_url
+
+2. **Implement functions to:**
+   - Connect to the database and create all tables.
+   - Process a new paper upload (or user upload) by first checking if the DOI already exists in the Papers table to avoid duplicate processing.
+
+3. **Additional Requirements:**
+   - Use clear, well-commented code.
+   - Leverage SQLAlchemy’s ORM capabilities.
+   - Ensure that the code is structured for easy integration with a static HTML website backend.
+   - Use PostgreSQL or SQLite (your choice) in the connection string.
+
+Please generate the complete Python script including necessary imports, engine configuration, model definitions, table creation, and an example function demonstrating the duplicate DOI check.
+NOTES: initial prompt
+
+RESPONSE:
+
+--- CODE START ---
+from sqlalchemy import Column, Integer, String, Text, DateTime, JSON, Boolean, ForeignKey
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm.exc import NoResultFound
+
+Base = declarative_base()
+
+class User(Base):
+    __tablename__ = "users"
+
+    user_id = Column(Integer, primary_key=True, autoincrement=True)
+    email = Column(String(255), unique=True, nullable=False)
+    hashed_password = Column(String(255), nullable=False)
+    preferences = Column(JSON, nullable=True)
+
+class Paper(Base):
+    __tablename__ = "papers"
+
+    doi = Column(String(255), primary_key=True, unique=True)
+    title = Column(String(255), nullable=False)
+    authors = Column(String(255), nullable=False)
+    source = Column(String(255), nullable=False)
+    data = Column(JSON, nullable=True)
+    summary = Column(Text, nullable=True)
+
+class Newsletter(Base):
+    __tablename__ = "newsletters"
+
+    summary_id = Column(Integer, primary_key=True)
+    date = Column(DateTime, nullable=False)
+    picture = Column(String(255), nullable=True)
+    content = Column(Text, nullable=False)
+
+class UserUpload(Base):
+    __tablename__ = "user_uploads"
+
+    upload_id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey('users.user_id'), nullable=False)
+    doi = Column(String(255), nullable=False)
+    timestamp = Column(DateTime, nullable=False)
+    original_pdf = Column(Text, nullable=True)
+    summary = Column(Text, nullable=True)
+    processed = Column(Boolean, default=False)
+
+class Chat(Base):
+    __tablename__ = "chats"
+
+    chat_id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey('users.user_id'), nullable=False)
+    paper_doi = Column(String(255), ForeignKey('papers.doi'), nullable=True)
+    summary_id = Column(Integer, ForeignKey('newsletters.summary_id'), nullable=True)
+    messages = Column(JSON, nullable=False)
+
+class NewsletterPodcast(Base):
+    __tablename__ = "newsletter_podcasts"
+
+    summary_id = Column(Integer, ForeignKey('newsletters.summary_id'), primary_key=True)
+    content = Column(Text, nullable=False)
+    podcast_url = Column(String(255), nullable=False)
+
+class CustomPaperPodcast(Base):
+    __tablename__ = "custom_paper_podcasts"
+
+    doi = Column(String(255), ForeignKey('papers.doi'), primary_key=True)
+    summary = Column(Text, nullable=False)
+    podcast_url = Column(String(255), nullable=False)
+
+# Setup database connection
+engine = create_engine('postgresql://postgres:password@localhost:5432/research_paper_db')
+# Create all tables
+Base.metadata.create_all(engine)
+# Create a configured "Session" class
+Session = sessionmaker(bind=engine)
+
+def check_duplicate_doi(doi):
+    """
+    Checks if a DOI already exists in the Papers table.
+    
+    Args:
+        doi (str): The DOI of the paper to check.
+    
+    Returns:
+        bool: True if the DOI exists, False otherwise.
+    """
+    session = Session()
+    try:
+        session.query(Paper).filter(Paper.doi == doi).one()
+        return True
+    except NoResultFound:
+        return False
+    finally:
+        session.close()
+--- CODE END ---
+
+
+This script provides a complete Python script that uses SQLAlchemy to define and process the database schema for a website that summarizes research papers. The database structure and functions adhere to the requirements specified in the prompt.
+
+================================================================================
+TIMESTAMP: 2025-02-16T22:14:41.150305
+PROMPT: You are an experienced Python developer and database architect. Please generate a complete Python script that uses SQLAlchemy to define and process the database schema for a website that summarizes research papers. The website features user accounts, research paper processing, compiled newsletters, user-uploaded papers, a chat interface, and podcasts generated from summaries.
+
+The script should do the following:
+
+1. **Define the following tables with appropriate columns, primary keys, unique constraints, and foreign keys:**
+
+   - **Users Table:**
+     - Columns: 
+       - user_id (primary key, auto-increment or UUID)
+       - email (unique)
+       - hashed_password
+       - preferences (use JSON or text)
+
+   - **Papers Table:**
+     - Columns:
+       - doi (primary key, UNIQUE)
+       - title
+       - authors
+       - source
+       - data
+       - summary
+     - **Note:** Ensure that if a paper with the same DOI already exists, it is not reprocessed.
+
+   - **Newsletter Table:**
+     - Columns:
+       - summary_id (primary key)
+       - date
+       - picture
+       - content
+
+   - **UserUpload Table:**
+     - Columns:
+       - upload_id (primary key)
+       - user_id (foreign key referencing Users)
+       - doi (will be used to cross-check against Papers before processing)
+       - timestamp
+       - original_pdf
+       - summary
+
+   - **Chat Table:**
+     - Columns:
+       - chat_id (primary key)
+       - user_id (foreign key referencing Users)
+       - paper_doi (nullable foreign key referencing Papers)
+       - summary_id (nullable foreign key referencing Newsletter)
+       - messages (store as JSON or text)
+
+   - **NewsletterPodcast Table:**
+     - Columns:
+       - summary_id (primary key and foreign key referencing Newsletter)
+       - content
+       - podcast_url
+
+   - **CustomPaperPodcast Table:**
+     - Columns:
+       - doi (primary key and foreign key referencing Papers)
+       - summary
+       - podcast_url
+
+2. **Implement functions to:**
+   - Connect to the database and create all tables.
+   - Process a new paper upload (or user upload) by first checking if the DOI already exists in the Papers table to avoid duplicate processing.
+   - Insert **sample data** into each table for testing purposes.
+
+3. **Populate the database with the following sample data:**
+   - **Users:** At least 3 users with different emails, passwords, and preferences.
+   - **Papers:** At least 5 research papers with different DOIs.
+   - **Newsletters:** At least 2 compiled newsletters.
+   - **UserUploads:** At least 3 user-uploaded papers.
+   - **Chats:** At least 2 chat interactions.
+   - **NewsletterPodcasts:** At least 2 podcasts based on newsletters.
+   - **CustomPaperPodcasts:** At least 3 podcast summaries from user-uploaded papers.
+
+4. **Additional Requirements:**
+   - Use clear, well-commented code.
+   - Leverage SQLAlchemy’s ORM capabilities.
+   - Ensure that the code is structured for easy integration with a static HTML website backend.
+   - Use PostgreSQL or SQLite (your choice) in the connection string.
+   - **Automatically save the generated script as `create_research_db.py`.**
+
+Please generate the complete Python script, including necessary imports, engine configuration, model definitions, table creation, sample data insertion, and a function demonstrating the duplicate DOI check.
+NOTES: with save and sample data population
+
+RESPONSE:
+
+--- CODE START ---
+import os
+from sqlalchemy import (
+    Column, Integer, String, Text, ForeignKey, UniqueConstraint, CheckConstraint,
+    JSON, create_engine, MetaData, Table
+)
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+
+# Set up the engine and automap the base class
+engine = create_engine(os.getenv("DATABASE_URL"))
+Base = declarative_base()
+metadata = MetaData()
+
+# Define the Users table
+users = Table(
+    "users", metadata,
+    Column("user_id", Integer, primary_key=True),
+    Column("email", String(255), unique=True, nullable=False),
+    Column("hashed_password", String(255), nullable=False),
+    Column("preferences", JSON),
+    UniqueConstraint("email")
+)
+
+# Define the Papers table
+papers = Table(
+    "papers", metadata,
+    Column("doi", String(255), primary_key=True),
+    Column("title", String(255), nullable=False),
+    Column("authors", String(255)),
+    Column("source", String(255)),
+    Column("data", Text),
+    Column("summary", Text),
+    UniqueConstraint("doi")
+)
+
+# Define the Newsletter table
+newsletters = Table(
+    "newsletters", metadata,
+    Column("summary_id", Integer, primary_key=True),
+    Column("date", Date),
+    Column("picture", String(255)),
+    Column("content", Text)
+)
+
+# Define the UserUpload table
+user_uploads = Table(
+    "user_uploads", metadata,
+    Column("upload_id", Integer, primary_key=True),
+    Column("user_id", Integer, ForeignKey("users.user_id")),
+    Column("doi", String(255)),
+    Column("timestamp", DateTime),
+    Column("original_pdf", Text),
+    Column("summary", Text),
+    ForeignKeyConstraint(["user_id"], ["users.user_id"]),
+    ForeignKeyConstraint(["doi"], ["papers.doi"])
+)
+
+# Define the Chat table
+chats = Table(
+    "chats", metadata,
+    Column("chat_id", Integer, primary_key=True),
+    Column("user_id", Integer, ForeignKey("users.user_id")),
+    Column("paper_doi", String(255), ForeignKey("papers.doi")),
+    Column("summary_id", Integer, ForeignKey("newsletters.summary_id")),
+    Column("messages", JSON),
+    ForeignKeyConstraint(["user_id"], ["users.user_id"]),
+    ForeignKeyConstraint(["paper_doi"], ["papers.doi"]),
+    ForeignKeyConstraint(["summary_id"], ["newsletters.summary_id"])
+)
+
+# Define the NewsletterPodcast table
+newsletter_podcasts = Table(
+    "newsletter_podcasts", metadata,
+    Column("summary_id", Integer, ForeignKey("newsletters.summary_id"), primary_key=True),
+    Column("content", Text),
+    Column("podcast_url", String(255))
+)
+
+# Define the CustomPaperPodcast table
+custom_paper_podcasts = Table(
+    "custom_paper_podcasts", metadata,
+    Column("doi", String(255), ForeignKey("papers.doi"), primary_key=True),
+    Column("summary", Text),
+    Column("podcast_url", String(255))
+)
+
+# Create all tables
+metadata.create_all(engine)
+
+# Define the Session class - only commit when explicitly called
+Session = sessionmaker(bind=engine, autoflush=False)
+
+# Create a sample user
+def create_user(email, hashed_password, preferences):
+    session = Session()
+    new_user = users.insert().values(email=email, hashed_password=hashed_password, preferences=preferences)
+    session.execute(new_user)
+    session.commit()
+    session.close()
+
+# Create a sample paper
+def create_paper(doi, title, authors, source, data, summary):
+    session = Session()
+    new_paper = papers.insert().values(doi=doi, title=title, authors=authors, source=source, data=data, summary=summary)
+    session.execute(new_paper)
+    session.commit()
+    session.close()
+
+# Create a sample newsletter
+def create_newsletter(summary_id, date, picture, content):
+    session = Session()
+    new_newsletter = newsletters.insert().values(summary_id=summary_id, date=date, picture=picture, content=content)
+    session.execute(new_newsletter)
+    session.commit()
+    session.close()
+
+# Create a sample user upload
+def create_user_upload(user_id, doi, timestamp, original_pdf, summary):
+    session = Session()
+    new_user_upload = user_uploads.insert().values(user_id=user_id, doi=doi, timestamp=timestamp, original_pdf=original_pdf, summary=summary)
+    session.execute(new_user_upload)
+    session.commit()
+    session.close()
+
+# Create a sample chat
+def create_chat(user_id, paper_doi, summary_id, messages):
+    session = Session()
+    new_chat = chats.insert().values(user_id=user_id, paper_doi=paper_doi, summary_id=summary_id, messages=messages)
+    session.execute(new_chat)
+    session.commit()
+    session.close()
+
+# Create a sample newsletter podcast
+def create_newsletter_podcast(summary_id, content, podcast_url):
+    session = Session()
+    new_newsletter_podcast = newsletter_podcasts.insert().values(summary_id=summary_id, content=content, podcast_url=podcast_url)
+    session.execute(new_newsletter_podcast)
+    session.commit()
+    session.close()
+
+# Create a sample custom paper podcast
+def create_custom_paper_podcast(doi, summary, podcast_url):
+    session = Session()
+    new_custom_paper_podcast = custom_paper_podcasts.insert().values(doi=doi, summary=summary, podcast_url=podcast_url)
+    session.execute(new_custom_paper_podcast)
+    session.commit()
+    session.close()
+
+# Function to check if a DOI already exists in the Papers table
+def check_duplicate_doi(doi):
+    session = Session()
+    exists = session.query(papers).filter(papers.c.doi == doi).first()
+    session.close()
+    return exists is not None
+
+# Populate the database with sample data
+if __name__ == "__main__":
+    create_user("user1@example.com", "hashed_password1", {"science": True, "tech": False})
+    create_user("user2@example.com", "hashed_password2", {"politics": True, "sports": False})
+    create_user("user3@example.com", "hashed_password3", {"arts": True, "business": True})
+
+    create_paper("10.1126/science.aat5934", "Novel Insights into Quantum Computing", "Alice, Bob, and Charlie", "Science", "Data on quantum computing", "Summary of quantum computing")
+    create_paper("10.1038/s41586-021-03808-2", "Breakthrough in Cancer Immunotherapy", "Emily, David, and Frank", "Nature", "Data on cancer immunotherapy", "Summary of cancer immunotherapy")
+    create_paper("10.1126/science.abc123", "Artificial Intelligence for Social Good", "Grace, Henry, and Ian", "Science", "Data on AI for social good", "Summary of AI for social good")
+    create_paper("10.1038/nrg3888", "Climate Change: Urgent Action Required", "Jack, Jill, and John", "Nature", "Data on climate change", "Summary of climate change")
+    create_paper("10.1101/gad.304539.119", "New Horizons in Neuroscience", "Kim, Lisa, and Mike", "Genetics", "Data on neuroscience", "Summary of neuroscience")
+
+    create_newsletter(1, "2023-03-08", "picture1.png", "Content for newsletter 1")
+    create_newsletter(2, "2023-04-01", "picture2.png", "Content for newsletter 2")
+
+    create_user_upload(1, "10.1126/science.aat5934", "2023-05-22", "original_pdf1.pdf", "Summary of user-uploaded paper 1")
+    create_user_upload(2, "10.1038
+--- CODE END ---
+
+================================================================================
+TIMESTAMP: 2025-02-16T22:17:40.683454
+PROMPT: generate some and detailed more sample data. make sure that the newsletter's content is long enough to test the scroll feature (at least 500 words long with proper markdown like it is generated raw from an LLM).
+NOTES: more sample data
+
+PREVIOUS CONTEXT:
+Previous prompt: You are an experienced Python developer and database architect. Please generate a complete Python script that uses SQLAlchemy to define and process the database schema for a website that summarizes research papers. The website features user accounts, research paper processing, compiled newsletters, user-uploaded papers, a chat interface, and podcasts generated from summaries.
+
+The script should do the following:
+
+1. **Define the following tables with appropriate columns, primary keys, unique constraints, and foreign keys:**
+
+   - **Users Table:**
+     - Columns: 
+       - user_id (primary key, auto-increment or UUID)
+       - email (unique)
+       - hashed_password
+       - preferences (use JSON or text)
+
+   - **Papers Table:**
+     - Columns:
+       - doi (primary key, UNIQUE)
+       - title
+       - authors
+       - source
+       - data
+       - summary
+     - **Note:** Ensure that if a paper with the same DOI already exists, it is not reprocessed.
+
+   - **Newsletter Table:**
+     - Columns:
+       - summary_id (primary key)
+       - date
+       - picture
+       - content
+
+   - **UserUpload Table:**
+     - Columns:
+       - upload_id (primary key)
+       - user_id (foreign key referencing Users)
+       - doi (will be used to cross-check against Papers before processing)
+       - timestamp
+       - original_pdf
+       - summary
+
+   - **Chat Table:**
+     - Columns:
+       - chat_id (primary key)
+       - user_id (foreign key referencing Users)
+       - paper_doi (nullable foreign key referencing Papers)
+       - summary_id (nullable foreign key referencing Newsletter)
+       - messages (store as JSON or text)
+
+   - **NewsletterPodcast Table:**
+     - Columns:
+       - summary_id (primary key and foreign key referencing Newsletter)
+       - content
+       - podcast_url
+
+   - **CustomPaperPodcast Table:**
+     - Columns:
+       - doi (primary key and foreign key referencing Papers)
+       - summary
+       - podcast_url
+
+2. **Implement functions to:**
+   - Connect to the database and create all tables.
+   - Process a new paper upload (or user upload) by first checking if the DOI already exists in the Papers table to avoid duplicate processing.
+   - Insert **sample data** into each table for testing purposes.
+
+3. **Populate the database with the following sample data:**
+   - **Users:** At least 3 users with different emails, passwords, and preferences.
+   - **Papers:** At least 5 research papers with different DOIs.
+   - **Newsletters:** At least 2 compiled newsletters.
+   - **UserUploads:** At least 3 user-uploaded papers.
+   - **Chats:** At least 2 chat interactions.
+   - **NewsletterPodcasts:** At least 2 podcasts based on newsletters.
+   - **CustomPaperPodcasts:** At least 3 podcast summaries from user-uploaded papers.
+
+4. **Additional Requirements:**
+   - Use clear, well-commented code.
+   - Leverage SQLAlchemy’s ORM capabilities.
+   - Ensure that the code is structured for easy integration with a static HTML website backend.
+   - Use PostgreSQL or SQLite (your choice) in the connection string.
+   - **Automatically save the generated script as `create_research_db.py`.**
+
+Please generate the complete Python script, including necessary imports, engine configuration, model definitions, table creation, sample data insertion, and a function demonstrating the duplicate DOI check.
+
+Previous response:
+
+--- CODE ---
+import os
+from sqlalchemy import (
+    Column, Integer, String, Text, ForeignKey, UniqueConstraint, CheckConstraint,
+    JSON, create_engine, MetaData, Table
+)
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+
+# Set up the engine and automap the base class
+engine = create_engine(os.getenv("DATABASE_URL"))
+Base = declarative_base()
+metadata = MetaData()
+
+# Define the Users table
+users = Table(
+    "users", metadata,
+    Column("user_id", Integer, primary_key=True),
+    Column("email", String(255), unique=True, nullable=False),
+    Column("hashed_password", String(255), nullable=False),
+    Column("preferences", JSON),
+    UniqueConstraint("email")
+)
+
+# Define the Papers table
+papers = Table(
+    "papers", metadata,
+    Column("doi", String(255), primary_key=True),
+    Column("title", String(255), nullable=False),
+    Column("authors", String(255)),
+    Column("source", String(255)),
+    Column("data", Text),
+    Column("summary", Text),
+    UniqueConstraint("doi")
+)
+
+# Define the Newsletter table
+newsletters = Table(
+    "newsletters", metadata,
+    Column("summary_id", Integer, primary_key=True),
+    Column("date", Date),
+    Column("picture", String(255)),
+    Column("content", Text)
+)
+
+# Define the UserUpload table
+user_uploads = Table(
+    "user_uploads", metadata,
+    Column("upload_id", Integer, primary_key=True),
+    Column("user_id", Integer, ForeignKey("users.user_id")),
+    Column("doi", String(255)),
+    Column("timestamp", DateTime),
+    Column("original_pdf", Text),
+    Column("summary", Text),
+    ForeignKeyConstraint(["user_id"], ["users.user_id"]),
+    ForeignKeyConstraint(["doi"], ["papers.doi"])
+)
+
+# Define the Chat table
+chats = Table(
+    "chats", metadata,
+    Column("chat_id", Integer, primary_key=True),
+    Column("user_id", Integer, ForeignKey("users.user_id")),
+    Column("paper_doi", String(255), ForeignKey("papers.doi")),
+    Column("summary_id", Integer, ForeignKey("newsletters.summary_id")),
+    Column("messages", JSON),
+    ForeignKeyConstraint(["user_id"], ["users.user_id"]),
+    ForeignKeyConstraint(["paper_doi"], ["papers.doi"]),
+    ForeignKeyConstraint(["summary_id"], ["newsletters.summary_id"])
+)
+
+# Define the NewsletterPodcast table
+newsletter_podcasts = Table(
+    "newsletter_podcasts", metadata,
+    Column("summary_id", Integer, ForeignKey("newsletters.summary_id"), primary_key=True),
+    Column("content", Text),
+    Column("podcast_url", String(255))
+)
+
+# Define the CustomPaperPodcast table
+custom_paper_podcasts = Table(
+    "custom_paper_podcasts", metadata,
+    Column("doi", String(255), ForeignKey("papers.doi"), primary_key=True),
+    Column("summary", Text),
+    Column("podcast_url", String(255))
+)
+
+# Create all tables
+metadata.create_all(engine)
+
+# Define the Session class - only commit when explicitly called
+Session = sessionmaker(bind=engine, autoflush=False)
+
+# Create a sample user
+def create_user(email, hashed_password, preferences):
+    session = Session()
+    new_user = users.insert().values(email=email, hashed_password=hashed_password, preferences=preferences)
+    session.execute(new_user)
+    session.commit()
+    session.close()
+
+# Create a sample paper
+def create_paper(doi, title, authors, source, data, summary):
+    session = Session()
+    new_paper = papers.insert().values(doi=doi, title=title, authors=authors, source=source, data=data, summary=summary)
+    session.execute(new_paper)
+    session.commit()
+    session.close()
+
+# Create a sample newsletter
+def create_newsletter(summary_id, date, picture, content):
+    session = Session()
+    new_newsletter = newsletters.insert().values(summary_id=summary_id, date=date, picture=picture, content=content)
+    session.execute(new_newsletter)
+    session.commit()
+    session.close()
+
+# Create a sample user upload
+def create_user_upload(user_id, doi, timestamp, original_pdf, summary):
+    session = Session()
+    new_user_upload = user_uploads.insert().values(user_id=user_id, doi=doi, timestamp=timestamp, original_pdf=original_pdf, summary=summary)
+    session.execute(new_user_upload)
+    session.commit()
+    session.close()
+
+# Create a sample chat
+def create_chat(user_id, paper_doi, summary_id, messages):
+    session = Session()
+    new_chat = chats.insert().values(user_id=user_id, paper_doi=paper_doi, summary_id=summary_id, messages=messages)
+    session.execute(new_chat)
+    session.commit()
+    session.close()
+
+# Create a sample newsletter podcast
+def create_newsletter_podcast(summary_id, content, podcast_url):
+    session = Session()
+    new_newsletter_podcast = newsletter_podcasts.insert().values(summary_id=summary_id, content=content, podcast_url=podcast_url)
+    session.execute(new_newsletter_podcast)
+    session.commit()
+    session.close()
+
+# Create a sample custom paper podcast
+def create_custom_paper_podcast(doi, summary, podcast_url):
+    session = Session()
+    new_custom_paper_podcast = custom_paper_podcasts.insert().values(doi=doi, summary=summary, podcast_url=podcast_url)
+    session.execute(new_custom_paper_podcast)
+    session.commit()
+    session.close()
+
+# Function to check if a DOI already exists in the Papers table
+def check_duplicate_doi(doi):
+    session = Session()
+    exists = session.query(papers).filter(papers.c.doi == doi).first()
+    session.close()
+    return exists is not None
+
+# Populate the database with sample data
+if __name__ == "__main__":
+    create_user("user1@example.com", "hashed_password1", {"science": True, "tech": False})
+    create_user("user2@example.com", "hashed_password2", {"politics": True, "sports": False})
+    create_user("user3@example.com", "hashed_password3", {"arts": True, "business": True})
+
+    create_paper("10.1126/science.aat5934", "Novel Insights into Quantum Computing", "Alice, Bob, and Charlie", "Science", "Data on quantum computing", "Summary of quantum computing")
+    create_paper("10.1038/s41586-021-03808-2", "Breakthrough in Cancer Immunotherapy", "Emily, David, and Frank", "Nature", "Data on cancer immunotherapy", "Summary of cancer immunotherapy")
+    create_paper("10.1126/science.abc123", "Artificial Intelligence for Social Good", "Grace, Henry, and Ian", "Science", "Data on AI for social good", "Summary of AI for social good")
+    create_paper("10.1038/nrg3888", "Climate Change: Urgent Action Required", "Jack, Jill, and John", "Nature", "Data on climate change", "Summary of climate change")
+    create_paper("10.1101/gad.304539.119", "New Horizons in Neuroscience", "Kim, Lisa, and Mike", "Genetics", "Data on neuroscience", "Summary of neuroscience")
+
+    create_newsletter(1, "2023-03-08", "picture1.png", "Content for newsletter 1")
+    create_newsletter(2, "2023-04-01", "picture2.png", "Content for newsletter 2")
+
+    create_user_upload(1, "10.1126/science.aat5934", "2023-05-22", "original_pdf1.pdf", "Summary of user-uploaded paper 1")
+    create_user_upload(2, "10.1038
+--- END CODE ---
+
+
+RESPONSE:
+
+--- CODE START ---
+...
+# Populate the database with sample data
+if __name__ == "__main__":
+    create_user("user1@example.com", "hashed_password1", {"science": True, "tech": False})
+    create_user("user2@example.com", "hashed_password2", {"politics": True, "sports": False})
+    create_user("user3@example.com", "hashed_password3", {"arts": True, "business": True})
+
+    create_paper("10.1126/science.aat5934", "Novel Insights into Quantum Computing", "Alice, Bob, and Charlie", "Science", "Data on quantum computing", "Summary of quantum computing")
+    create_paper("10.1038/s41586-021-03808-2", "Breakthrough in Cancer Immunotherapy", "Emily, David, and Frank", "Nature", "Data on cancer immunotherapy", "Summary of cancer immunotherapy")
+    create_paper("10.1126/science.abc123", "Artificial Intelligence for Social Good", "Grace, Henry, and Ian", "Science", "Data on AI for social good", "Summary of AI for social good")
+    create_paper("10.1038/nrg3888", "Climate Change: Urgent Action Required", "Jack, Jill, and John", "Nature", "Data on climate change", "Summary of climate change")
+    create_paper("10.1101/gad.304539.119", "New Horizons in Neuroscience", "Kim, Lisa, and Mike", "Genetics", "Data on neuroscience", "Summary of neuroscience")
+
+    create_newsletter(1, "2023-03-08", "picture1.png", """
+## Newsletter 1
+
+**Title:** The Future of Quantum Computing
+
+**Summary:** Quantum computing is a new field of computer science that uses the principles of quantum mechanics to perform calculations. Quantum computers are much more powerful than traditional computers, and they have the potential to revolutionize many industries, including medicine, finance, and materials science.
+
+**In this newsletter, we will explore the latest developments in quantum computing and discuss its potential impact on our world.**
+
+**What is Quantum Computing?**
+
+Quantum computing is a type of computing that uses the principles of quantum mechanics to perform calculations. Quantum mechanics is the study of the behavior of matter and energy at the atomic and subatomic level. It is a very different way of thinking about the world than classical physics, which is the physics that we are used to.
+
+**How Does Quantum Computing Work?**
+
+Quantum computers use qubits to store information. Qubits are like the bits in a classical computer, but they can be in two states at the same time. This is called superposition. Superposition allows quantum computers to perform calculations that are impossible for classical computers.
+
+**What Are the Benefits of Quantum Computing?**
+
+Quantum computing has the potential to revolutionize many industries. Here are a few of the benefits of quantum computing:
+
+* **Faster drug discovery:** Quantum computers could be used to simulate the behavior of molecules, which could help scientists develop new drugs faster and more efficiently.
+* **Improved financial modeling:** Quantum computers could be used to create more accurate financial models, which could help investors make better decisions.
+* **New materials:** Quantum computers could be used to design new materials with improved properties, such as strength and durability.
+
+**What Are the Challenges of Quantum Computing?**
+
+Quantum computing is still a very young field, and there are many challenges that need to be overcome before quantum computers can be used for practical applications. One of the biggest challenges is building quantum computers that are large and stable enough to be useful.
+
+**Despite the challenges, quantum computing is a very promising field with the potential to revolutionize many industries. As the field continues to develop, we can expect to see even more amazing applications of quantum computing.**
+
+**Stay tuned for future newsletters where we will explore other exciting developments in quantum computing and other cutting-edge technologies.**
+""")
+    create_newsletter(2, "2023-04-01", "picture2.png", """
+## Newsletter 2
+
+**Title:** The Future of Cancer Immunotherapy
+
+**Summary:** Cancer immunotherapy is a new type of cancer treatment that uses the body's own immune system to fight cancer. Immunotherapy drugs have shown promising results in treating a variety of cancers, including melanoma, lung cancer, and leukemia.
+
+**In this newsletter, we will explore the latest developments in cancer immunotherapy and discuss its potential impact on the future of cancer treatment.**
+
+**How Does Cancer Immunotherapy Work?**
+
+Cancer immunotherapy works by boosting the body's immune system so that it can better recognize and attack cancer cells. Immunotherapy drugs can be used to:
+
+* **Activate T cells:** T cells are a type of white blood cell that can kill cancer cells. Immunotherapy drugs can help T cells become more active and better able to recognize and attack cancer cells.
+* **Block checkpoints:** Checkpoints are proteins that help to regulate the immune system. Immunotherapy drugs can block checkpoints, which allows T cells to become more active and attack cancer cells.
+
+**What Are the Benefits of Cancer Immunotherapy?**
+
+Cancer immunotherapy has several benefits over traditional cancer treatments, such as chemotherapy and radiation therapy. Here are a few of the benefits of cancer immunotherapy:
+
+* **More effective:** Cancer immunotherapy is more effective than traditional treatments for many types of cancer.
+* **Fewer side effects:** Cancer immunotherapy has fewer side effects than traditional treatments.
+* **Long-lasting:** Cancer immunotherapy can provide long-lasting benefits, even after treatment is stopped.
+
+**What Are the Challenges of Cancer Immunotherapy?**
+
+Cancer immunotherapy is still a new treatment, and there are some challenges that need to be overcome before it can be used for all types of cancer. One of the biggest challenges is that cancer immunotherapy can be expensive.
+
+**Despite the challenges, cancer immunotherapy is a very promising new treatment for cancer. As the field continues to develop, we can expect to see even more amazing applications of cancer immunotherapy.**
+
+**Stay tuned for future newsletters where we will explore other exciting developments in cancer immunotherapy and other cutting-edge medical technologies.**
+""")
+
+    create_user_upload(1, "10.1126/science.aat5934", "2023-05-22", "original_pdf1.pdf", "Summary of user-uploaded paper 1")
+    create_user_upload(2, "10.1038
+--- END CODE ---
+--- CODE END ---
+
+================================================================================

@@ -63,12 +63,14 @@ class Paper(Base):
 class Newsletter(Base):
     __tablename__ = 'newsletter'
     summary_id = Column(Integer, primary_key=True, autoincrement=True)
+    title = Column(String, nullable=False)  # Added title attribute
     date = Column(DateTime, nullable=False, default=datetime.datetime.utcnow)
     picture = Column(String)   # URL or path to the picture
     content = Column(Text, nullable=False)
+    description = Column(String(255), nullable=True)
 
     def __repr__(self):
-        return f"<Newsletter(summary_id='{self.summary_id}', date='{self.date}')>"
+        return f"<Newsletter(summary_id='{self.summary_id}', title='{self.title}', date='{self.date}')>"
 
 
 class UserUpload(Base):
@@ -193,8 +195,10 @@ def insert_sample_data(session):
 
     # --- Sample Newsletters ---
     newsletters = [
-        Newsletter(date=datetime.datetime(2025, 1, 15), picture="picture1.png", content="Content of newsletter 1"),
-        Newsletter(date=datetime.datetime(2025, 1, 22), picture="picture2.png", content="Content of newsletter 2"),
+        Newsletter(title="Newsletter Title 1", date=datetime.datetime(2025, 1, 15), picture="picture1.png", content="Content of newsletter 1", description="A brief description for newsletter 1"),
+        Newsletter(title="Newsletter Title 2", date=datetime.datetime(2025, 1, 22), picture="picture2.png", content="Content of newsletter 2", description="A brief description for newsletter 2"),
+        Newsletter(title="Newsletter Title 3", date=datetime.datetime(2025, 2, 22), picture="picture3.png", content="Content of newsletter 3", description="A brief description for newsletter 3"),
+        Newsletter(title="Newsletter Title 4", date=datetime.datetime(2025, 3, 22), picture="picture4.png", content="Content of newsletter 4", description="A brief description for newsletter 4"),
     ]
     session.add_all(newsletters)
     session.commit()

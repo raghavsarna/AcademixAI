@@ -1,0 +1,30 @@
+TIMESTAMP: 2025-02-16T12:24:39.599535
+PROMPT: Give me code to solve the problem 'rainwater trapping'
+NOTES: Rainwater Trapping
+
+RESPONSE:
+
+--- CODE START ---
+def trap(height):
+  if not height:
+    return 0
+
+  # Find the maximum height of the bars
+  max_height = max(height)
+
+  # Initialize the total amount of water trapped
+  total_water = 0
+
+  # Iterate over the bars
+  for i in range(len(height)):
+    # Calculate the amount of water trapped at the current bar
+    water_trapped = max_height - height[i]
+
+    # Add the water trapped at the current bar to the total amount of water trapped
+    total_water += water_trapped
+
+  # Return the total amount of water trapped
+  return total_water
+--- CODE END ---
+
+================================================================================

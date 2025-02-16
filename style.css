@@ -488,10 +488,17 @@ header .cta-buttons button {
     max-width: 300px;
 }
 
-.skills-box h1{
+.skills-box h1 {
     font-size: 50px;
-    display: flex;
-    align-items: center;
+    display: block; /* Changed to block */
+    margin-bottom: 15px;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.skills-box h1 .gradient {
+    display: inline; /* Changed to inline */
+    margin-left: 5px; /* Add small space before gradient text */
 }
 
 .skills-box p{

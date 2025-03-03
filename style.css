@@ -372,7 +372,7 @@ header .cta-buttons button {
     max-height: 25%;  /* Slightly smaller for wider card */
 }
 
-.my-projects{
+.research-section{
     display:flex;
     flex-direction: column;
     gap: 10%;
@@ -384,7 +384,7 @@ header .cta-buttons button {
     margin-bottom: 700px;
 }
 
-.project-card{
+.research-item{
     display:flex;
     width:100%;
     height:40%;
@@ -393,7 +393,7 @@ header .cta-buttons button {
     justify-content:center;
 }
 
-.project-vidbox{
+.research-media{
     display:flex;
     align-items: center;
     justify-content: center;
@@ -405,7 +405,7 @@ header .cta-buttons button {
     mix-blend-mode: exclusion;
 }
 
-.project-vidbox img {
+.research-media img {
     object-fit: cover;
     width: 100%;
     height: 100%;
@@ -414,11 +414,11 @@ header .cta-buttons button {
     transition: 0.5s;
 }
 
-.project-vidbox img:hover{
+.research-media img:hover{
     box-shadow: 0 0 20px lightgray;
 }
 
-.project-info{
+.research-details{
     display:flex;
     flex-direction: column;
     align-items: start;
@@ -427,7 +427,7 @@ header .cta-buttons button {
     padding-left: 10%;
 }
 
-.project-info h1{
+.research-details h1{
     width:90%;
     font-size:25px;
     font-weight: bold;
@@ -437,7 +437,7 @@ header .cta-buttons button {
     max-width: 450px;
 }
 
-.project-info p{
+.research-details p{
     width:90%;
     max-width: 400px;
     min-width: 300px;
@@ -446,14 +446,14 @@ header .cta-buttons button {
 }
 
 
-.skills-section {
+.mission-section {
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
 }
 
-.skills-box{
+.mission-content{
     width:100%;
     height: 90%;
     position:relative;
@@ -462,13 +462,13 @@ header .cta-buttons button {
     justify-content: center;
 }
 
-.skills-image{
+.mission-image{
     width: 70%;
     mix-blend-mode: lighten;
     opacity:0.7;
 }
 
-.designer{
+.mission-item1{
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -478,7 +478,7 @@ header .cta-buttons button {
     max-width: 300px;
 }
 
-.coder{
+.mission-item2{
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -488,7 +488,7 @@ header .cta-buttons button {
     max-width: 300px;
 }
 
-.skills-box h1 {
+.mission-content h1 {
     font-size: 50px;
     display: block; /* Changed to block */
     margin-bottom: 15px;
@@ -496,12 +496,12 @@ header .cta-buttons button {
     word-wrap: break-word;
 }
 
-.skills-box h1 .gradient {
+.mission-content h1 .gradient {
     display: inline; /* Changed to inline */
     margin-left: 5px; /* Add small space before gradient text */
 }
 
-.skills-box p{
+.mission-content p{
     line-height: 23px;
 }
 
@@ -813,61 +813,61 @@ footer h1{
         margin-top: 5%;
     }
 
-    .my-projects{
+    .research-section{
         margin-bottom: 300px;
     }
 
-    .project-vidbox img {
+    .research-media img {
         width: 250px;
         margin-left: -100px;
     }
 
-    .project-info{
+    .research-details{
         padding-left: 0;
         margin-left: -50px;
     }
 
-    .project-info h1{
+    .research-details h1{
         font-size: 20px;
         max-width: 200px;
         text-wrap: wrap;
     }
 
-    .project-info p{
+    .research-details p{
         font-size: 10px;
         text-wrap: wrap;
         max-width: 200px;
         min-width: 0;
     }
 
-    .skills-section {
+    .mission-section {
         width: 90%;
         padding: 20px;
     }
 
-    .skills-box {
+    .mission-content {
         flex-direction: column;
         gap: 40px;
     }
 
-    .skills-image {
+    .mission-image {
         width: 100%;
     }
 
-    .designer, .coder {
+    .mission-item1, .mission-item2 {
         position: static;
         width: 100%;
         max-width: 100%;
         padding: 20px;
     }
 
-    .skills-box h1 {
+    .mission-content h1 {
         font-size: 30px;
         text-align: center;
         margin-bottom: 15px;
     }
 
-    .skills-box p {
+    .mission-content p {
         text-align: left;
         font-size: 14px;
     }
@@ -933,39 +933,39 @@ footer h1{
         width: 100%;
     }
 
-    .my-projects{
+    .research-section{
         margin-bottom: 600px;
     }
 
-    .project-card {
+    .research-item {
         flex-direction: column;
         margin-left: 25%;
         gap: 30px;
     }
 
-    .project-info {
+    .research-details {
         width: 85%;
     }
 
-    .project-info h1{
+    .research-details h1{
         text-wrap: nowrap;
     }
 
-    .project-info p{
+    .research-details p{
         max-width: 300px;
     }
 
-    .designer {
+    .mission-item1 {
         top: 15%;
         left: 18%;
     }
 
-    .coder{
+    .mission-item2{
         top: 50%;
         left: 18%;
     }
 
-    .skills-box h1{
+    .mission-content h1{
         margin-bottom: 0;
         margin-top: 70px;
     }
@@ -974,7 +974,7 @@ footer h1{
         font-size: 17px;
     }
 
-    .project-vidbox{
+    .research-media{
         min-width: 200px;
     }
 

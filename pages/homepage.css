@@ -1,0 +1,239 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: lightgray;
+    min-height: 100vh;
+}
+
+#vanta-background {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    background-color: #050508;
+}
+
+.container {
+    padding: 70px 50px 70px;
+    box-sizing: border-box;
+}
+
+header {
+    display: flex;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    align-items: center;
+    justify-content: center;
+    height: 70px;
+    background-color: rgba(55, 55, 55, 0.123);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 15px #72a1de68;
+    z-index: 10;
+}
+
+.logo {
+    width: 130px;
+}
+
+.welcome-section {
+    text-align: center;
+    margin: 20px 0 40px;
+}
+
+.welcome-section h1 {
+    font-size: 40px;
+    margin: 0;
+}
+
+.gradient {
+    background: linear-gradient(to right, #008baa, #7e42a7,#6600c5, #6070fd,#2a46ff, #0099ff, #008ead);
+    background-size: 266%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: animate-gradient 2.5s linear infinite;
+}
+
+@keyframes animate-gradient {
+    to {
+        background-position: 200%;
+    }
+}
+
+.main-content {
+    display: grid;
+    grid-template-columns: 8fr 4fr;
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.section-title {
+    font-size: 24px;
+    margin: 0 0 20px;
+    font-weight: 700;
+    text-align: center;
+    width: 100%;
+}
+
+.research-section, .upload-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 600px;
+}
+
+.research-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 600px;
+    background-color: #080020b7;
+    border: 1px solid gray;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.papers-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    overflow-y: auto;
+    padding-right: 10px;
+    flex: 1;
+}
+
+.paper-card {
+    background-color: #080020b7;
+    border: 1px solid gray;
+    border-radius: 20px;
+    padding: 20px;
+    transition: 0.3s;
+}
+
+.paper-card:hover {
+    box-shadow: 0 0 15px rgba(211, 211, 211, 0.5);
+}
+
+.paper-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.paper-card h2 {
+    margin: 0 0 10px;
+    font-size: 18px;
+}
+
+.paper-card p {
+    margin: 0;
+    color: gray;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.more-btn {
+    align-self: center;
+    padding: 12px 40px;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    background: transparent;
+    color: white;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.more-btn:hover {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    transform: scale(1.02);
+}
+
+.upload-section {
+    background-color: #080020b7;
+    border: 1px solid gray;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.dropzone {
+    flex: 1;
+    border: 2px dashed #727fde;
+    border-radius: 20px;
+    background-color: rgba(8, 0, 32, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.dropzone:hover {
+    border-color: #6070fd;
+    box-shadow: 0 0 15px rgba(96, 112, 253, 0.15);
+}
+
+.dropzone i {
+    font-size: 48px;
+    color: #727fde;
+}
+
+.upload-btn {
+    padding: 15px 0;
+    width: 100%;
+    border: none;
+    background: linear-gradient(45deg, #008baa, #7e42a7, #6600c5, #6070fd);
+    background-size: 200%;
+    color: white;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+    animation: animate-gradient 3s linear infinite;
+}
+
+.upload-btn:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 30px rgba(96, 112, 253, 0.15);
+}
+
+footer {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    background-color: rgba(255, 255, 255, 0.128);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.356);
+    z-index: 999;
+}
+
+footer h1 {
+    font-size: 20px;
+    margin: 0;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #727fde;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #6070fd;
+}

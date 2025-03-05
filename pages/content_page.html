@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcademixAI - Paper Content</title>
+    <link rel="stylesheet" href="content_page.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ejs@3.1.6/ejs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+</head>
+<body>
+    <div id="vanta-background"></div>
+    
+    <header>
+        <a href="index.html">
+            <img src="../images/logo.png" alt="AcademixAI" class="logo">
+        </a>
+    </header>
+
+    <div class="container">
+        <div class="paper-content">
+            <div class="paper-header">
+                <img id="paper-image" src="" alt="Research Paper Header">
+                <div class="podcast-icon">
+                    <i class='bx bx-podcast' style="font-size: 24px;"></i>
+                </div>
+            </div>
+            <h1 id="paper-title" class="paper-title"></h1>
+            <div class="paper-content-scroll">
+                <div id="content-container">
+                    <!-- Content will be inserted here -->
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-section">
+            <h2 class="chat-title">Chat with the Paper</h2>
+            <div class="chat-messages">
+                <div class="message bot-message">
+                    Hello! I'm your AI research assistant. Ask me anything about this paper.
+                </div>
+                <div class="message user-message">
+                    What are the key findings of this research?
+                </div>
+                <div class="message bot-message">
+                    The paper highlights three main breakthroughs in AI during February...
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" placeholder="Ask a question about the paper...">
+                <button>
+                    <i class='bx bx-send'></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    
+    <script>
+        // Initialize Vanta.js background
+        VANTA.NET({
+            el: "#vanta-background",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            color: 0x6a0cbf,
+            backgroundColor: 0x50508,
+            points: 9.00,
+            maxDistance: 22.00,
+            spacing: 19.00
+        });
+
+        // Configure marked options
+        marked.setOptions({
+            breaks: true,
+            gfm: true,
+            headerIds: true,
+            sanitize: false
+        });
+
+        // Function to load and initialize the SQLite database
+        async function initDB() {
+            const SQL = await initSqlJs({
+                locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}`
+            });
+            
+            // Fetch the database file
+            const response = await fetch('../db/research.db');
+            const arrayBuffer = await response.arrayBuffer();
+            
+            // Create a database from the fetched file
+            return new SQL.Database(new Uint8Array(arrayBuffer));
+        }
+
+        // Function to fetch newsletter data
+        async function fetchNewsletterData() {
+            try {
+                const db = await initDB();
+                const result = db.exec(`
+                    SELECT title, picture, content 
+                    FROM newsletter 
+                    WHERE summary_id = 1
+                `);
+
+                if (result.length > 0 && result[0].values.length > 0) {
+                    const [title, picture, content] = result[0].values[0];
+                    
+                    // Update the DOM with the fetched data
+                    document.getElementById('paper-title').textContent = title;
+                    document.getElementById('paper-image').src = picture;
+                    
+                    // Render the markdown content
+                    const contentContainer = document.getElementById('content-container');
+                    contentContainer.innerHTML = marked.parse(content);
+                }
+                
+                // Clean up
+                db.close();
+                
+            } catch (error) {
+                console.error('Error fetching newsletter data:', error);
+                document.getElementById('content-container').innerHTML = 
+                    '<p>Error loading content. Please try again later.</p>';
+            }
+        }
+
+        // Load content when page loads
+        document.addEventListener('DOMContentLoaded', fetchNewsletterData);
+    </script>
+</body>
+</html>

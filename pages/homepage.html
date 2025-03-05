@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcademixAI - Home</title>
+    <link rel="stylesheet" href="homepage.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div id="vanta-background"></div>
+    
+    <header>
+        <a href="./index.html">
+            <img src="../images/logo.png" alt="AcademixAI" class="logo">
+        </a>
+    </header>
+
+    <div class="container">
+        <div class="welcome-section">
+            <h1>WELCOME BACK, <span class="gradient">RAGHAV</span></h1>
+        </div>
+
+        <div class="main-content">
+            <div class="research-section">
+                <h2 class="section-title">Latest Research</h2>
+                <div class="papers-grid" id="papers-container">
+                    <!-- Papers will be dynamically inserted here -->
+                </div>
+                <button class="more-btn">Load More</button>
+            </div>
+
+            <div class="upload-section">
+                <h2 class="section-title">Upload a Paper</h2>
+                <div class="dropzone">
+                    <i class='bx bx-cloud-upload'></i>
+                    <p>Drag and drop your paper here</p>
+                    <p>or click to browse</p>
+                </div>
+                <button class="upload-btn">Upload Paper</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <h1>Copyright © AcademixAI, Made with ❤️ by Raghav Sarna</h1>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+
+    <script>
+        // Initialize Vanta.js background
+        VANTA.NET({
+            el: "#vanta-background",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            color: 0x6a0cbf,
+            backgroundColor: 0x50508,
+            points: 9.00,
+            maxDistance: 22.00,
+            spacing: 19.00
+        });
+
+        // Function to load and initialize the SQLite database
+        async function initDB() {
+            const SQL = await initSqlJs({
+                locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.wasm`
+            });
+        
+            const response = await fetch('../db/research.db');
+            if (!response.ok) throw new Error('Database file not found');
+            
+            const arrayBuffer = await response.arrayBuffer();
+            return new SQL.Database(new Uint8Array(arrayBuffer));
+        }
+
+        // Function to create a paper card element
+        function createPaperCard(paper) {
+            return `
+                <a href="content_page.html" style="text-decoration: none; color: inherit;">
+                    <div class="paper-card">
+                        <img src="${paper.picture}" alt="Research Paper">
+                        <h2>${paper.title}</h2>
+                        <p>${paper.description}</p>
+                    </div>
+                </a>
+            `;
+        }
+
+        // Function to fetch and display papers
+        async function fetchAndDisplayPapers() {
+            try {
+                const db = await initDB();
+                const result = db.exec(`
+                    SELECT summary_id, title, picture, description 
+                    FROM newsletter 
+                    ORDER BY summary_id ASC
+                `);
+
+                if (result.length > 0) {
+                    const papersContainer = document.getElementById('papers-container');
+                    const papers = result[0].values.map(row => ({
+                        summary_id: row[0],
+                        title: row[1],
+                        picture: row[2],
+                        description: row[3]
+                    }));
+
+                    papersContainer.innerHTML = papers
+                        .map(paper => createPaperCard(paper))
+                        .join('');
+                }
+                
+                // Clean up
+                db.close();
+                
+            } catch (error) {
+                console.error('Error fetching papers:', error);
+                document.getElementById('papers-container').innerHTML = 
+                    '<p>Error loading papers. Please try again later.</p>';
+            }
+        }
+
+        // Load papers when page loads
+        document.addEventListener('DOMContentLoaded', fetchAndDisplayPapers);
+    </script>
+</body>
+</html>

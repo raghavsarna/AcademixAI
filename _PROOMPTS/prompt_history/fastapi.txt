@@ -1,0 +1,3139 @@
+TIMESTAMP: 2025-03-06T11:11:52.351449
+PROMPT: Tell me where and what for can i integrate fast api for this project? This is the code for the various screens and right now it is not fully functional.
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcademixAI</title>
+    <link rel="stylesheet" href="index.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div id="vanta-background"></div>
+    <div class='container'>
+        <!-- <video class='back-vid' loop autoplay muted plays-inline src="videos/galaxy.mp4" type="video/mp4"></video> -->
+
+        <header>
+            <div class="left">
+                <img src="../images/logo.png" alt="logo">
+            </div>
+
+            <ul>
+                <li><a href='#'>About</a></li>
+                <li><a href='./homepage.html'>Home</a></li>
+                <li><a href='#'>Contact Us</a></li>
+            </ul>
+
+            <div class="cta-buttons">
+                <button class="login-btn">Login</button>
+                <button class="signup-btn">Sign Up</button>
+            </div>
+
+
+            <div class="menu-icon" aria-label="Open menu">
+                <i class="bx bx-menu"></i>
+            </div>
+
+            <div class="sidebar">
+                <div class="close-icon" aria-label="Close menu">
+                    <i class="bx bx-x"></i>
+                </div>
+                <ul>
+                    <li style="--i:1"><a href='#'>About</a></li>
+                    <li style="--i:2"><a href='#'>Home</a></li>
+                    <li style="--i:3"><a href='#'>Contact Us</a></li>
+                </ul>
+                <div class="cta-buttons">
+                    <button class="login-btn">Login</button>
+                    <button class="signup-btn">Sign Up</button>
+                </div>
+            </div>
+
+        </header>
+
+        <!-- <div class="blackhole-box">
+            <video loop autoplay muted plays-inline src="videos/blackhole.mp4" type="video/mp4"></video>
+        </div> -->
+
+        <section class="hero">
+            <div class="hero-info autoBlur">
+                <h1>Democratizing <span class="gradient">Research</span></h1>
+                <p>Transforming academic papers into accessible and engaging formats</p>
+                <button><i class='bx bx-send' ></i> Explore Papers</button>
+            </div>
+
+            <div class="hero-vid-box">
+                <video class="autoBlur" loop autoplay muted plays-inline src="../videos/hero-video.mp4" type="video/mp4"></video>
+            </div>
+
+            <div class="scroll-down"></div>
+        </section>
+
+        <section class="info-section">
+            <h1 class="section-title autoDisplayAnimation">What we do?</h1>
+            <div class="info-cards">
+                <div class="card">
+                    <h1>Personalized Research Podcast</h1>
+                    <p>Turn dense research papers into engaging, AI-generated podcasts tailored to your interests. Stay informed effortlessly—listen to cutting-edge insights on the go, anywhere, anytime.</p>
+                    <img src="../images/grid1.png" alt="grid1">
+                </div>
+                <div class="card">
+                    <h1>Chat with Papers & Dive Deep</h1>
+                    <p>Interact with academic papers like never before! Ask questions, clarify concepts, and explore insights through an AI-powered chat that simplifies complex ideas and enhances your understanding.</p>
+                    <img src="../images/grid2.png" alt="grid2">
+                </div>
+                <div class="card">
+                    <h1>Transform Any Paper into a Digestible Format</h1>
+                    <p>Upload any research paper and let our AI break it down into concise, easy-to-understand summaries. We extract key insights, highlight crucial findings, and even convert content into audio—so you can grasp knowledge in minutes, not hours.</p>
+                    <!-- <video autoplay loop muted plays-inline src="videos/glob.mp4" type="video/mp4"></video> -->
+                    <img src="../images/grid3.png" alt="grid3">
+                </div>
+                <div class="card">
+                    <h1>Stay on Top of Cutting-Edge Research with a Daily Newsletter</h1>
+                    <p>Get the latest breakthroughs in AI, ML, and beyond—delivered straight to your inbox. Our AI-curated newsletter provides bite-sized, impactful summaries of trending papers, ensuring you never fall behind in the fast-moving world of research.</p>
+                    <img src="../images/grid4.png" alt="grid4">
+                </div>
+            </div>
+        </section>
+
+
+
+
+        <section class="research-section">
+            <h1 class="section-title autoDisplayAnimation">Latest Research</h1>
+            <div class="research-item autoBlur">
+                <div class="research-media">
+                    <!-- <video src="videos/project1.mp4"></video> -->
+                    <img src="../images/paper1.jpg" alt="AI Breakthroughs">
+                </div>
+
+                <div class="research-details fadeInRight">
+                    <h1>🚀 Breakthroughs in AI: February Highlights</h1>
+                    <p>Stay ahead with key insights on the latest AI/ML advancements, including cutting-edge research on transformer efficiency, ethical AI, and groundbreaking deep learning models.</p>
+                </div>
+            </div>
+
+            <div class="research-item">
+                <div class="research-media autoBlur">
+                    <!-- <video src="videos/project2.mp4"></video> -->
+                    <img src="../images/paper2.jpg" alt="Neural Networks Evolution">
+                </div>
+
+                <div class="research-details fadeInRight">
+                    <h1>🧠 Neural Networks Evolve: What’s Next?</h1>
+                    <p>Explore how next-gen neural networks are revolutionizing AI. This issue covers innovative architectures, improved efficiency techniques, and the latest trends in deep learning research.</p>
+                </div>
+            </div>
+
+            <div class="research-item">
+                <div class="research-media autoBlur">
+                    <!-- <video src="videos/project3.mp4"></video> -->
+                    <img src="../images/paper3.jpg" alt="AI in Practice">
+                </div>
+
+                <div class="research-details fadeInRight">
+                    <h1>📊 From Papers to Practice: AI in the Real World</h1>
+                    <p>Discover how recent AI research is shaping industries. We break down key studies on AI in healthcare, finance, and automation—making complex ideas accessible and actionable.</p>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="mission-section ">
+            <h1 class="section-title autoDisplayAnimation">
+                Our Goal
+            </h1>
+
+            <div class="mission-content">
+                <img class="mission-image" src="../images/digital brain.png" alt="skills-img">
+
+                <div class="mission-item1 autoDisplayAnimation">
+                    <h1>Breaking Barriers to <span class="gradient">Research</span></h1>
+                    <p>Accessing and understanding research shouldn’t be a challenge. We simplify complex papers, providing AI-powered summaries, podcasts, and discussions—so anyone, from students to professionals, can stay informed without struggling through jargon or paywalls. Knowledge should be open, accessible, and engaging for everyone.</p>
+                </div>
+
+                <div class="mission-item2 autoDisplayAnimation">
+                    <h1>Engaged <span class="gradient">Learning</span></h1>
+                    <p>Passively reading research isn’t enough. Our interactive platform lets you chat with papers, ask AI-powered questions, and explore insights in a dynamic way. Whether through audio, summaries, or discussions, we make learning immersive, intuitive, and tailored to your curiosity—because understanding research should be as exciting as the discoveries themselves!</p>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="cta-section">
+            <h1 class="section-title autoDisplayAnimation">Your Research, Simplified – Get Started Now!</h1>
+            <div class="cta-buttons">
+                <button class="login-btn">Login</button>
+                <button class="signup-btn">Sign Up</button>
+            </div>
+        </section>
+
+
+        <footer>
+            <h1>Copyright © AcademixAI, Made with ❤️ by Raghav Sarna</h1>
+        </footer>
+
+    </div>
+
+    <script src="app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script> 
+    <script> VANTA.NET({ 
+        el: "#vanta-background", 
+        mouseControls: true, 
+        touchControls: true, 
+        gyroControls: false, 
+        minHeight: 200.00, 
+        minWidth: 200.00, 
+        scale: 1.00, 
+        scaleMobile: 1.00, 
+        color: 0x6a0cbf, 
+        backgroundColor: 0x50508, 
+        points: 9.00, 
+        maxDistance: 22.00, 
+        spacing: 19.00 }) </script> 
+        <script src="app.js"></script>
+</body>
+</html> 
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcademixAI - Home</title>
+    <link rel="stylesheet" href="homepage.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div id="vanta-background"></div>
+
+    <header>
+        <a href="./index.html">
+            <img src="../images/logo.png" alt="AcademixAI" class="logo">
+        </a>
+    </header>
+
+    <div class="container">
+        <div class="welcome-section">
+            <h1>WELCOME BACK, <span class="gradient">RAGHAV</span></h1>
+        </div>
+
+        <div class="main-content">
+            <div class="research-section">
+                <h2 class="section-title">Latest Research</h2>
+                <div class="papers-grid" id="papers-container">
+                    <!-- Papers will be dynamically inserted here -->
+                </div>
+                <button class="more-btn">Load More</button>
+            </div>
+
+            <div class="upload-section">
+                <h2 class="section-title">Upload a Paper</h2>
+                <div class="dropzone">
+                    <i class='bx bx-cloud-upload'></i>
+                    <p>Drag and drop your paper here</p>
+                    <p>or click to browse</p>
+                </div>
+                <button class="upload-btn">Upload Paper</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <h1>Copyright © AcademixAI, Made with ❤️ by Raghav Sarna</h1>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+
+    <script>
+        // Initialize Vanta.js background
+        VANTA.NET({
+            el: "#vanta-background",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            color: 0x6a0cbf,
+            backgroundColor: 0x50508,
+            points: 9.00,
+            maxDistance: 22.00,
+            spacing: 19.00
+        });
+
+        // Function to load and initialize the SQLite database
+        async function initDB() {
+            const SQL = await initSqlJs({
+                locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.wasm`
+            });
+
+            const response = await fetch('../db/research.db');
+            if (!response.ok) throw new Error('Database file not found');
+
+            const arrayBuffer = await response.arrayBuffer();
+            return new SQL.Database(new Uint8Array(arrayBuffer));
+        }
+
+        // Function to create a paper card element
+        function createPaperCard(paper) {
+            return `
+                <a href="content_page.html" style="text-decoration: none; color: inherit;">
+                    <div class="paper-card">
+                        <img src="${paper.picture}" alt="Research Paper">
+                        <h2>${paper.title}</h2>
+                        <p>${paper.description}</p>
+                    </div>
+                </a>
+            `;
+        }
+
+        // Function to fetch and display papers
+        async function fetchAndDisplayPapers() {
+            try {
+                const db = await initDB();
+                const result = db.exec(`
+                    SELECT summary_id, title, picture, description 
+                    FROM newsletter 
+                    ORDER BY summary_id ASC
+                `);
+
+                if (result.length > 0) {
+                    const papersContainer = document.getElementById('papers-container');
+                    const papers = result[0].values.map(row => ({
+                        summary_id: row[0],
+                        title: row[1],
+                        picture: row[2],
+                        description: row[3]
+                    }));
+
+                    papersContainer.innerHTML = papers
+                        .map(paper => createPaperCard(paper))
+                        .join('');
+                }
+
+                // Clean up
+                db.close();
+
+            } catch (error) {
+                console.error('Error fetching papers:', error);
+                document.getElementById('papers-container').innerHTML = 
+                    '<p>Error loading papers. Please try again later.</p>';
+            }
+        }
+
+        // Load papers when page loads
+        document.addEventListener('DOMContentLoaded', fetchAndDisplayPapers);
+    </script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcademixAI - Paper Content</title>
+    <link rel="stylesheet" href="content_page.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ejs@3.1.6/ejs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+</head>
+<body>
+    <div id="vanta-background"></div>
+
+    <header>
+        <a href="index.html">
+            <img src="../images/logo.png" alt="AcademixAI" class="logo">
+        </a>
+    </header>
+
+    <div class="container">
+        <div class="paper-content">
+            <div class="paper-header">
+                <img id="paper-image" src="" alt="Research Paper Header">
+                <div class="podcast-icon">
+                    <i class='bx bx-podcast' style="font-size: 24px;"></i>
+                </div>
+            </div>
+            <h1 id="paper-title" class="paper-title"></h1>
+            <div class="paper-content-scroll">
+                <div id="content-container">
+                    <!-- Content will be inserted here -->
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-section">
+            <h2 class="chat-title">Chat with the Paper</h2>
+            <div class="chat-messages">
+                <div class="message bot-message">
+                    Hello! I'm your AI research assistant. Ask me anything about this paper.
+                </div>
+                <div class="message user-message">
+                    What are the key findings of this research?
+                </div>
+                <div class="message bot-message">
+                    The paper highlights three main breakthroughs in AI during February...
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" placeholder="Ask a question about the paper...">
+                <button>
+                    <i class='bx bx-send'></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+
+    <script>
+        // Initialize Vanta.js background
+        VANTA.NET({
+            el: "#vanta-background",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            color: 0x6a0cbf,
+            backgroundColor: 0x50508,
+            points: 9.00,
+            maxDistance: 22.00,
+            spacing: 19.00
+        });
+
+        // Configure marked options
+        marked.setOptions({
+            breaks: true,
+            gfm: true,
+            headerIds: true,
+            sanitize: false
+        });
+
+        // Function to load and initialize the SQLite database
+        async function initDB() {
+            const SQL = await initSqlJs({
+                locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}`
+            });
+
+            // Fetch the database file
+            const response = await fetch('../db/research.db');
+            const arrayBuffer = await response.arrayBuffer();
+
+            // Create a database from the fetched file
+            return new SQL.Database(new Uint8Array(arrayBuffer));
+        }
+
+        // Function to fetch newsletter data
+        async function fetchNewsletterData() {
+            try {
+                const db = await initDB();
+                const result = db.exec(`
+                    SELECT title, picture, content 
+                    FROM newsletter 
+                    WHERE summary_id = 1
+                `);
+
+                if (result.length > 0 && result[0].values.length > 0) {
+                    const [title, picture, content] = result[0].values[0];
+
+                    // Update the DOM with the fetched data
+                    document.getElementById('paper-title').textContent = title;
+                    document.getElementById('paper-image').src = picture;
+
+                    // Render the markdown content
+                    const contentContainer = document.getElementById('content-container');
+                    contentContainer.innerHTML = marked.parse(content);
+                }
+
+                // Clean up
+                db.close();
+
+            } catch (error) {
+                console.error('Error fetching newsletter data:', error);
+                document.getElementById('content-container').innerHTML = 
+                    '<p>Error loading content. Please try again later.</p>';
+            }
+        }
+
+        // Load content when page loads
+        document.addEventListener('DOMContentLoaded', fetchNewsletterData);
+    </script>
+</body>
+</html>
+NOTES: Figuring where to integrate FastAPI
+
+RESPONSE:
+
+Okay, let's break down how and where you can integrate FastAPI into your project to make it dynamic and functional.  I'll address the backend logic, API endpoints, and how they connect to your existing frontend.
+
+**Core Idea:  Moving from Static HTML to a Dynamic Web Application**
+
+Right now, your HTML files are *static*.  They display information, but they don't interact with a database, process user input in a meaningful way, or handle things like user accounts.  FastAPI will provide the *backend* – the "brain" that handles all the logic and data, while your HTML/CSS/JavaScript becomes the *frontend* – the user interface.
+
+**Where FastAPI Fits In**
+
+FastAPI will sit between your frontend (the HTML pages) and your database (currently SQLite, which is a great choice for starting out). Here's how the flow will work:
+
+1.  **User Interaction (Frontend):** A user clicks a button (like "Login", "Sign Up", "Upload Paper"), types in a search query, or interacts with the chat.
+2.  **Request to FastAPI (Frontend -> Backend):** Your JavaScript code (in `app.js` or other script files) will use the `fetch` API (or a library like Axios) to send a request to a specific *endpoint* that you define in your FastAPI application. This request will often include data (like the user's login credentials, the uploaded file, or the chat message).
+3.  **FastAPI Processing (Backend):**
+    *   FastAPI receives the request at the designated endpoint.
+    *   It performs the necessary logic:
+        *   **Authentication:**  Verifying usernames/passwords, creating user sessions, etc.
+        *   **Database Interaction:** Reading data from the `research.db` database (using a library like `databases` or an ORM like SQLAlchemy), inserting new data (like uploaded papers), updating data, or deleting data.
+        *   **AI Processing:**  This is where you'd integrate any AI models for summarizing papers, generating podcasts, or handling the chat functionality.  This could involve calling external APIs (like OpenAI's API) or running your own models.
+        *   **Data Validation:** FastAPI's biggest strengths. It uses Pydantic to ensure that the data you receive from the frontend is in the correct format, and automatically generates interactive API documentation.
+    *   FastAPI constructs a *response*.  This is usually JSON data, containing the results of the operation (e.g., a success/failure message, the requested data from the database, the summary of a paper, etc.).
+4.  **Response to Frontend (Backend -> Frontend):** FastAPI sends the JSON response back to the frontend.
+5.  **Frontend Updates (Frontend):** Your JavaScript code receives the response.  It then updates the HTML page dynamically, without requiring a full page reload.  This is how you'll display the results of a search, show a success message after a login, add new chat messages to the chat window, etc.
+
+**Specific FastAPI Endpoints and Functionality**
+
+Here's a breakdown of potential FastAPI endpoints, aligned with the features in your HTML, and how they would connect:
+
+**1. User Authentication (Login/Signup)**
+
+*   **`/users/register` (POST):**
+    *   **Purpose:**  Create a new user account.
+    *   **Request Body:**  `{ "username": "...", "email": "...", "password": "..." }` (using Pydantic for validation)
+    *   **Backend Logic:**
+        *   Hash the password (using a library like `passlib`) for security.  *Never* store passwords in plain text.
+        *   Check if the username/email already exists in the database.
+        *   If not, insert a new user record into the database.
+        *   Return a success message or an error message (e.g., "Username already taken").
+    *   **Frontend Connection:**  The "Sign Up" buttons would trigger a `fetch` request to this endpoint, sending the form data.
+*   **`/users/login` (POST):**
+    *   **Purpose:** Authenticate an existing user.
+    *   **Request Body:**  `{ "username": "...", "password": "..." }`
+    *   **Backend Logic:**
+        *   Retrieve the user's hashed password from the database.
+        *   Compare the provided password (hashed) with the stored hashed password.
+        *   If successful, create a session (using a library like `itsdangerous` or a more robust solution like JWT - JSON Web Tokens). Store a session ID in a cookie.
+        *   Return a success message and potentially user data (username, etc.).
+    *   **Frontend Connection:**  The "Login" buttons would trigger a `fetch` request to this endpoint.  On success, the frontend would store the session ID and redirect the user to the homepage (`homepage.html`).
+*   **`/users/me` (GET):**
+    *    **Purpose:** Fetch the data of the currently logged in user.
+    *    **Authentication:**  Requires a valid session ID (from the cookie).
+    *    **Backend Logic:**
+        *    Retrieve the user's data from the database based on the session ID.
+        *    Return the user's data (e.g., username, email, etc.).  *Don't* return the password!
+    *    **Frontend Connection:**  Used on the `homepage.html` to display the user's name ("WELCOME BACK, RAGHAV").  This would be called after a successful login.
+*    `/users/logout` (POST):**
+    * Purpose: Invalidate the current user session.
+    * Backend Logic: Remove or expire the session ID associated with the user.
+    * Frontend Connection: This would require adding a "Logout" button, probably to `homepage.html`.
+
+**2. Paper Management (Homepage)**
+
+*   **`/papers` (GET):**
+    *   **Purpose:**  Retrieve a list of papers (for the homepage).
+    *   **Query Parameters (optional):**
+        *   `limit`:  The number of papers to return (for pagination).
+        *   `offset`:  The starting point for pagination.  (e.g., `limit=10&offset=20` would get papers 21-30).
+        *   `search`: A search term to filter papers by title or description.
+    *   **Backend Logic:**
+        *   Query the `newsletter` table in your database.  Use `LIMIT` and `OFFSET` for pagination.  Use `WHERE` clauses for searching.
+        *   Return a list of paper data (e.g., `[{"summary_id": 1, "title": "...", "picture": "...", "description": "..."}]`).
+    *   **Frontend Connection:**  Your `fetchAndDisplayPapers` function in `homepage.html` would be modified to:
+        *   Make a `fetch` request to `/papers`.
+        *   Use the returned JSON data to dynamically create the `paper-card` elements.
+        *   The "Load More" button would make another request to `/papers` with an incremented `offset`.
+*   **`/papers/{paper_id}` (GET):**
+    *   **Purpose:** Retrieve the full details of a single paper.
+    *   **Path Parameter:** `paper_id` (e.g., `/papers/1`).
+    *   **Backend Logic:**
+        *   Query the database for the paper with the given `summary_id`.
+        *   Return the paper's data (title, picture, content).
+    *   **Frontend Connection:**  Your `content_page.html` would be modified to:
+        *   Extract the `paper_id` from the URL (you'd likely use JavaScript's `URLSearchParams`).
+        *   Make a `fetch` request to `/papers/{paper_id}`.
+        *   Use the returned JSON data to populate the page content.
+*   **`/papers/upload` (POST):**
+    *   **Purpose:**  Handle paper uploads.
+    *   **Request Body:**  This is more complex. You'll likely use `FormData` in your JavaScript and FastAPI's `UploadFile` to handle file uploads.
+    *   **Backend Logic:**
+        *   Save the uploaded file to a secure location (e.g., a dedicated "uploads" directory). *Don't* store files directly in the database.
+        *   Optionally, process the file (e.g., extract text using a library like `PyPDF2` if it's a PDF).
+        *   Store metadata about the file (filename, upload date, user ID, etc.) in the database.
+        *   Potentially trigger the AI summarization process.
+    *   **Frontend Connection:** The "Upload Paper" button and the dropzone would trigger a `fetch` request to this endpoint.
+
+**3. AI Features**
+
+*   **`/papers/{paper_id}/summary` (GET):**
+    *   **Purpose:** Get an AI-generated summary of a paper.
+    *   **Backend Logic:**
+        *   If the summary already exists in the database, return it.
+        *   If not, call your AI summarization logic (external API or local model).
+        *   Store the generated summary in the database for future use (caching).
+        *   Return the summary.
+*   **`/papers/{paper_id}/podcast` (GET):**
+    *   **Purpose:** Get an AI-generated podcast URL for a paper.
+    *   **Backend Logic:**
+        *   Similar to the summary, check if it exists; if not, generate it (using a text-to-speech API, likely). Store the URL in the database. Return the URL.
+*   **`/papers/{paper_id}/chat` (POST):**
+    *   **Purpose:** Handle chat interactions with a paper.
+    *   **Request Body:** `{ "message": "User's question" }`
+    *   **Backend Logic:**
+        *   Use the `paper_id` to identify the context.
+        *   Send the user's message to your AI chat model (external API or local model).
+        *   Return the AI's response.
+    *   **Frontend Connection:**  The chat input in `content_page.html` would send a `fetch` request to this endpoint on each message submission.  The frontend would then display the returned AI response.
+
+**Example FastAPI Code (Conceptual)**
+
+
+--- CODE START ---
+from fastapi import FastAPI, UploadFile, File, Depends, HTTPException
+from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware  # Import CORS middleware
+from pydantic import BaseModel
+import sqlite3
+from typing import List, Optional
+
+# Database connection (replace with your actual database setup)
+DATABASE_URL = "sqlite:///./research.db"  # Use relative path
+
+def get_db():
+    db = sqlite3.connect(DATABASE_URL)
+    db.row_factory = sqlite3.Row  # Important for accessing columns by name
+    try:
+        yield db
+    finally:
+        db.close()
+
+app = FastAPI()
+
+# Configure CORS to allow requests from your frontend
+origins = [
+    "http://localhost:8000",  # Adjust to your frontend's URL and port
+    "http://127.0.0.1:8000",   #If you are using Live Server Extension
+    "null" # If you are opening html file directly from local.
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
+
+
+class Paper(BaseModel):
+    summary_id: int
+    title: str
+    picture: str
+    description: str
+
+class PaperCreate(BaseModel): #For creating a paper
+    title: str
+    picture: str
+    description: str
+    content: str
+
+class Message(BaseModel):
+    message: str
+
+# --- Paper Endpoints ---
+
+@app.get("/papers", response_model=List[Paper])
+async def read_papers(limit: int = 10, offset: int = 0, search: Optional[str] = None, db: sqlite3.Connection = Depends(get_db)):
+    query = "SELECT summary_id, title, picture, description FROM newsletter"
+    params = []
+
+    if search:
+        query += " WHERE title LIKE ? OR description LIKE ?"
+        params.extend([f"%{search}%", f"%{search}%"])
+
+    query += " ORDER BY summary_id ASC LIMIT ? OFFSET ?"
+    params.extend([limit, offset])
+
+    cursor = db.cursor()
+    cursor.execute(query, params)
+    papers = cursor.fetchall()
+    return papers
+
+@app.get("/papers/{paper_id}")
+async def read_paper(paper_id: int, db: sqlite3.Connection = Depends(get_db)):
+    cursor = db.cursor()
+    cursor.execute("SELECT title, picture, content FROM newsletter WHERE summary_id = ?", (paper_id,))
+    paper = cursor.fetchone()
+    if paper is None:
+        raise HTTPException(status_code=404, detail="Paper not found")
+    return {"title": paper[0], "picture": paper[1], "content": paper[2]}
+
+@app.post("/papers/upload", response_model=Paper)  # Return the created paper
+async def upload_paper(paper: PaperCreate, db: sqlite3.Connection = Depends(get_db)):
+    cursor = db.cursor()
+    try:
+        cursor.execute(
+            "INSERT INTO newsletter (title, picture, description, content) VALUES (?, ?, ?, ?)",
+            (paper.title, paper.picture, paper.description, paper.content)
+        )
+        db.commit()
+    except sqlite3.IntegrityError as e:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=f"Database error: {e}")
+
+    # Get the last inserted row ID to return the newly created paper
+    last_row_id = cursor.lastrowid
+    return await read_paper(last_row_id, db) #Reuse the read_paper function.
+
+@app.post("/papers/{paper_id}/chat")
+async def chat_with_paper(paper_id: int, message: Message, db: sqlite3.Connection = Depends(get_db)):
+    # 1. Check if the paper exists (optional, but good practice)
+    cursor = db.cursor()
+    cursor.execute("SELECT title FROM newsletter WHERE summary_id = ?", (paper_id,))
+    if cursor.fetchone() is None:
+        raise HTTPException(status_code=404, detail="Paper not found")
+
+    # 2.  Implement your AI chat logic here.  This is a placeholder.
+    #     You'd likely call an external API (like OpenAI) or use a local model.
+    ai_response = f"AI response to: '{message.message}' about paper {paper_id}"
+
+    return {"response": ai_response}
+
+--- CODE END ---
+
+
+Key Changes and Explanations in the FastAPI Code:
+
+*   **CORS Configuration:**  The `CORSMiddleware` is *crucially* important.  It allows your frontend (running on a different origin – typically `http://localhost:5500` if you're using Live Server or file:// if opened locally) to make requests to your FastAPI backend (running on `http://localhost:8000`).  Without CORS, your browser will block these requests due to security restrictions.  The `origins` list should include the URL of your frontend.  Setting `allow_origins=["*"]` is *not* recommended for production, as it allows requests from anywhere.
+*   **Database Connection (`get_db`)**: This uses a dependency (`Depends(get_db)`) to manage the database connection.  This is the recommended way to handle database connections in FastAPI. It ensures that the connection is properly closed after each request.  I've switched to using `sqlite3` directly, as it's simpler for this example. For more complex projects, consider using `databases` (for asynchronous database access) or an ORM like SQLAlchemy.
+*   **`row_factory = sqlite3.Row`**:  This is *essential* to access database results by column name (e.g., `paper['title']`) instead of just by index.
+*   **Pydantic Models (`Paper`, `Message`, `PaperCreate`)**: These define the expected data structures for requests and responses.  FastAPI uses these for:
+    *   **Data Validation:**  Ensuring the incoming data is in the correct format.
+    *   **Automatic Documentation:**  Generating interactive API documentation (you can access it at `/docs` and `/redoc` on your FastAPI server).
+*   **`read_papers` Endpoint:**
+    *   `response_model=List[Paper]`:  Specifies that this endpoint returns a list of `Paper` objects.
+    *   `limit`, `offset`, `search`:  Query parameters for pagination and searching.
+    *   Database query using `LIMIT`, `OFFSET`, and `WHERE` clauses.
+*   **`read_paper` Endpoint:**
+    *   `paper_id: int`:  A path parameter (part of the URL).
+    *   `HTTPException`:  Raises a 404 error if the paper is not found.
+*   **`upload_paper` Endpoint**: This shows a simplified approach to uploading the paper details, not dealing with file uploads just yet.
+* **`chat_with_paper` Endpoint:**  A basic example of how to structure the chat endpoint.  It includes a placeholder for your AI logic.
+*   **Error Handling:** The `upload_paper` function now includes basic error handling for database operations, rolling back the transaction if an error occurs and raising an `HTTPException`.
+* **Return created paper on Upload**: `upload_paper` now returns newly created paper's detail.
+
+**Frontend (JavaScript) Changes (Conceptual)**
+
+Here's how you would modify your `homepage.html` JavaScript to fetch data from FastAPI:
+
+
+--- CODE START ---
+async function fetchAndDisplayPapers() {
+    try {
+        const response = await fetch('http://localhost:8000/papers?limit=10&offset=0'); // Fetch from FastAPI
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const papers = await response.json(); // Parse the JSON response
+
+        const papersContainer = document.getElementById('papers-container');
+        papersContainer.innerHTML = papers
+            .map(paper => createPaperCard(paper)) // Use the same createPaperCard function
+            .join('');
+
+    } catch (error) {
+        console.error('Error fetching papers:', error);
+        document.getElementById('papers-container').innerHTML =
+            '<p>Error loading papers. Please try again later.</p>';
+    }
+}
+
+//Example for creating paper card.
+function createPaperCard(paper) {
+  return `
+      <a href="content_page.html?paper_id=${paper.summary_id}" style="text-decoration: none; color: inherit;">
+          <div class="paper-card">
+              <img src="${paper.picture}" alt="Research Paper">
+              <h2>${paper.title}</h2>
+              <p>${paper.description}</p>
+          </div>
+      </a>
+  `;
+}
+
+// Load More button (example - you'll need to track the current offset)
+let currentOffset = 0;
+document.querySelector('.more-btn').addEventListener('click', async () => {
+    currentOffset += 10;
+    const response = await fetch(`http://localhost:8000/papers?limit=10&offset=${currentOffset}`);
+    const newPapers = await response.json();
+
+    const papersContainer = document.getElementById('papers-container');
+    papersContainer.innerHTML += newPapers.map(createPaperCard).join('');
+});
+//Content page modification to get paper_id from url and call backend.
+
+async function fetchNewsletterData() {
+    try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const paperId = urlParams.get('paper_id');
+
+        if (!paperId) {
+            document.getElementById('content-container').innerHTML = '<p>No paper ID provided.</p>';
+            return;
+        }
+
+        const response = await fetch(`http://localhost:8000/papers/${paperId}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const paperData = await response.json();
+
+        document.getElementById('paper-title').textContent = paperData.title;
+        document.getElementById('paper-image').src = paperData.picture;
+        document.getElementById('content-container').innerHTML = marked.parse(paperData.content);
+
+    } catch (error) {
+        console.error('Error fetching newsletter data:', error);
+        document.getElementById('content-container').innerHTML =
+            '<p>Error loading content. Please try again later.</p>';
+    }
+}
+//For the chat section in the content page
+const chatInput = document.querySelector('.chat-input input');
+const sendButton = document.querySelector('.chat-input button');
+const chatMessages = document.querySelector('.chat-messages');
+
+sendButton.addEventListener('click', async () => {
+  const messageText = chatInput.value.trim();
+  if (!messageText) return;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const paperId = urlParams.get('paper_id');
+
+  // Add user message to chat
+  addMessage('user-message', messageText);
+  chatInput.value = ''; // Clear input
+
+  try {
+    const response = await fetch(`http://localhost:8000/papers/${paperId}/chat`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ message: messageText }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    addMessage('bot-message', data.response);
+
+  } catch (error) {
+    console.error('Error sending chat message:', error);
+    addMessage('bot-message', 'Error: Could not send message.');
+  }
+});
+
+function addMessage(className, text) {
+  const messageDiv = document.createElement('div');
+  messageDiv.className = `message ${className}`;
+  messageDiv.textContent = text;
+  chatMessages.appendChild(messageDiv);
+  chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to bottom
+}
+
+--- CODE END ---
+
+
+Key Changes in the JavaScript:
+
+*   **`fetch` API:**  Used to make requests to the FastAPI endpoints.
+*   **Asynchronous Operations:**  `async`/`await` is used to handle the asynchronous nature of network requests.
+*   **Error Handling:**  `try`/`catch` blocks are used to handle potential errors.
+*   **Dynamic Updates:**  The `innerHTML` of the `papers-container` is updated with the data received from the backend.
+* **URL Parameters for Pagination:** The `fetchAndDisplayPapers` function now includes query parameters for `limit` and `offset` in the URL.
+* **"Load More" Button:** The "Load More" button's event listener now makes a request to the `/papers` endpoint with an updated `offset` to fetch the next set of papers.
+* **Get Paper ID from URL (content\_page.html)**: The content page now extracts the `paper_id` using `URLSearchParams`.
+* **Chat functionality (content\_page.html):** The code for the `chat` functionality has been implemented.
+
+**Next Steps and Further Development**
+
+1.  **Install FastAPI and Uvicorn:**
+    ```bash
+    pip install fastapi uvicorn databases[sqlite]  # Install FastAPI, Uvicorn, and database support
+    ```
+2.  **Run the FastAPI Server:**
+    ```bash
+    uvicorn main:app --reload  # Assuming your FastAPI code is in main.py
+    ```
+    The `--reload` flag automatically restarts the server when you make changes to your code.
+3.  **Implement Authentication:** Add the user registration, login, and logout endpoints. Use a library like `passlib` for password hashing and `itsdangerous` or JWT for session management.
+4.  **File Uploads:** Implement the `/papers/upload` endpoint to handle file uploads. Use FastAPI's `UploadFile` and save files to a secure location.
+5.  **AI Integration:**
+    *   **Summarization:**  Integrate a summarization library or API (e.g., Hugging Face Transformers, OpenAI).
+    *   **Podcast Generation:** Integrate a text-to-speech API (e.g., Google Text-to-Speech, AWS Polly).
+    *   **Chat:** Integrate a chatbot library or API (e.g., OpenAI, Rasa).
+6.  **Database Migrations:**  As your database schema evolves, use a migration tool like Alembic to manage changes.
+7.  **Testing:** Write unit tests and integration tests for your FastAPI endpoints.
+8. **Deployment**: Deploy the frontend and backend, for example by using docker and a cloud service.
+
+This comprehensive guide provides a clear path for integrating FastAPI into your project, transforming your static website into a fully functional, dynamic web application. Remember to start with the core functionality (user authentication and paper listing) and then gradually add the more complex AI features.  The use of Pydantic models, database dependencies, and proper error handling will make your backend robust and maintainable.  The use of `fetch` in your JavaScript will connect your frontend to the powerful backend capabilities of FastAPI. Good luck!
+
+
+================================================================================
+TIMESTAMP: 2025-03-06T11:24:25.275701
+PROMPT: Implement all the things which you have mentioned in the previous prompt and give me the fastapi code for the same.
+NOTES: Trying to implement it
+
+PREVIOUS CONTEXT:
+Previous prompt: Tell me where and what for can i integrate fast api for this project? This is the code for the various screens and right now it is not fully functional.
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcademixAI</title>
+    <link rel="stylesheet" href="index.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div id="vanta-background"></div>
+    <div class='container'>
+        <!-- <video class='back-vid' loop autoplay muted plays-inline src="videos/galaxy.mp4" type="video/mp4"></video> -->
+
+        <header>
+            <div class="left">
+                <img src="../images/logo.png" alt="logo">
+            </div>
+
+            <ul>
+                <li><a href='#'>About</a></li>
+                <li><a href='./homepage.html'>Home</a></li>
+                <li><a href='#'>Contact Us</a></li>
+            </ul>
+
+            <div class="cta-buttons">
+                <button class="login-btn">Login</button>
+                <button class="signup-btn">Sign Up</button>
+            </div>
+
+
+            <div class="menu-icon" aria-label="Open menu">
+                <i class="bx bx-menu"></i>
+            </div>
+
+            <div class="sidebar">
+                <div class="close-icon" aria-label="Close menu">
+                    <i class="bx bx-x"></i>
+                </div>
+                <ul>
+                    <li style="--i:1"><a href='#'>About</a></li>
+                    <li style="--i:2"><a href='#'>Home</a></li>
+                    <li style="--i:3"><a href='#'>Contact Us</a></li>
+                </ul>
+                <div class="cta-buttons">
+                    <button class="login-btn">Login</button>
+                    <button class="signup-btn">Sign Up</button>
+                </div>
+            </div>
+
+        </header>
+
+        <!-- <div class="blackhole-box">
+            <video loop autoplay muted plays-inline src="videos/blackhole.mp4" type="video/mp4"></video>
+        </div> -->
+
+        <section class="hero">
+            <div class="hero-info autoBlur">
+                <h1>Democratizing <span class="gradient">Research</span></h1>
+                <p>Transforming academic papers into accessible and engaging formats</p>
+                <button><i class='bx bx-send' ></i> Explore Papers</button>
+            </div>
+
+            <div class="hero-vid-box">
+                <video class="autoBlur" loop autoplay muted plays-inline src="../videos/hero-video.mp4" type="video/mp4"></video>
+            </div>
+
+            <div class="scroll-down"></div>
+        </section>
+
+        <section class="info-section">
+            <h1 class="section-title autoDisplayAnimation">What we do?</h1>
+            <div class="info-cards">
+                <div class="card">
+                    <h1>Personalized Research Podcast</h1>
+                    <p>Turn dense research papers into engaging, AI-generated podcasts tailored to your interests. Stay informed effortlessly—listen to cutting-edge insights on the go, anywhere, anytime.</p>
+                    <img src="../images/grid1.png" alt="grid1">
+                </div>
+                <div class="card">
+                    <h1>Chat with Papers & Dive Deep</h1>
+                    <p>Interact with academic papers like never before! Ask questions, clarify concepts, and explore insights through an AI-powered chat that simplifies complex ideas and enhances your understanding.</p>
+                    <img src="../images/grid2.png" alt="grid2">
+                </div>
+                <div class="card">
+                    <h1>Transform Any Paper into a Digestible Format</h1>
+                    <p>Upload any research paper and let our AI break it down into concise, easy-to-understand summaries. We extract key insights, highlight crucial findings, and even convert content into audio—so you can grasp knowledge in minutes, not hours.</p>
+                    <!-- <video autoplay loop muted plays-inline src="videos/glob.mp4" type="video/mp4"></video> -->
+                    <img src="../images/grid3.png" alt="grid3">
+                </div>
+                <div class="card">
+                    <h1>Stay on Top of Cutting-Edge Research with a Daily Newsletter</h1>
+                    <p>Get the latest breakthroughs in AI, ML, and beyond—delivered straight to your inbox. Our AI-curated newsletter provides bite-sized, impactful summaries of trending papers, ensuring you never fall behind in the fast-moving world of research.</p>
+                    <img src="../images/grid4.png" alt="grid4">
+                </div>
+            </div>
+        </section>
+
+
+
+
+        <section class="research-section">
+            <h1 class="section-title autoDisplayAnimation">Latest Research</h1>
+            <div class="research-item autoBlur">
+                <div class="research-media">
+                    <!-- <video src="videos/project1.mp4"></video> -->
+                    <img src="../images/paper1.jpg" alt="AI Breakthroughs">
+                </div>
+
+                <div class="research-details fadeInRight">
+                    <h1>🚀 Breakthroughs in AI: February Highlights</h1>
+                    <p>Stay ahead with key insights on the latest AI/ML advancements, including cutting-edge research on transformer efficiency, ethical AI, and groundbreaking deep learning models.</p>
+                </div>
+            </div>
+
+            <div class="research-item">
+                <div class="research-media autoBlur">
+                    <!-- <video src="videos/project2.mp4"></video> -->
+                    <img src="../images/paper2.jpg" alt="Neural Networks Evolution">
+                </div>
+
+                <div class="research-details fadeInRight">
+                    <h1>🧠 Neural Networks Evolve: What’s Next?</h1>
+                    <p>Explore how next-gen neural networks are revolutionizing AI. This issue covers innovative architectures, improved efficiency techniques, and the latest trends in deep learning research.</p>
+                </div>
+            </div>
+
+            <div class="research-item">
+                <div class="research-media autoBlur">
+                    <!-- <video src="videos/project3.mp4"></video> -->
+                    <img src="../images/paper3.jpg" alt="AI in Practice">
+                </div>
+
+                <div class="research-details fadeInRight">
+                    <h1>📊 From Papers to Practice: AI in the Real World</h1>
+                    <p>Discover how recent AI research is shaping industries. We break down key studies on AI in healthcare, finance, and automation—making complex ideas accessible and actionable.</p>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="mission-section ">
+            <h1 class="section-title autoDisplayAnimation">
+                Our Goal
+            </h1>
+
+            <div class="mission-content">
+                <img class="mission-image" src="../images/digital brain.png" alt="skills-img">
+
+                <div class="mission-item1 autoDisplayAnimation">
+                    <h1>Breaking Barriers to <span class="gradient">Research</span></h1>
+                    <p>Accessing and understanding research shouldn’t be a challenge. We simplify complex papers, providing AI-powered summaries, podcasts, and discussions—so anyone, from students to professionals, can stay informed without struggling through jargon or paywalls. Knowledge should be open, accessible, and engaging for everyone.</p>
+                </div>
+
+                <div class="mission-item2 autoDisplayAnimation">
+                    <h1>Engaged <span class="gradient">Learning</span></h1>
+                    <p>Passively reading research isn’t enough. Our interactive platform lets you chat with papers, ask AI-powered questions, and explore insights in a dynamic way. Whether through audio, summaries, or discussions, we make learning immersive, intuitive, and tailored to your curiosity—because understanding research should be as exciting as the discoveries themselves!</p>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="cta-section">
+            <h1 class="section-title autoDisplayAnimation">Your Research, Simplified – Get Started Now!</h1>
+            <div class="cta-buttons">
+                <button class="login-btn">Login</button>
+                <button class="signup-btn">Sign Up</button>
+            </div>
+        </section>
+
+
+        <footer>
+            <h1>Copyright © AcademixAI, Made with ❤️ by Raghav Sarna</h1>
+        </footer>
+
+    </div>
+
+    <script src="app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script> 
+    <script> VANTA.NET({ 
+        el: "#vanta-background", 
+        mouseControls: true, 
+        touchControls: true, 
+        gyroControls: false, 
+        minHeight: 200.00, 
+        minWidth: 200.00, 
+        scale: 1.00, 
+        scaleMobile: 1.00, 
+        color: 0x6a0cbf, 
+        backgroundColor: 0x50508, 
+        points: 9.00, 
+        maxDistance: 22.00, 
+        spacing: 19.00 }) </script> 
+        <script src="app.js"></script>
+</body>
+</html> 
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcademixAI - Home</title>
+    <link rel="stylesheet" href="homepage.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div id="vanta-background"></div>
+
+    <header>
+        <a href="./index.html">
+            <img src="../images/logo.png" alt="AcademixAI" class="logo">
+        </a>
+    </header>
+
+    <div class="container">
+        <div class="welcome-section">
+            <h1>WELCOME BACK, <span class="gradient">RAGHAV</span></h1>
+        </div>
+
+        <div class="main-content">
+            <div class="research-section">
+                <h2 class="section-title">Latest Research</h2>
+                <div class="papers-grid" id="papers-container">
+                    <!-- Papers will be dynamically inserted here -->
+                </div>
+                <button class="more-btn">Load More</button>
+            </div>
+
+            <div class="upload-section">
+                <h2 class="section-title">Upload a Paper</h2>
+                <div class="dropzone">
+                    <i class='bx bx-cloud-upload'></i>
+                    <p>Drag and drop your paper here</p>
+                    <p>or click to browse</p>
+                </div>
+                <button class="upload-btn">Upload Paper</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <h1>Copyright © AcademixAI, Made with ❤️ by Raghav Sarna</h1>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+
+    <script>
+        // Initialize Vanta.js background
+        VANTA.NET({
+            el: "#vanta-background",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            color: 0x6a0cbf,
+            backgroundColor: 0x50508,
+            points: 9.00,
+            maxDistance: 22.00,
+            spacing: 19.00
+        });
+
+        // Function to load and initialize the SQLite database
+        async function initDB() {
+            const SQL = await initSqlJs({
+                locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.wasm`
+            });
+
+            const response = await fetch('../db/research.db');
+            if (!response.ok) throw new Error('Database file not found');
+
+            const arrayBuffer = await response.arrayBuffer();
+            return new SQL.Database(new Uint8Array(arrayBuffer));
+        }
+
+        // Function to create a paper card element
+        function createPaperCard(paper) {
+            return `
+                <a href="content_page.html" style="text-decoration: none; color: inherit;">
+                    <div class="paper-card">
+                        <img src="${paper.picture}" alt="Research Paper">
+                        <h2>${paper.title}</h2>
+                        <p>${paper.description}</p>
+                    </div>
+                </a>
+            `;
+        }
+
+        // Function to fetch and display papers
+        async function fetchAndDisplayPapers() {
+            try {
+                const db = await initDB();
+                const result = db.exec(`
+                    SELECT summary_id, title, picture, description 
+                    FROM newsletter 
+                    ORDER BY summary_id ASC
+                `);
+
+                if (result.length > 0) {
+                    const papersContainer = document.getElementById('papers-container');
+                    const papers = result[0].values.map(row => ({
+                        summary_id: row[0],
+                        title: row[1],
+                        picture: row[2],
+                        description: row[3]
+                    }));
+
+                    papersContainer.innerHTML = papers
+                        .map(paper => createPaperCard(paper))
+                        .join('');
+                }
+
+                // Clean up
+                db.close();
+
+            } catch (error) {
+                console.error('Error fetching papers:', error);
+                document.getElementById('papers-container').innerHTML = 
+                    '<p>Error loading papers. Please try again later.</p>';
+            }
+        }
+
+        // Load papers when page loads
+        document.addEventListener('DOMContentLoaded', fetchAndDisplayPapers);
+    </script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcademixAI - Paper Content</title>
+    <link rel="stylesheet" href="content_page.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ejs@3.1.6/ejs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+</head>
+<body>
+    <div id="vanta-background"></div>
+
+    <header>
+        <a href="index.html">
+            <img src="../images/logo.png" alt="AcademixAI" class="logo">
+        </a>
+    </header>
+
+    <div class="container">
+        <div class="paper-content">
+            <div class="paper-header">
+                <img id="paper-image" src="" alt="Research Paper Header">
+                <div class="podcast-icon">
+                    <i class='bx bx-podcast' style="font-size: 24px;"></i>
+                </div>
+            </div>
+            <h1 id="paper-title" class="paper-title"></h1>
+            <div class="paper-content-scroll">
+                <div id="content-container">
+                    <!-- Content will be inserted here -->
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-section">
+            <h2 class="chat-title">Chat with the Paper</h2>
+            <div class="chat-messages">
+                <div class="message bot-message">
+                    Hello! I'm your AI research assistant. Ask me anything about this paper.
+                </div>
+                <div class="message user-message">
+                    What are the key findings of this research?
+                </div>
+                <div class="message bot-message">
+                    The paper highlights three main breakthroughs in AI during February...
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" placeholder="Ask a question about the paper...">
+                <button>
+                    <i class='bx bx-send'></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+
+    <script>
+        // Initialize Vanta.js background
+        VANTA.NET({
+            el: "#vanta-background",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            color: 0x6a0cbf,
+            backgroundColor: 0x50508,
+            points: 9.00,
+            maxDistance: 22.00,
+            spacing: 19.00
+        });
+
+        // Configure marked options
+        marked.setOptions({
+            breaks: true,
+            gfm: true,
+            headerIds: true,
+            sanitize: false
+        });
+
+        // Function to load and initialize the SQLite database
+        async function initDB() {
+            const SQL = await initSqlJs({
+                locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}`
+            });
+
+            // Fetch the database file
+            const response = await fetch('../db/research.db');
+            const arrayBuffer = await response.arrayBuffer();
+
+            // Create a database from the fetched file
+            return new SQL.Database(new Uint8Array(arrayBuffer));
+        }
+
+        // Function to fetch newsletter data
+        async function fetchNewsletterData() {
+            try {
+                const db = await initDB();
+                const result = db.exec(`
+                    SELECT title, picture, content 
+                    FROM newsletter 
+                    WHERE summary_id = 1
+                `);
+
+                if (result.length > 0 && result[0].values.length > 0) {
+                    const [title, picture, content] = result[0].values[0];
+
+                    // Update the DOM with the fetched data
+                    document.getElementById('paper-title').textContent = title;
+                    document.getElementById('paper-image').src = picture;
+
+                    // Render the markdown content
+                    const contentContainer = document.getElementById('content-container');
+                    contentContainer.innerHTML = marked.parse(content);
+                }
+
+                // Clean up
+                db.close();
+
+            } catch (error) {
+                console.error('Error fetching newsletter data:', error);
+                document.getElementById('content-container').innerHTML = 
+                    '<p>Error loading content. Please try again later.</p>';
+            }
+        }
+
+        // Load content when page loads
+        document.addEventListener('DOMContentLoaded', fetchNewsletterData);
+    </script>
+</body>
+</html>
+
+Previous response:
+Okay, let's break down how and where you can integrate FastAPI into your project to make it dynamic and functional.  I'll address the backend logic, API endpoints, and how they connect to your existing frontend.
+
+**Core Idea:  Moving from Static HTML to a Dynamic Web Application**
+
+Right now, your HTML files are *static*.  They display information, but they don't interact with a database, process user input in a meaningful way, or handle things like user accounts.  FastAPI will provide the *backend* – the "brain" that handles all the logic and data, while your HTML/CSS/JavaScript becomes the *frontend* – the user interface.
+
+**Where FastAPI Fits In**
+
+FastAPI will sit between your frontend (the HTML pages) and your database (currently SQLite, which is a great choice for starting out). Here's how the flow will work:
+
+1.  **User Interaction (Frontend):** A user clicks a button (like "Login", "Sign Up", "Upload Paper"), types in a search query, or interacts with the chat.
+2.  **Request to FastAPI (Frontend -> Backend):** Your JavaScript code (in `app.js` or other script files) will use the `fetch` API (or a library like Axios) to send a request to a specific *endpoint* that you define in your FastAPI application. This request will often include data (like the user's login credentials, the uploaded file, or the chat message).
+3.  **FastAPI Processing (Backend):**
+    *   FastAPI receives the request at the designated endpoint.
+    *   It performs the necessary logic:
+        *   **Authentication:**  Verifying usernames/passwords, creating user sessions, etc.
+        *   **Database Interaction:** Reading data from the `research.db` database (using a library like `databases` or an ORM like SQLAlchemy), inserting new data (like uploaded papers), updating data, or deleting data.
+        *   **AI Processing:**  This is where you'd integrate any AI models for summarizing papers, generating podcasts, or handling the chat functionality.  This could involve calling external APIs (like OpenAI's API) or running your own models.
+        *   **Data Validation:** FastAPI's biggest strengths. It uses Pydantic to ensure that the data you receive from the frontend is in the correct format, and automatically generates interactive API documentation.
+    *   FastAPI constructs a *response*.  This is usually JSON data, containing the results of the operation (e.g., a success/failure message, the requested data from the database, the summary of a paper, etc.).
+4.  **Response to Frontend (Backend -> Frontend):** FastAPI sends the JSON response back to the frontend.
+5.  **Frontend Updates (Frontend):** Your JavaScript code receives the response.  It then updates the HTML page dynamically, without requiring a full page reload.  This is how you'll display the results of a search, show a success message after a login, add new chat messages to the chat window, etc.
+
+**Specific FastAPI Endpoints and Functionality**
+
+Here's a breakdown of potential FastAPI endpoints, aligned with the features in your HTML, and how they would connect:
+
+**1. User Authentication (Login/Signup)**
+
+*   **`/users/register` (POST):**
+    *   **Purpose:**  Create a new user account.
+    *   **Request Body:**  `{ "username": "...", "email": "...", "password": "..." }` (using Pydantic for validation)
+    *   **Backend Logic:**
+        *   Hash the password (using a library like `passlib`) for security.  *Never* store passwords in plain text.
+        *   Check if the username/email already exists in the database.
+        *   If not, insert a new user record into the database.
+        *   Return a success message or an error message (e.g., "Username already taken").
+    *   **Frontend Connection:**  The "Sign Up" buttons would trigger a `fetch` request to this endpoint, sending the form data.
+*   **`/users/login` (POST):**
+    *   **Purpose:** Authenticate an existing user.
+    *   **Request Body:**  `{ "username": "...", "password": "..." }`
+    *   **Backend Logic:**
+        *   Retrieve the user's hashed password from the database.
+        *   Compare the provided password (hashed) with the stored hashed password.
+        *   If successful, create a session (using a library like `itsdangerous` or a more robust solution like JWT - JSON Web Tokens). Store a session ID in a cookie.
+        *   Return a success message and potentially user data (username, etc.).
+    *   **Frontend Connection:**  The "Login" buttons would trigger a `fetch` request to this endpoint.  On success, the frontend would store the session ID and redirect the user to the homepage (`homepage.html`).
+*   **`/users/me` (GET):**
+    *    **Purpose:** Fetch the data of the currently logged in user.
+    *    **Authentication:**  Requires a valid session ID (from the cookie).
+    *    **Backend Logic:**
+        *    Retrieve the user's data from the database based on the session ID.
+        *    Return the user's data (e.g., username, email, etc.).  *Don't* return the password!
+    *    **Frontend Connection:**  Used on the `homepage.html` to display the user's name ("WELCOME BACK, RAGHAV").  This would be called after a successful login.
+*    `/users/logout` (POST):**
+    * Purpose: Invalidate the current user session.
+    * Backend Logic: Remove or expire the session ID associated with the user.
+    * Frontend Connection: This would require adding a "Logout" button, probably to `homepage.html`.
+
+**2. Paper Management (Homepage)**
+
+*   **`/papers` (GET):**
+    *   **Purpose:**  Retrieve a list of papers (for the homepage).
+    *   **Query Parameters (optional):**
+        *   `limit`:  The number of papers to return (for pagination).
+        *   `offset`:  The starting point for pagination.  (e.g., `limit=10&offset=20` would get papers 21-30).
+        *   `search`: A search term to filter papers by title or description.
+    *   **Backend Logic:**
+        *   Query the `newsletter` table in your database.  Use `LIMIT` and `OFFSET` for pagination.  Use `WHERE` clauses for searching.
+        *   Return a list of paper data (e.g., `[{"summary_id": 1, "title": "...", "picture": "...", "description": "..."}]`).
+    *   **Frontend Connection:**  Your `fetchAndDisplayPapers` function in `homepage.html` would be modified to:
+        *   Make a `fetch` request to `/papers`.
+        *   Use the returned JSON data to dynamically create the `paper-card` elements.
+        *   The "Load More" button would make another request to `/papers` with an incremented `offset`.
+*   **`/papers/{paper_id}` (GET):**
+    *   **Purpose:** Retrieve the full details of a single paper.
+    *   **Path Parameter:** `paper_id` (e.g., `/papers/1`).
+    *   **Backend Logic:**
+        *   Query the database for the paper with the given `summary_id`.
+        *   Return the paper's data (title, picture, content).
+    *   **Frontend Connection:**  Your `content_page.html` would be modified to:
+        *   Extract the `paper_id` from the URL (you'd likely use JavaScript's `URLSearchParams`).
+        *   Make a `fetch` request to `/papers/{paper_id}`.
+        *   Use the returned JSON data to populate the page content.
+*   **`/papers/upload` (POST):**
+    *   **Purpose:**  Handle paper uploads.
+    *   **Request Body:**  This is more complex. You'll likely use `FormData` in your JavaScript and FastAPI's `UploadFile` to handle file uploads.
+    *   **Backend Logic:**
+        *   Save the uploaded file to a secure location (e.g., a dedicated "uploads" directory). *Don't* store files directly in the database.
+        *   Optionally, process the file (e.g., extract text using a library like `PyPDF2` if it's a PDF).
+        *   Store metadata about the file (filename, upload date, user ID, etc.) in the database.
+        *   Potentially trigger the AI summarization process.
+    *   **Frontend Connection:** The "Upload Paper" button and the dropzone would trigger a `fetch` request to this endpoint.
+
+**3. AI Features**
+
+*   **`/papers/{paper_id}/summary` (GET):**
+    *   **Purpose:** Get an AI-generated summary of a paper.
+    *   **Backend Logic:**
+        *   If the summary already exists in the database, return it.
+        *   If not, call your AI summarization logic (external API or local model).
+        *   Store the generated summary in the database for future use (caching).
+        *   Return the summary.
+*   **`/papers/{paper_id}/podcast` (GET):**
+    *   **Purpose:** Get an AI-generated podcast URL for a paper.
+    *   **Backend Logic:**
+        *   Similar to the summary, check if it exists; if not, generate it (using a text-to-speech API, likely). Store the URL in the database. Return the URL.
+*   **`/papers/{paper_id}/chat` (POST):**
+    *   **Purpose:** Handle chat interactions with a paper.
+    *   **Request Body:** `{ "message": "User's question" }`
+    *   **Backend Logic:**
+        *   Use the `paper_id` to identify the context.
+        *   Send the user's message to your AI chat model (external API or local model).
+        *   Return the AI's response.
+    *   **Frontend Connection:**  The chat input in `content_page.html` would send a `fetch` request to this endpoint on each message submission.  The frontend would then display the returned AI response.
+
+**Example FastAPI Code (Conceptual)**
+
+
+--- CODE ---
+from fastapi import FastAPI, UploadFile, File, Depends, HTTPException
+from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware  # Import CORS middleware
+from pydantic import BaseModel
+import sqlite3
+from typing import List, Optional
+
+# Database connection (replace with your actual database setup)
+DATABASE_URL = "sqlite:///./research.db"  # Use relative path
+
+def get_db():
+    db = sqlite3.connect(DATABASE_URL)
+    db.row_factory = sqlite3.Row  # Important for accessing columns by name
+    try:
+        yield db
+    finally:
+        db.close()
+
+app = FastAPI()
+
+# Configure CORS to allow requests from your frontend
+origins = [
+    "http://localhost:8000",  # Adjust to your frontend's URL and port
+    "http://127.0.0.1:8000",   #If you are using Live Server Extension
+    "null" # If you are opening html file directly from local.
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
+
+
+class Paper(BaseModel):
+    summary_id: int
+    title: str
+    picture: str
+    description: str
+
+class PaperCreate(BaseModel): #For creating a paper
+    title: str
+    picture: str
+    description: str
+    content: str
+
+class Message(BaseModel):
+    message: str
+
+# --- Paper Endpoints ---
+
+@app.get("/papers", response_model=List[Paper])
+async def read_papers(limit: int = 10, offset: int = 0, search: Optional[str] = None, db: sqlite3.Connection = Depends(get_db)):
+    query = "SELECT summary_id, title, picture, description FROM newsletter"
+    params = []
+
+    if search:
+        query += " WHERE title LIKE ? OR description LIKE ?"
+        params.extend([f"%{search}%", f"%{search}%"])
+
+    query += " ORDER BY summary_id ASC LIMIT ? OFFSET ?"
+    params.extend([limit, offset])
+
+    cursor = db.cursor()
+    cursor.execute(query, params)
+    papers = cursor.fetchall()
+    return papers
+
+@app.get("/papers/{paper_id}")
+async def read_paper(paper_id: int, db: sqlite3.Connection = Depends(get_db)):
+    cursor = db.cursor()
+    cursor.execute("SELECT title, picture, content FROM newsletter WHERE summary_id = ?", (paper_id,))
+    paper = cursor.fetchone()
+    if paper is None:
+        raise HTTPException(status_code=404, detail="Paper not found")
+    return {"title": paper[0], "picture": paper[1], "content": paper[2]}
+
+@app.post("/papers/upload", response_model=Paper)  # Return the created paper
+async def upload_paper(paper: PaperCreate, db: sqlite3.Connection = Depends(get_db)):
+    cursor = db.cursor()
+    try:
+        cursor.execute(
+            "INSERT INTO newsletter (title, picture, description, content) VALUES (?, ?, ?, ?)",
+            (paper.title, paper.picture, paper.description, paper.content)
+        )
+        db.commit()
+    except sqlite3.IntegrityError as e:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=f"Database error: {e}")
+
+    # Get the last inserted row ID to return the newly created paper
+    last_row_id = cursor.lastrowid
+    return await read_paper(last_row_id, db) #Reuse the read_paper function.
+
+@app.post("/papers/{paper_id}/chat")
+async def chat_with_paper(paper_id: int, message: Message, db: sqlite3.Connection = Depends(get_db)):
+    # 1. Check if the paper exists (optional, but good practice)
+    cursor = db.cursor()
+    cursor.execute("SELECT title FROM newsletter WHERE summary_id = ?", (paper_id,))
+    if cursor.fetchone() is None:
+        raise HTTPException(status_code=404, detail="Paper not found")
+
+    # 2.  Implement your AI chat logic here.  This is a placeholder.
+    #     You'd likely call an external API (like OpenAI) or use a local model.
+    ai_response = f"AI response to: '{message.message}' about paper {paper_id}"
+
+    return {"response": ai_response}
+
+--- END CODE ---
+
+Key Changes and Explanations in the FastAPI Code:
+
+*   **CORS Configuration:**  The `CORSMiddleware` is *crucially* important.  It allows your frontend (running on a different origin – typically `http://localhost:5500` if you're using Live Server or file:// if opened locally) to make requests to your FastAPI backend (running on `http://localhost:8000`).  Without CORS, your browser will block these requests due to security restrictions.  The `origins` list should include the URL of your frontend.  Setting `allow_origins=["*"]` is *not* recommended for production, as it allows requests from anywhere.
+*   **Database Connection (`get_db`)**: This uses a dependency (`Depends(get_db)`) to manage the database connection.  This is the recommended way to handle database connections in FastAPI. It ensures that the connection is properly closed after each request.  I've switched to using `sqlite3` directly, as it's simpler for this example. For more complex projects, consider using `databases` (for asynchronous database access) or an ORM like SQLAlchemy.
+*   **`row_factory = sqlite3.Row`**:  This is *essential* to access database results by column name (e.g., `paper['title']`) instead of just by index.
+*   **Pydantic Models (`Paper`, `Message`, `PaperCreate`)**: These define the expected data structures for requests and responses.  FastAPI uses these for:
+    *   **Data Validation:**  Ensuring the incoming data is in the correct format.
+    *   **Automatic Documentation:**  Generating interactive API documentation (you can access it at `/docs` and `/redoc` on your FastAPI server).
+*   **`read_papers` Endpoint:**
+    *   `response_model=List[Paper]`:  Specifies that this endpoint returns a list of `Paper` objects.
+    *   `limit`, `offset`, `search`:  Query parameters for pagination and searching.
+    *   Database query using `LIMIT`, `OFFSET`, and `WHERE` clauses.
+*   **`read_paper` Endpoint:**
+    *   `paper_id: int`:  A path parameter (part of the URL).
+    *   `HTTPException`:  Raises a 404 error if the paper is not found.
+*   **`upload_paper` Endpoint**: This shows a simplified approach to uploading the paper details, not dealing with file uploads just yet.
+* **`chat_with_paper` Endpoint:**  A basic example of how to structure the chat endpoint.  It includes a placeholder for your AI logic.
+*   **Error Handling:** The `upload_paper` function now includes basic error handling for database operations, rolling back the transaction if an error occurs and raising an `HTTPException`.
+* **Return created paper on Upload**: `upload_paper` now returns newly created paper's detail.
+
+**Frontend (JavaScript) Changes (Conceptual)**
+
+Here's how you would modify your `homepage.html` JavaScript to fetch data from FastAPI:
+
+
+--- CODE ---
+async function fetchAndDisplayPapers() {
+    try {
+        const response = await fetch('http://localhost:8000/papers?limit=10&offset=0'); // Fetch from FastAPI
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const papers = await response.json(); // Parse the JSON response
+
+        const papersContainer = document.getElementById('papers-container');
+        papersContainer.innerHTML = papers
+            .map(paper => createPaperCard(paper)) // Use the same createPaperCard function
+            .join('');
+
+    } catch (error) {
+        console.error('Error fetching papers:', error);
+        document.getElementById('papers-container').innerHTML =
+            '<p>Error loading papers. Please try again later.</p>';
+    }
+}
+
+//Example for creating paper card.
+function createPaperCard(paper) {
+  return `
+      <a href="content_page.html?paper_id=${paper.summary_id}" style="text-decoration: none; color: inherit;">
+          <div class="paper-card">
+              <img src="${paper.picture}" alt="Research Paper">
+              <h2>${paper.title}</h2>
+              <p>${paper.description}</p>
+          </div>
+      </a>
+  `;
+}
+
+// Load More button (example - you'll need to track the current offset)
+let currentOffset = 0;
+document.querySelector('.more-btn').addEventListener('click', async () => {
+    currentOffset += 10;
+    const response = await fetch(`http://localhost:8000/papers?limit=10&offset=${currentOffset}`);
+    const newPapers = await response.json();
+
+    const papersContainer = document.getElementById('papers-container');
+    papersContainer.innerHTML += newPapers.map(createPaperCard).join('');
+});
+//Content page modification to get paper_id from url and call backend.
+
+async function fetchNewsletterData() {
+    try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const paperId = urlParams.get('paper_id');
+
+        if (!paperId) {
+            document.getElementById('content-container').innerHTML = '<p>No paper ID provided.</p>';
+            return;
+        }
+
+        const response = await fetch(`http://localhost:8000/papers/${paperId}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const paperData = await response.json();
+
+        document.getElementById('paper-title').textContent = paperData.title;
+        document.getElementById('paper-image').src = paperData.picture;
+        document.getElementById('content-container').innerHTML = marked.parse(paperData.content);
+
+    } catch (error) {
+        console.error('Error fetching newsletter data:', error);
+        document.getElementById('content-container').innerHTML =
+            '<p>Error loading content. Please try again later.</p>';
+    }
+}
+//For the chat section in the content page
+const chatInput = document.querySelector('.chat-input input');
+const sendButton = document.querySelector('.chat-input button');
+const chatMessages = document.querySelector('.chat-messages');
+
+sendButton.addEventListener('click', async () => {
+  const messageText = chatInput.value.trim();
+  if (!messageText) return;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const paperId = urlParams.get('paper_id');
+
+  // Add user message to chat
+  addMessage('user-message', messageText);
+  chatInput.value = ''; // Clear input
+
+  try {
+    const response = await fetch(`http://localhost:8000/papers/${paperId}/chat`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ message: messageText }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    addMessage('bot-message', data.response);
+
+  } catch (error) {
+    console.error('Error sending chat message:', error);
+    addMessage('bot-message', 'Error: Could not send message.');
+  }
+});
+
+function addMessage(className, text) {
+  const messageDiv = document.createElement('div');
+  messageDiv.className = `message ${className}`;
+  messageDiv.textContent = text;
+  chatMessages.appendChild(messageDiv);
+  chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to bottom
+}
+
+--- END CODE ---
+
+Key Changes in the JavaScript:
+
+*   **`fetch` API:**  Used to make requests to the FastAPI endpoints.
+*   **Asynchronous Operations:**  `async`/`await` is used to handle the asynchronous nature of network requests.
+*   **Error Handling:**  `try`/`catch` blocks are used to handle potential errors.
+*   **Dynamic Updates:**  The `innerHTML` of the `papers-container` is updated with the data received from the backend.
+* **URL Parameters for Pagination:** The `fetchAndDisplayPapers` function now includes query parameters for `limit` and `offset` in the URL.
+* **"Load More" Button:** The "Load More" button's event listener now makes a request to the `/papers` endpoint with an updated `offset` to fetch the next set of papers.
+* **Get Paper ID from URL (content\_page.html)**: The content page now extracts the `paper_id` using `URLSearchParams`.
+* **Chat functionality (content\_page.html):** The code for the `chat` functionality has been implemented.
+
+**Next Steps and Further Development**
+
+1.  **Install FastAPI and Uvicorn:**
+    ```bash
+    pip install fastapi uvicorn databases[sqlite]  # Install FastAPI, Uvicorn, and database support
+    ```
+2.  **Run the FastAPI Server:**
+    ```bash
+    uvicorn main:app --reload  # Assuming your FastAPI code is in main.py
+    ```
+    The `--reload` flag automatically restarts the server when you make changes to your code.
+3.  **Implement Authentication:** Add the user registration, login, and logout endpoints. Use a library like `passlib` for password hashing and `itsdangerous` or JWT for session management.
+4.  **File Uploads:** Implement the `/papers/upload` endpoint to handle file uploads. Use FastAPI's `UploadFile` and save files to a secure location.
+5.  **AI Integration:**
+    *   **Summarization:**  Integrate a summarization library or API (e.g., Hugging Face Transformers, OpenAI).
+    *   **Podcast Generation:** Integrate a text-to-speech API (e.g., Google Text-to-Speech, AWS Polly).
+    *   **Chat:** Integrate a chatbot library or API (e.g., OpenAI, Rasa).
+6.  **Database Migrations:**  As your database schema evolves, use a migration tool like Alembic to manage changes.
+7.  **Testing:** Write unit tests and integration tests for your FastAPI endpoints.
+8. **Deployment**: Deploy the frontend and backend, for example by using docker and a cloud service.
+
+This comprehensive guide provides a clear path for integrating FastAPI into your project, transforming your static website into a fully functional, dynamic web application. Remember to start with the core functionality (user authentication and paper listing) and then gradually add the more complex AI features.  The use of Pydantic models, database dependencies, and proper error handling will make your backend robust and maintainable.  The use of `fetch` in your JavaScript will connect your frontend to the powerful backend capabilities of FastAPI. Good luck!
+
+
+
+RESPONSE:
+
+Okay, let's build a more complete FastAPI backend based on the extensive plan we discussed.  I'll provide code for user authentication (registration, login, logout), paper management (listing, retrieval, creation – *without* full file upload handling yet, as that's a larger topic), and a basic chat interaction placeholder.  This will be a substantial step forward, but it's still important to consider this a foundation that you'll need to build upon, particularly for the AI components and file upload.
+
+**Directory Structure**
+
+
+--- CODE START ---
+academix_ai/
+├── main.py        (FastAPI application)
+├── database.py    (Database setup and models)
+├── auth.py        (Authentication logic)
+├── schemas.py     (Pydantic models)
+├── requirements.txt (Project dependencies)
+└── db/
+    └── research.db  (Your existing SQLite database)
+
+--- CODE END ---
+
+**1. `requirements.txt`**
+
+
+--- CODE START ---
+fastapi
+uvicorn
+databases[sqlite]
+pydantic
+python-jose[cryptography]
+passlib
+itsdangerous
+--- CODE END ---
+
+Install these with: `pip install -r requirements.txt`
+
+**2. `schemas.py` (Pydantic Models)**
+
+
+--- CODE START ---
+# schemas.py
+from pydantic import BaseModel, EmailStr, constr
+from typing import List, Optional
+
+class UserBase(BaseModel):
+    username: str
+    email: EmailStr
+
+class UserCreate(UserBase):
+    password: constr(min_length=8)
+
+class User(UserBase):
+    id: int
+
+class UserInDB(UserCreate):
+    hashed_password: str
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    username: Optional[str] = None
+
+class PaperBase(BaseModel):
+    title: str
+    picture: str
+    description: str
+    content: str
+
+class PaperCreate(PaperBase):
+    pass  # For now, identical to PaperBase
+
+class Paper(PaperBase):
+    summary_id: int
+    # Relationships can go here later, e.g., author: User
+
+class PaperUpdate(BaseModel):
+    title: Optional[str] = None
+    picture: Optional[str] = None
+    description: Optional[str] = None
+    content: Optional[str] = None
+
+class Message(BaseModel):
+    message: str
+--- CODE END ---
+
+**3. `database.py` (Database Setup and Interaction)**
+
+
+--- CODE START ---
+# database.py
+import databases
+import sqlalchemy
+from sqlalchemy import create_engine, Column, Integer, String, Text, ForeignKey, MetaData, Table
+from sqlalchemy.orm import declarative_base, sessionmaker, relationship
+from sqlalchemy.ext.declarative import declarative_base
+
+
+DATABASE_URL = "sqlite:///./db/research.db"  # Use relative path
+
+database = databases.Database(DATABASE_URL)
+metadata = MetaData()
+
+# Define SQLAlchemy tables (matching your existing schema + users)
+# We'll use SQLAlchemy Core for queries, but define models for clarity
+users = Table(
+    "users",
+    metadata,
+    Column("id", Integer, primary_key=True),
+    Column("username", String, unique=True, index=True),
+    Column("email", String, unique=True, index=True),
+    Column("hashed_password", String),
+)
+
+newsletter = Table(
+    "newsletter",
+    metadata,
+    Column("summary_id", Integer, primary_key=True),
+    Column("title", String),
+    Column("picture", String),
+    Column("description", String),
+    Column("content", Text),
+)
+# --- SQLAlchemy ORM Models (Optional, but good for future expansion) ---
+Base = declarative_base()
+
+class User(Base):
+    __tablename__ = "users"
+    id = Column(Integer, primary_key=True)
+    username = Column(String, unique=True, index=True)
+    email = Column(String, unique=True, index=True)
+    hashed_password = Column(String)
+    # papers = relationship("Paper", back_populates="author") # Future relationship
+
+class Newsletter(Base):
+     __tablename__ = "newsletter"
+     summary_id = Column(Integer, primary_key=True)
+     title = Column(String)
+     picture = Column(String)
+     description = Column(String)
+     content = Column(Text)
+     # author_id = Column(Integer, ForeignKey("users.id"))  # Future relationship
+     # author = relationship("User", back_populates="papers") # Future relationship
+# --- Database Engine and Session ---
+
+engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+metadata.create_all(engine)  # Create tables if they don't exist.
+
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+
+async def get_db():
+    """
+    Dependency function to get a database connection.  Used for FastAPI dependency injection.
+    """
+    async with database:
+        yield database
+--- CODE END ---
+
+**4. `auth.py` (Authentication Logic)**
+
+
+--- CODE START ---
+# auth.py
+from datetime import datetime, timedelta
+from typing import Optional
+
+from jose import JWTError, jwt
+from passlib.context import CryptContext
+from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
+from .database import get_db, database, users
+from .schemas import TokenData, User, UserInDB
+from pydantic import ValidationError
+
+# --- Password Hashing ---
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)
+
+def get_password_hash(password):
+    return pwd_context.hash(password)
+
+# --- JWT Settings ---
+#  IMPORTANT:  Keep this secret key secure!  In a real application,
+#              load it from an environment variable or a configuration file.
+SECRET_KEY = "your-secret-key"  # REPLACE THIS WITH A STRONG, RANDOM KEY
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token") # Use tokenUrl="token"  This is just a relative URL, not a full path.
+
+def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(minutes=15)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
+
+async def get_current_user(token: str = Depends(oauth2_scheme), db: databases.Database = Depends(get_db)):
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username: str = payload.get("sub")
+        if username is None:
+            raise credentials_exception
+        token_data = TokenData(username=username)
+    except (JWTError, ValidationError):
+        raise credentials_exception
+    query = users.select().where(users.c.username == token_data.username)
+    user = await db.fetch_one(query)
+
+    if user is None:
+        raise credentials_exception
+    return User(**user) # Convert to Pydantic User model
+
+async def get_current_active_user(current_user: User = Depends(get_current_user)):
+    #  You could add logic here to check if the user is active/disabled
+    return current_user
+--- CODE END ---
+
+
+**5. `main.py` (FastAPI Application)**
+
+
+--- CODE START ---
+# main.py
+from fastapi import FastAPI, Depends, HTTPException, status, Body
+from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
+from datetime import timedelta
+
+from . import auth, database, schemas
+from .database import get_db, users, newsletter, database
+from .schemas import UserCreate, User, Token, Paper, PaperCreate, PaperUpdate, Message
+from typing import List, Optional
+import databases
+
+app = FastAPI()
+
+# --- CORS (Cross-Origin Resource Sharing) ---
+#  Allows your frontend (running on a different port/domain) to access the API.
+origins = [
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+    "null",  # For local file access
+    "http://localhost:5500", #Add for live server
+    "http://127.0.0.1:5500", # Add for live server
+
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.on_event("startup")
+async def startup():
+    await database.connect()
+
+@app.on_event("shutdown")
+async def shutdown():
+    await database.disconnect()
+
+# --- User Authentication Endpoints ---
+
+@app.post("/token", response_model=Token)
+async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: databases.Database = Depends(get_db)):
+    query = users.select().where(users.c.username == form_data.username)
+    user = await db.fetch_one(query)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    user_db = schemas.UserInDB(**user) #convert to Pydantic Model
+    if not auth.verify_password(form_data.password, user_db.hashed_password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    access_token_expires = timedelta(minutes=auth.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = auth.create_access_token(
+        data={"sub": user_db.username}, expires_delta=access_token_expires
+    )
+    return {"access_token": access_token, "token_type": "bearer"}
+
+@app.post("/users/register", response_model=User)
+async def register_user(user: UserCreate, db: databases.Database = Depends(get_db)):
+    query = users.select().where(users.c.username == user.username)
+    existing_user = await db.fetch_one(query)
+    if existing_user:
+        raise HTTPException(status_code=400, detail="Username already registered")
+
+    query = users.select().where(users.c.email == user.email)
+    existing_email = await db.fetch_one(query)
+    if existing_email:
+        raise HTTPException(status_code=400, detail="Email already registered")
+
+    hashed_password = auth.get_password_hash(user.password)
+    query = users.insert().values(username=user.username, email=user.email, hashed_password=hashed_password)
+    last_record_id = await db.execute(query)
+
+    return {**user.dict(), "id": last_record_id}
+
+@app.get("/users/me", response_model=User)
+async def read_users_me(current_user: User = Depends(auth.get_current_active_user)):
+    return current_user
+
+@app.post("/users/logout")
+async def logout_user(current_user: User = Depends(auth.get_current_active_user)):
+     #Token Blacklisting (optional, for enhanced security)
+    return {"message": "Successfully logged out"}
+
+# --- Paper Endpoints ---
+@app.get("/papers", response_model=List[Paper])
+async def read_papers(limit: int = 10, offset: int = 0, search: Optional[str] = None, db: databases.Database = Depends(get_db)):
+    query = newsletter.select()
+    if search:
+        query = query.where(
+            (newsletter.c.title.ilike(f"%{search}%")) | (newsletter.c.description.ilike(f"%{search}%"))
+        ) #Case-insensitive search.
+    query = query.limit(limit).offset(offset)
+    return await db.fetch_all(query)
+
+@app.get("/papers/{paper_id}", response_model=Paper)
+async def read_paper(paper_id: int, db: databases.Database = Depends(get_db)):
+    query = newsletter.select().where(newsletter.c.summary_id == paper_id)
+    paper = await db.fetch_one(query)
+    if paper is None:
+        raise HTTPException(status_code=404, detail="Paper not found")
+    return paper
+
+@app.post("/papers", response_model=Paper)
+async def create_paper(paper: PaperCreate, current_user: User = Depends(auth.get_current_active_user), db: databases.Database = Depends(get_db)):
+    # In a real application, you'd likely associate the paper with the current user.
+    query = newsletter.insert().values(**paper.dict())
+    last_record_id = await db.execute(query)
+    return {**paper.dict(), "summary_id": last_record_id} #Summary_id will act like paper_id
+
+@app.patch("/papers/{paper_id}", response_model=Paper)
+async def update_paper(paper_id: int, paper_update: PaperUpdate, current_user: User = Depends(auth.get_current_active_user), db: databases.Database = Depends(get_db)):
+    # Check if the paper exists
+    query = newsletter.select().where(newsletter.c.summary_id == paper_id)
+    existing_paper = await db.fetch_one(query)
+    if not existing_paper:
+        raise HTTPException(status_code=404, detail="Paper not found")
+
+    #In real-world scenario you would have to check if current_user is the author
+    update_data = paper_update.dict(exclude_unset=True)
+    if not update_data: # If no data to update is provided.
+        return existing_paper
+
+    query = (
+        newsletter.update().where(newsletter.c.summary_id == paper_id).values(**update_data)
+    )
+    await db.execute(query)
+    return await read_paper(paper_id,db)  # Return the updated paper
+
+@app.delete("/papers/{paper_id}")
+async def delete_paper(paper_id: int, current_user: User = Depends(auth.get_current_active_user), db: databases.Database = Depends(get_db)):
+    query = newsletter.select().where(newsletter.c.summary_id == paper_id)
+    existing_paper = await db.fetch_one(query)
+    if not existing_paper:
+        raise HTTPException(status_code=404, detail="Paper not found")
+    #In real-world scenario you would have to check if current_user is the author.
+    query = newsletter.delete().where(newsletter.c.summary_id == paper_id)
+    await db.execute(query)
+    return {"message": "Paper deleted successfully"}
+
+# --- Chat Endpoint (Placeholder) ---
+@app.post("/papers/{paper_id}/chat", response_model=Message)
+async def chat_with_paper(paper_id: int, message: Message , db: databases.Database = Depends(get_db)):
+    #  1. (Optional) Verify paper exists.
+    query = newsletter.select().where(newsletter.c.summary_id == paper_id)
+    if not await db.fetch_one(query):
+         raise HTTPException(status_code=404, detail="Paper not found")
+    #  2.  Placeholder for AI interaction.  Replace this!
+    ai_response = f"AI response to: '{message.message}' about paper {paper_id}"
+    return {"message": ai_response}
+--- CODE END ---
+
+
+Key Improvements and Explanations:
+
+*   **Complete Authentication Flow:**  Includes registration, login (with JWT token generation), a `/users/me` endpoint to get the current user, and a basic logout.
+*   **Password Hashing:** Uses `passlib` to securely hash passwords.
+*   **JWT Authentication:**  Uses `python-jose` to generate and verify JSON Web Tokens.  This is a standard way to handle authentication in APIs.  The `get_current_user` function is a dependency that extracts the user information from the JWT.
+*   **Database Interaction with `databases`:** Uses the `databases` library for asynchronous database operations.  This is more efficient than the synchronous `sqlite3` library.
+*   **SQLAlchemy Core:** Uses SQLAlchemy Core for constructing queries. This offers more flexibility and control than raw SQL strings, and helps prevent SQL injection vulnerabilities.
+*   **Pydantic Models for Everything:** Consistent use of Pydantic models for request and response validation and documentation.
+*   **Dependency Injection:** Uses FastAPI's dependency injection system (`Depends`) for database connections and authentication.
+*   **Error Handling:**  Raises `HTTPException` for various error conditions (user not found, invalid credentials, etc.).
+*   **CORS Configuration:**  Allows requests from your frontend.
+*   **Startup/Shutdown Events:** Connects and disconnects from the database on application startup and shutdown.
+*  **Paper CRUD Operations:** The `main.py` file includes create, read (all and by ID), update, and delete operations for papers.
+*  **Protected Endpoints:**  The `create_paper`, `update_paper` and `delete_paper` endpoints now require a valid JWT token (i.e., the user must be logged in).
+*   **PATCH method for updating:** `update_paper` uses the PATCH HTTP method, which is the standard for partial updates.
+*  **Database Updates and Deletes:** The `update_paper` and `delete_paper` endpoints handle updating and deleting records in the database.
+* **Asynchronous Database Operations:** Uses `await db.execute()` and `await db.fetch_all()/fetch_one()` for asynchronous database interactions.
+* **Case-Insensitive Search:**  The `read_papers` endpoint now performs a case-insensitive search using `ilike`.
+* **Token Blacklisting:** There is comment on token blacklisting, which is crucial for security.
+
+**How to Run and Test**
+
+1.  **Create the `db` directory:**  Make sure you have a `db` directory in your project root, and that your `research.db` file is inside it.
+2.  **Install Dependencies:** `pip install -r requirements.txt`
+3.  **Run the Server:** `uvicorn main:app --reload`
+4.  **Access the API Documentation:**
+    *   Open your browser and go to `http://127.0.0.1:8000/docs` (Swagger UI) or `http://127.0.0.1:8000/redoc` (ReDoc). This interactive documentation is *automatically generated* by FastAPI based on your Pydantic models. You can use this to test your API endpoints.
+5. **Test User Registration**:
+    *   Use the `/users/register` endpoint (POST request) in the API documentation to create a new user. Provide a username, email, and password (minimum 8 characters).
+6.  **Test Login:**
+    *   Use the `/token` endpoint (POST request).  This is a special endpoint for OAuth2 password flow.  You'll need to provide `username` and `password` in the request body (as form data, *not* JSON).  If successful, you'll get back an `access_token`.
+7.  **Test Protected Endpoints:**
+    *   Copy the `access_token` you received.
+    *   Go to any protected endpoint (like `/users/me` or `/papers` (POST)).  Click the "Authorize" button in the Swagger UI.  Paste your token into the "Value" field, prefixed with "Bearer " (e.g., `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`).
+    *   Now you can execute the request.  Without the valid token, you'll get a 401 Unauthorized error.
+8. **Test Paper Operations:**
+    *   Try listing papers (`/papers` GET).
+    *   Try creating a paper (`/papers` POST) - remember to authorize first.
+    * Get paper using ID.
+    * Update and Delete paper.
+9. Test the `/chat` endpoint.
+
+**Important Next Steps**
+
+*   **File Uploads:**  This is a *major* addition.  You'll need to use FastAPI's `UploadFile` and handle saving the files securely (usually to a dedicated directory *outside* the web root, *not* directly in the database).
+*   **AI Integration:**  Replace the placeholders in the `/papers/{paper_id}/chat` endpoint with calls to your chosen AI models or APIs.
+*   **Frontend Integration:**  Update your JavaScript code to use the new endpoints and authentication flow. You'll need to:
+    *   Send the `access_token` in the `Authorization` header for protected routes (e.g., `headers: { 'Authorization': 'Bearer ' + token }`).
+    *   Handle user registration and login/logout.
+    *   Modify the paper fetching and display logic.
+    *   Implement the chat UI to interact with the `/chat` endpoint.
+* **Token Blacklisting (for Logout):** Implement a mechanism to blacklist tokens upon logout, preventing replay attacks. This adds a layer of security.
+*   **Error Handling:** Add more comprehensive error handling and logging.
+*   **Testing:**  Write unit and integration tests to ensure your API works correctly.
+* **Security:** Consider adding rate limiting, input sanitization, and other security measures.
+* **Deployment:** You would have to containerize the project to deploy the application
+
+This provides a very strong and substantially complete backend for your AcademixAI project. It addresses authentication, database interactions, and basic API structure, creating a robust foundation upon which you can build the remaining features. Remember to thoroughly test each part as you go, and refer back to the previous response for the corresponding frontend modifications.
+
+
+================================================================================
+TIMESTAMP: 2025-03-06T11:27:29.069535
+PROMPT: SUMMARIZE ALL OF THIS FOR ME IN UNDER 100 WORDS AND STRUCUTRED MANNER
+
+**Core Idea:  Moving from Static HTML to a Dynamic Web Application**
+
+Right now, your HTML files are *static*.  They display information, but they don't interact with a database, process user input in a meaningful way, or handle things like user accounts.  FastAPI will provide the *backend* – the "brain" that handles all the logic and data, while your HTML/CSS/JavaScript becomes the *frontend* – the user interface.
+
+**Where FastAPI Fits In**
+
+FastAPI will sit between your frontend (the HTML pages) and your database (currently SQLite, which is a great choice for starting out). Here's how the flow will work:
+
+1.  **User Interaction (Frontend):** A user clicks a button (like "Login", "Sign Up", "Upload Paper"), types in a search query, or interacts with the chat.
+2.  **Request to FastAPI (Frontend -> Backend):** Your JavaScript code (in `app.js` or other script files) will use the `fetch` API (or a library like Axios) to send a request to a specific *endpoint* that you define in your FastAPI application. This request will often include data (like the user's login credentials, the uploaded file, or the chat message).
+3.  **FastAPI Processing (Backend):**
+    *   FastAPI receives the request at the designated endpoint.
+    *   It performs the necessary logic:
+        *   **Authentication:**  Verifying usernames/passwords, creating user sessions, etc.
+        *   **Database Interaction:** Reading data from the `research.db` database (using a library like `databases` or an ORM like SQLAlchemy), inserting new data (like uploaded papers), updating data, or deleting data.
+        *   **AI Processing:**  This is where you'd integrate any AI models for summarizing papers, generating podcasts, or handling the chat functionality.  This could involve calling external APIs (like OpenAI's API) or running your own models.
+        *   **Data Validation:** FastAPI's biggest strengths. It uses Pydantic to ensure that the data you receive from the frontend is in the correct format, and automatically generates interactive API documentation.
+    *   FastAPI constructs a *response*.  This is usually JSON data, containing the results of the operation (e.g., a success/failure message, the requested data from the database, the summary of a paper, etc.).
+4.  **Response to Frontend (Backend -> Frontend):** FastAPI sends the JSON response back to the frontend.
+5.  **Frontend Updates (Frontend):** Your JavaScript code receives the response.  It then updates the HTML page dynamically, without requiring a full page reload.  This is how you'll display the results of a search, show a success message after a login, add new chat messages to the chat window, etc.
+
+**Specific FastAPI Endpoints and Functionality**
+
+Here's a breakdown of potential FastAPI endpoints, aligned with the features in your HTML, and how they would connect:
+
+**1. User Authentication (Login/Signup)**
+
+*   **`/users/register` (POST):**
+    *   **Purpose:**  Create a new user account.
+    *   **Request Body:**  `{ "username": "...", "email": "...", "password": "..." }` (using Pydantic for validation)
+    *   **Backend Logic:**
+        *   Hash the password (using a library like `passlib`) for security.  *Never* store passwords in plain text.
+        *   Check if the username/email already exists in the database.
+        *   If not, insert a new user record into the database.
+        *   Return a success message or an error message (e.g., "Username already taken").
+    *   **Frontend Connection:**  The "Sign Up" buttons would trigger a `fetch` request to this endpoint, sending the form data.
+*   **`/users/login` (POST):**
+    *   **Purpose:** Authenticate an existing user.
+    *   **Request Body:**  `{ "username": "...", "password": "..." }`
+    *   **Backend Logic:**
+        *   Retrieve the user's hashed password from the database.
+        *   Compare the provided password (hashed) with the stored hashed password.
+        *   If successful, create a session (using a library like `itsdangerous` or a more robust solution like JWT - JSON Web Tokens). Store a session ID in a cookie.
+        *   Return a success message and potentially user data (username, etc.).
+    *   **Frontend Connection:**  The "Login" buttons would trigger a `fetch` request to this endpoint.  On success, the frontend would store the session ID and redirect the user to the homepage (`homepage.html`).
+*   **`/users/me` (GET):**
+    *    **Purpose:** Fetch the data of the currently logged in user.
+    *    **Authentication:**  Requires a valid session ID (from the cookie).
+    *    **Backend Logic:**
+        *    Retrieve the user's data from the database based on the session ID.
+        *    Return the user's data (e.g., username, email, etc.).  *Don't* return the password!
+    *    **Frontend Connection:**  Used on the `homepage.html` to display the user's name ("WELCOME BACK, RAGHAV").  This would be called after a successful login.
+*    `/users/logout` (POST):**
+    * Purpose: Invalidate the current user session.
+    * Backend Logic: Remove or expire the session ID associated with the user.
+    * Frontend Connection: This would require adding a "Logout" button, probably to `homepage.html`.
+
+**2. Paper Management (Homepage)**
+
+*   **`/papers` (GET):**
+    *   **Purpose:**  Retrieve a list of papers (for the homepage).
+    *   **Query Parameters (optional):**
+        *   `limit`:  The number of papers to return (for pagination).
+        *   `offset`:  The starting point for pagination.  (e.g., `limit=10&offset=20` would get papers 21-30).
+        *   `search`: A search term to filter papers by title or description.
+    *   **Backend Logic:**
+        *   Query the `newsletter` table in your database.  Use `LIMIT` and `OFFSET` for pagination.  Use `WHERE` clauses for searching.
+        *   Return a list of paper data (e.g., `[{"summary_id": 1, "title": "...", "picture": "...", "description": "..."}]`).
+    *   **Frontend Connection:**  Your `fetchAndDisplayPapers` function in `homepage.html` would be modified to:
+        *   Make a `fetch` request to `/papers`.
+        *   Use the returned JSON data to dynamically create the `paper-card` elements.
+        *   The "Load More" button would make another request to `/papers` with an incremented `offset`.
+*   **`/papers/{paper_id}` (GET):**
+    *   **Purpose:** Retrieve the full details of a single paper.
+    *   **Path Parameter:** `paper_id` (e.g., `/papers/1`).
+    *   **Backend Logic:**
+        *   Query the database for the paper with the given `summary_id`.
+        *   Return the paper's data (title, picture, content).
+    *   **Frontend Connection:**  Your `content_page.html` would be modified to:
+        *   Extract the `paper_id` from the URL (you'd likely use JavaScript's `URLSearchParams`).
+        *   Make a `fetch` request to `/papers/{paper_id}`.
+        *   Use the returned JSON data to populate the page content.
+*   **`/papers/upload` (POST):**
+    *   **Purpose:**  Handle paper uploads.
+    *   **Request Body:**  This is more complex. You'll likely use `FormData` in your JavaScript and FastAPI's `UploadFile` to handle file uploads.
+    *   **Backend Logic:**
+        *   Save the uploaded file to a secure location (e.g., a dedicated "uploads" directory). *Don't* store files directly in the database.
+        *   Optionally, process the file (e.g., extract text using a library like `PyPDF2` if it's a PDF).
+        *   Store metadata about the file (filename, upload date, user ID, etc.) in the database.
+        *   Potentially trigger the AI summarization process.
+    *   **Frontend Connection:** The "Upload Paper" button and the dropzone would trigger a `fetch` request to this endpoint.
+
+**3. AI Features**
+
+*   **`/papers/{paper_id}/summary` (GET):**
+    *   **Purpose:** Get an AI-generated summary of a paper.
+    *   **Backend Logic:**
+        *   If the summary already exists in the database, return it.
+        *   If not, call your AI summarization logic (external API or local model).
+        *   Store the generated summary in the database for future use (caching).
+        *   Return the summary.
+*   **`/papers/{paper_id}/podcast` (GET):**
+    *   **Purpose:** Get an AI-generated podcast URL for a paper.
+    *   **Backend Logic:**
+        *   Similar to the summary, check if it exists; if not, generate it (using a text-to-speech API, likely). Store the URL in the database. Return the URL.
+*   **`/papers/{paper_id}/chat` (POST):**
+    *   **Purpose:** Handle chat interactions with a paper.
+    *   **Request Body:** `{ "message": "User's question" }`
+    *   **Backend Logic:**
+        *   Use the `paper_id` to identify the context.
+        *   Send the user's message to your AI chat model (external API or local model).
+        *   Return the AI's response.
+    *   **Frontend Connection:**  The chat input in `content_page.html` would send a `fetch` request to this endpoint on each message submission.  The frontend would then display the returned AI response.
+NOTES: Sumarrize the implementation
+
+RESPONSE:
+
+Here's a structured summary of how FastAPI transforms your static HTML into a dynamic web application, in under 100 words:
+
+FastAPI acts as the backend "brain," handling user interactions, database operations, and AI processing.  The HTML/JS (frontend) sends requests to FastAPI endpoints (e.g., `/users/login`, `/papers`).  FastAPI processes these requests (authentication, database queries, AI calls), returning JSON data.  The frontend then updates the webpage dynamically with this data. Key features: user authentication (register, login, logout), paper management (list, view, upload), and AI integrations (summary, podcast, chat) all follow this request-response cycle, enabling data management.
+
+
+================================================================================
+TIMESTAMP: 2025-03-06T11:36:17.271783
+PROMPT: EXPLAIN ME ALL OF THIS CONCEPTUALLY SINCE I AM NEW TO FAST API. HOW WOULD I EVEN IMPLEMENT ALL OF THIS?
+
+**Core Idea:  Moving from Static HTML to a Dynamic Web Application**
+
+Right now, your HTML files are *static*.  They display information, but they don't interact with a database, process user input in a meaningful way, or handle things like user accounts.  FastAPI will provide the *backend* – the "brain" that handles all the logic and data, while your HTML/CSS/JavaScript becomes the *frontend* – the user interface.
+
+**Where FastAPI Fits In**
+
+FastAPI will sit between your frontend (the HTML pages) and your database (currently SQLite, which is a great choice for starting out). Here's how the flow will work:
+
+1.  **User Interaction (Frontend):** A user clicks a button (like "Login", "Sign Up", "Upload Paper"), types in a search query, or interacts with the chat.
+2.  **Request to FastAPI (Frontend -> Backend):** Your JavaScript code (in `app.js` or other script files) will use the `fetch` API (or a library like Axios) to send a request to a specific *endpoint* that you define in your FastAPI application. This request will often include data (like the user's login credentials, the uploaded file, or the chat message).
+3.  **FastAPI Processing (Backend):**
+    *   FastAPI receives the request at the designated endpoint.
+    *   It performs the necessary logic:
+        *   **Authentication:**  Verifying usernames/passwords, creating user sessions, etc.
+        *   **Database Interaction:** Reading data from the `research.db` database (using a library like `databases` or an ORM like SQLAlchemy), inserting new data (like uploaded papers), updating data, or deleting data.
+        *   **AI Processing:**  This is where you'd integrate any AI models for summarizing papers, generating podcasts, or handling the chat functionality.  This could involve calling external APIs (like OpenAI's API) or running your own models.
+        *   **Data Validation:** FastAPI's biggest strengths. It uses Pydantic to ensure that the data you receive from the frontend is in the correct format, and automatically generates interactive API documentation.
+    *   FastAPI constructs a *response*.  This is usually JSON data, containing the results of the operation (e.g., a success/failure message, the requested data from the database, the summary of a paper, etc.).
+4.  **Response to Frontend (Backend -> Frontend):** FastAPI sends the JSON response back to the frontend.
+5.  **Frontend Updates (Frontend):** Your JavaScript code receives the response.  It then updates the HTML page dynamically, without requiring a full page reload.  This is how you'll display the results of a search, show a success message after a login, add new chat messages to the chat window, etc.
+
+**Specific FastAPI Endpoints and Functionality**
+
+Here's a breakdown of potential FastAPI endpoints, aligned with the features in your HTML, and how they would connect:
+
+**1. User Authentication (Login/Signup)**
+
+*   **`/users/register` (POST):**
+    *   **Purpose:**  Create a new user account.
+    *   **Request Body:**  `{ "username": "...", "email": "...", "password": "..." }` (using Pydantic for validation)
+    *   **Backend Logic:**
+        *   Hash the password (using a library like `passlib`) for security.  *Never* store passwords in plain text.
+        *   Check if the username/email already exists in the database.
+        *   If not, insert a new user record into the database.
+        *   Return a success message or an error message (e.g., "Username already taken").
+    *   **Frontend Connection:**  The "Sign Up" buttons would trigger a `fetch` request to this endpoint, sending the form data.
+*   **`/users/login` (POST):**
+    *   **Purpose:** Authenticate an existing user.
+    *   **Request Body:**  `{ "username": "...", "password": "..." }`
+    *   **Backend Logic:**
+        *   Retrieve the user's hashed password from the database.
+        *   Compare the provided password (hashed) with the stored hashed password.
+        *   If successful, create a session (using a library like `itsdangerous` or a more robust solution like JWT - JSON Web Tokens). Store a session ID in a cookie.
+        *   Return a success message and potentially user data (username, etc.).
+    *   **Frontend Connection:**  The "Login" buttons would trigger a `fetch` request to this endpoint.  On success, the frontend would store the session ID and redirect the user to the homepage (`homepage.html`).
+*   **`/users/me` (GET):**
+    *    **Purpose:** Fetch the data of the currently logged in user.
+    *    **Authentication:**  Requires a valid session ID (from the cookie).
+    *    **Backend Logic:**
+        *    Retrieve the user's data from the database based on the session ID.
+        *    Return the user's data (e.g., username, email, etc.).  *Don't* return the password!
+    *    **Frontend Connection:**  Used on the `homepage.html` to display the user's name ("WELCOME BACK, RAGHAV").  This would be called after a successful login.
+*    `/users/logout` (POST):**
+    * Purpose: Invalidate the current user session.
+    * Backend Logic: Remove or expire the session ID associated with the user.
+    * Frontend Connection: This would require adding a "Logout" button, probably to `homepage.html`.
+
+**2. Paper Management (Homepage)**
+
+*   **`/papers` (GET):**
+    *   **Purpose:**  Retrieve a list of papers (for the homepage).
+    *   **Query Parameters (optional):**
+        *   `limit`:  The number of papers to return (for pagination).
+        *   `offset`:  The starting point for pagination.  (e.g., `limit=10&offset=20` would get papers 21-30).
+        *   `search`: A search term to filter papers by title or description.
+    *   **Backend Logic:**
+        *   Query the `newsletter` table in your database.  Use `LIMIT` and `OFFSET` for pagination.  Use `WHERE` clauses for searching.
+        *   Return a list of paper data (e.g., `[{"summary_id": 1, "title": "...", "picture": "...", "description": "..."}]`).
+    *   **Frontend Connection:**  Your `fetchAndDisplayPapers` function in `homepage.html` would be modified to:
+        *   Make a `fetch` request to `/papers`.
+        *   Use the returned JSON data to dynamically create the `paper-card` elements.
+        *   The "Load More" button would make another request to `/papers` with an incremented `offset`.
+*   **`/papers/{paper_id}` (GET):**
+    *   **Purpose:** Retrieve the full details of a single paper.
+    *   **Path Parameter:** `paper_id` (e.g., `/papers/1`).
+    *   **Backend Logic:**
+        *   Query the database for the paper with the given `summary_id`.
+        *   Return the paper's data (title, picture, content).
+    *   **Frontend Connection:**  Your `content_page.html` would be modified to:
+        *   Extract the `paper_id` from the URL (you'd likely use JavaScript's `URLSearchParams`).
+        *   Make a `fetch` request to `/papers/{paper_id}`.
+        *   Use the returned JSON data to populate the page content.
+*   **`/papers/upload` (POST):**
+    *   **Purpose:**  Handle paper uploads.
+    *   **Request Body:**  This is more complex. You'll likely use `FormData` in your JavaScript and FastAPI's `UploadFile` to handle file uploads.
+    *   **Backend Logic:**
+        *   Save the uploaded file to a secure location (e.g., a dedicated "uploads" directory). *Don't* store files directly in the database.
+        *   Optionally, process the file (e.g., extract text using a library like `PyPDF2` if it's a PDF).
+        *   Store metadata about the file (filename, upload date, user ID, etc.) in the database.
+        *   Potentially trigger the AI summarization process.
+    *   **Frontend Connection:** The "Upload Paper" button and the dropzone would trigger a `fetch` request to this endpoint.
+
+**3. AI Features**
+
+*   **`/papers/{paper_id}/summary` (GET):**
+    *   **Purpose:** Get an AI-generated summary of a paper.
+    *   **Backend Logic:**
+        *   If the summary already exists in the database, return it.
+        *   If not, call your AI summarization logic (external API or local model).
+        *   Store the generated summary in the database for future use (caching).
+        *   Return the summary.
+*   **`/papers/{paper_id}/podcast` (GET):**
+    *   **Purpose:** Get an AI-generated podcast URL for a paper.
+    *   **Backend Logic:**
+        *   Similar to the summary, check if it exists; if not, generate it (using a text-to-speech API, likely). Store the URL in the database. Return the URL.
+*   **`/papers/{paper_id}/chat` (POST):**
+    *   **Purpose:** Handle chat interactions with a paper.
+    *   **Request Body:** `{ "message": "User's question" }`
+    *   **Backend Logic:**
+        *   Use the `paper_id` to identify the context.
+        *   Send the user's message to your AI chat model (external API or local model).
+        *   Return the AI's response.
+    *   **Frontend Connection:**  The chat input in `content_page.html` would send a `fetch` request to this endpoint on each message submission.  The frontend would then display the returned AI response.
+NOTES: understanding fastapi
+
+RESPONSE:
+
+Okay, let's break down how to build this with FastAPI, conceptually and with implementation steps. I'll address your "I'm new to FastAPI" concern by explaining things in a beginner-friendly way.
+
+**Conceptual Overview (The Big Picture)**
+
+Imagine a restaurant:
+
+*   **Frontend (HTML/CSS/JavaScript):** This is the dining area – the tables, chairs, menu the customer sees.  Customers (users) interact here.
+*   **Backend (FastAPI):** This is the kitchen.  Orders (requests) come in, the chefs (FastAPI's logic) prepare the food (data processing), and the waiters (FastAPI again) deliver the dishes (responses) to the tables.
+*   **Database (SQLite):** This is the pantry.  The kitchen gets its ingredients (data) from here.
+
+FastAPI's job is to be the *efficient* kitchen and waitstaff.  It takes requests from the frontend, processes them (often interacting with the database), and sends back organized information.
+
+**Implementation Steps (Getting Started)**
+
+Here's a step-by-step guide, focusing on setting up the foundation and a few key endpoints.  We'll start simple and build up.
+
+**Step 1: Project Setup (The Foundation)**
+
+1.  **Virtual Environment (Highly Recommended):**
+    *   Create a virtual environment.  This isolates your project's dependencies.
+        ```bash
+        python3 -m venv venv
+        source venv/bin/activate  # On Windows: venv\Scripts\activate
+        ```
+
+2.  **Install FastAPI and Uvicorn:**
+    ```bash
+    pip install fastapi uvicorn
+    ```
+    *   **FastAPI:**  The framework itself.
+    *   **Uvicorn:**  An ASGI server.  Think of it as the "engine" that runs your FastAPI application.
+
+3.  **Project Structure:**
+    Create a directory structure like this:
+
+    ```
+    research_project/
+    ├── main.py         # Your main FastAPI application file
+    ├── database.py    # Database interaction (we'll start simple)
+    ├── models.py      # Pydantic models for data validation
+    ├── routers/        # Organize endpoints into separate files
+    │   ├── users.py
+    │   └── papers.py
+    ├── static/         # Your HTML, CSS, and JavaScript files
+    │   ├── css/
+    │   ├── js/
+    │   └── index.html (and other HTML files)
+    └── research.db      # Your SQLite database
+    ```
+
+**Step 2:  Basic FastAPI App (`main.py`)**
+
+
+--- CODE START ---
+from fastapi import FastAPI, Request, Form, HTTPException
+from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
+import sqlite3
+from typing import Optional
+
+# Import your routers (we'll create these later)
+from routers import users, papers
+
+app = FastAPI()
+
+# Mount static files (CSS, JS, images)
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# Templates for HTML rendering
+templates = Jinja2Templates(directory="static")
+
+# Include your routers
+app.include_router(users.router)
+app.include_router(papers.router)
+
+@app.get("/", response_class=HTMLResponse)
+async def read_root(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+@app.get("/homepage", response_class=HTMLResponse)
+async def read_homepage(request: Request):
+    return templates.TemplateResponse("homepage.html", {"request": request})
+--- CODE END ---
+
+
+*   **`from fastapi import FastAPI`:**  Imports the necessary components.
+*   **`app = FastAPI()`:** Creates your FastAPI application instance.
+*   **`app.mount(...)`:**  This tells FastAPI to serve your static files (HTML, CSS, JavaScript) from the `static` directory.  You access them via `/static/yourfile.js`, for example.
+*   **`app.include_router(...)`:**  This is crucial for organization. We'll create separate files (`users.py`, `papers.py`) for different parts of your application (user management, paper management).
+*   **`@app.get("/", response_class=HTMLResponse)`:**
+    *   **`@app.get(...)`:**  This is a *decorator*.  It tells FastAPI that the function below handles GET requests to the `/` path (your homepage).
+    *   **`response_class=HTMLResponse`:**  Specifies that this endpoint returns HTML.
+    *   **`async def read_root(request: Request):`:**  This is the function that handles the request.  The `request` object contains information about the incoming request.
+    *   **`return templates.TemplateResponse(...)`:**  Uses Jinja2 templates (which come built-in with FastAPI) to render your `index.html` file.
+
+**Step 3:  Database Setup (`database.py`)**
+
+
+--- CODE START ---
+import sqlite3
+
+DATABASE_URL = "research.db"
+
+def get_db_connection():
+    conn = sqlite3.connect(DATABASE_URL)
+    conn.row_factory = sqlite3.Row  # Important: Access columns by name
+    return conn
+
+def close_db_connection(conn):
+    conn.close()
+
+def init_db():
+    conn = get_db_connection()
+    # Add your table creation SQL here if needed (e.g., if the DB is empty)
+    # Example (replace with your actual schema):
+    # conn.execute("""
+    #     CREATE TABLE IF NOT EXISTS newsletter (
+    #         summary_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    #         title TEXT NOT NULL,
+    #         picture TEXT,
+    #         description TEXT,
+    #         content TEXT
+    #     );
+    # """)
+    close_db_connection(conn)
+
+# Initialize the database (run this once)
+if __name__ == "__main__":
+    init_db()
+--- CODE END ---
+
+
+*   **`get_db_connection()`:**  Creates a connection to your SQLite database.  The `row_factory` is *very* important: it lets you access data from database rows by column name (like `row["title"]`) instead of just by index.
+*   **`close_db_connection()`:** Closes the database connection.
+* **`init_db()`**: Creates your database with its appropriate tables.
+*   **`if __name__ == "__main__":`:**  This ensures that `init_db()` is only called when you run `database.py` directly (e.g., `python database.py`), not when it's imported as a module.
+
+**Step 4: Pydantic Models (`models.py`)**
+
+
+--- CODE START ---
+from pydantic import BaseModel, EmailStr, Field
+from typing import Optional
+
+# User Models
+class UserCreate(BaseModel):
+    username: str = Field(..., min_length=3, max_length=50)
+    email: EmailStr
+    password: str = Field(..., min_length=8)
+
+class User(BaseModel):
+    id: int
+    username: str
+    email: EmailStr
+
+class UserLogin(BaseModel):
+    username: str
+    password: str
+    
+# Paper Models
+class Paper(BaseModel):
+    summary_id: int
+    title: str
+    picture: Optional[str] = None  # Optional fields
+    description: Optional[str] = None
+    content: Optional[str] = None
+--- CODE END ---
+
+
+*   **`BaseModel`:**  The base class for all Pydantic models.
+*   **`UserCreate`:**  Defines the structure and validation rules for creating a user.
+    *   `Field(...)`: Allows specifying constraints like `min_length`, `max_length`.  The `...` means the field is required.
+    *   `EmailStr`:  Ensures the email field is a valid email address.
+*   **`User`:** Defines the structure of a User object.
+*   **`Paper`:**  Defines the structure of a Paper object.  `Optional[str]` means the field can be `None`.
+
+**Step 5: User Router (`routers/users.py`)**
+
+
+--- CODE START ---
+from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.responses import JSONResponse
+from database import get_db_connection, close_db_connection
+from models import UserCreate, User, UserLogin
+from typing import List
+import secrets # to generate the access token
+from passlib.context import CryptContext
+
+router = APIRouter(
+    prefix="/users",
+    tags=["users"]
+)
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto") # password hashing
+
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)
+
+def get_password_hash(password):
+    return pwd_context.hash(password)
+
+@router.post("/register", response_model=User)
+async def register_user(user: UserCreate):
+    conn = get_db_connection()
+    try:
+        cursor = conn.cursor()
+        # Check if username exists
+        cursor.execute("SELECT * FROM users WHERE username = ?", (user.username,))
+        existing_user = cursor.fetchone()
+        if existing_user:
+            raise HTTPException(status_code=400, detail="Username already registered")
+        
+        # Check if email exists
+        cursor.execute("SELECT * FROM users WHERE email = ?", (user.email,))
+        existing_email = cursor.fetchone()
+        if existing_email:
+            raise HTTPException(status_code=400, detail="Email already registered")
+        
+        hashed_password = get_password_hash(user.password)
+        cursor.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", (user.username, user.email, hashed_password))
+        conn.commit()
+        cursor.execute("SELECT last_insert_rowid()")
+        new_user_id = cursor.fetchone()[0]
+
+    except sqlite3.Error as e:
+        conn.rollback()
+        raise HTTPException(status_code=500, detail=f"Database error: {e}")
+    finally:
+        close_db_connection(conn)
+
+    return User(id=new_user_id, username=user.username, email=user.email)
+
+@router.post("/login", response_class=JSONResponse)
+async def login_user(user_login: UserLogin):
+    conn = get_db_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM users WHERE username = ?", (user_login.username,))
+        user = cursor.fetchone()
+
+        if user is None or not verify_password(user_login.password, user['password']):
+            raise HTTPException(status_code=401, detail="Incorrect username or password")
+
+        # Generate a simple access token (for demonstration; use JWT in production)
+        access_token = secrets.token_hex(16)
+
+        # Store the token (in-memory for now; use a database or Redis in production)
+        # In a real application, you would store this more securely, likely with an expiration time.
+        # This is just a basic example!
+        cursor.execute("UPDATE users SET access_token = ? WHERE id = ?", (access_token, user['id']))
+        conn.commit()
+
+        # Return the token in the response
+        return {"access_token": access_token, "token_type": "bearer", "user" : User(id=user['id'], username=user['username'], email=user['email'])}
+
+    except sqlite3.Error as e:
+        raise HTTPException(status_code=500, detail=f"Database error: {e}")
+    finally:
+        close_db_connection(conn)
+
+@router.get("/me", response_model=User)
+async def read_users_me(current_user: User = Depends(get_current_user)):
+     return current_user
+
+# Simplified token-based authentication (replace with JWT in a real app)
+async def get_current_user(token: str = Depends(get_api_key)):
+     conn = get_db_connection()
+     cursor = conn.cursor()
+     cursor.execute("SELECT * FROM users WHERE access_token = ?", (token,))
+     user = cursor.fetchone()
+     close_db_connection(conn)
+     if user is None:
+         raise HTTPException(status_code=401, detail="Invalid access token")
+     return User(id=user['id'], username=user['username'], email=user['email'])
+
+async def get_api_key(api_key: str = Depends(get_api_key_header)):
+    return api_key
+
+async def get_api_key_header(request: Request):
+     auth_header = request.headers.get('Authorization')
+     if auth_header:
+         scheme, token = auth_header.split(" ", 1)
+         if scheme.lower() == "bearer":
+             return token
+     return None
+--- CODE END ---
+
+
+*   **`router = APIRouter(...)`:**  Creates a router to group related endpoints.  `prefix="/users"` means all endpoints in this file will start with `/users`.
+*   **`/register` (POST):**
+    *   **`response_model=User`:**  Tells FastAPI to validate the response against the `User` model.
+    *   **`user: UserCreate`:**  FastAPI automatically validates the incoming request body against the `UserCreate` model.
+    *   **Database Interaction:**  The code checks for existing usernames/emails, hashes the password, and inserts the new user into the database.
+    *   **Error Handling:** Uses `HTTPException` to return appropriate error responses (e.g., 400 Bad Request, 500 Internal Server Error).
+    *  **Password Hashing:**  Uses `passlib` to securely hash passwords.
+*   **`/login` (POST):**
+    *    Retrieves the user from the database.
+    *    Verifies the password using `verify_password`.
+    *    **Simple Token Generation:**  Creates a *very* basic access token using `secrets.token_hex()`.  **Important:** This is for demonstration purposes *only*.  For real-world applications, use JWT (JSON Web Tokens) for secure authentication.
+    *   **Returns the Token:** Sends the generated token back to the frontend.
+* **`/me` (GET):**
+    * Demonstrates fetching the logged-in user's data.
+    * Uses `Depends(get_current_user)` for authentication.
+* **`get_current_user` (Dependency):**
+    * This is a *dependency*. FastAPI's dependency injection system is powerful. This function is responsible for:
+        * Getting the token from request.
+        * Looking up the user based on the token (in a *very* simplified way here – you'd use a more robust method in a real application).
+        * Raising an `HTTPException` if the token is invalid.
+* **`get_api_key_header`:** Gets the token from authorization header.
+* **`get_api_key`:** Returns api key from the header.
+
+**Step 6: Paper Router (`routers/papers.py`)**
+
+
+--- CODE START ---
+from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import JSONResponse
+from database import get_db_connection, close_db_connection
+from models import Paper
+from typing import List, Optional
+from routers.users import get_current_user, User # Import get_current_user
+import sqlite3
+
+router = APIRouter(
+    prefix="/papers",
+    tags=["papers"]
+)
+
+@router.get("/", response_model=List[Paper])
+async def read_papers(limit: int = 10, offset: int = 0, search: Optional[str] = None):
+    conn = get_db_connection()
+    try:
+        cursor = conn.cursor()
+        query = "SELECT summary_id, title, picture, description FROM newsletter"
+        params = []
+
+        if search:
+            query += " WHERE title LIKE ? OR description LIKE ?"
+            params.extend([f"%{search}%", f"%{search}%"])
+
+        query += " LIMIT ? OFFSET ?"
+        params.extend([limit, offset])
+
+        cursor.execute(query, params)
+        papers = [Paper(**row) for row in cursor.fetchall()] # Convert to Pydantic models
+        return papers
+    except sqlite3.Error as e:
+        raise HTTPException(status_code=500, detail=f"Database error: {e}")
+    finally:
+        close_db_connection(conn)
+
+@router.get("/{paper_id}", response_model=Paper)
+async def read_paper(paper_id: int):
+    conn = get_db_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM newsletter WHERE summary_id = ?", (paper_id,))
+        paper_data = cursor.fetchone()
+        if paper_data is None:
+            raise HTTPException(status_code=404, detail="Paper not found")
+        return Paper(**paper_data)
+    except sqlite3.Error as e:
+        raise HTTPException(status_code=500, detail=f"Database error: {e}")
+
+    finally:
+        close_db_connection(conn)
+--- CODE END ---
+
+
+*   **`/` (GET):**
+    *   **`response_model=List[Paper]`:**  Indicates that this endpoint returns a *list* of `Paper` objects.
+    *   **Query Parameters:**  Shows how to handle optional query parameters (`limit`, `offset`, `search`).  FastAPI automatically handles the type conversions and defaults.
+    *   **Database Query:**  Constructs the SQL query dynamically based on the query parameters.
+    *   **Returns a List of Papers:**  Fetches the data and converts it into a list of `Paper` objects.
+*   **`/{paper_id}` (GET):**
+    *   **Path Parameter:**  `paper_id: int` defines a path parameter.  FastAPI will extract the integer value from the URL (e.g., `/papers/5`).
+    *   **Fetches a Single Paper:**  Queries the database for the specific paper.
+    *   **404 Not Found:**  Raises an `HTTPException` if the paper doesn't exist.
+
+**Step 7:  Update Frontend (`app.js` and HTML)**
+
+Now, let's connect the frontend to the backend.
+
+**`index.html` (and other relevant HTML files):**
+
+1.  **Login/Signup Forms:**  Add `id` attributes to your form elements (input fields, buttons) so you can easily access them with JavaScript.
+
+    ```html
+    <!-- Example: Login Form -->
+    <form id="login-form">
+        <input type="text" id="login-username" placeholder="Username">
+        <input type="password" id="login-password" placeholder="Password">
+        <button type="submit">Login</button>
+    </form>
+
+    <!-- Example: Signup Form -->
+    <form id="signup-form">
+        <input type="text" id="signup-username" placeholder="Username">
+        <input type="email" id="signup-email" placeholder="Email">
+        <input type="password" id="signup-password" placeholder="Password">
+        <button type="submit">Sign Up</button>
+    </form>
+    ```
+
+2.  **Homepage - Paper Display:**  Modify your `homepage.html` to *not* include the hardcoded paper data.  Instead, it should have a container where you'll dynamically add the paper cards.
+    ```html
+    <div id="paper-container">
+      </div>
+    ```
+**`app.js` (or separate JavaScript files):**
+
+
+--- CODE START ---
+// --- User Authentication ---
+
+async function handleLogin(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    const username = document.getElementById('login-username').value;
+    const password = document.getElementById('login-password').value;
+
+    try {
+        const response = await fetch('/users/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            localStorage.setItem('access_token', data.access_token); // Store the token
+            window.location.href = '/homepage'; // Redirect to homepage
+             // Display logged-in user's name on homepage
+            fetchLoggedInUser();
+        } else {
+            const errorData = await response.json();
+            alert(errorData.detail); // Display error message
+        }
+    } catch (error) {
+        console.error('Login error:', error);
+        alert('An error occurred during login.');
+    }
+}
+
+async function handleSignup(event) {
+    event.preventDefault();
+
+    const username = document.getElementById('signup-username').value;
+    const email = document.getElementById('signup-email').value;
+    const password = document.getElementById('signup-password').value;
+
+    try {
+        const response = await fetch('/users/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, email, password }),
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+           alert("User registered successfully, now you can login")
+        } else {
+            const errorData = await response.json();
+            alert(errorData.detail);
+        }
+    } catch (error) {
+        console.error('Signup error:', error);
+        alert('An error occurred during signup.');
+    }
+}
+
+// Attach event listeners to the forms
+document.getElementById('login-form').addEventListener('submit', handleLogin);
+document.getElementById('signup-form').addEventListener('submit', handleSignup);
+
+// --- Paper Display (Homepage) ---
+
+async function fetchAndDisplayPapers(limit = 10, offset = 0, search = "") {
+  const url = `/papers?limit=${limit}&offset=${offset}&search=${search}`;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const papers = await response.json();
+
+    const paperContainer = document.getElementById("paper-container");
+
+    papers.forEach((paper) => {
+      const paperCard = document.createElement("div");
+      paperCard.classList.add("paper-card");
+      paperCard.innerHTML = `
+                <h3>${paper.title}</h3>
+                <img src="${paper.picture}" alt="${paper.title}">
+                <p>${paper.description}</p>
+                <a href="/content_page?paper_id=${paper.summary_id}">Read More</a>
+            `;
+      paperContainer.appendChild(paperCard);
+    });
+  } catch (error) {
+    console.error("Error fetching papers:", error);
+  }
+}
+
+// --- Fetching and Displaying the Full Paper ---
+async function fetchAndDisplayFullPaper() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const paperId = urlParams.get('paper_id');
+
+    if (!paperId) {
+        console.error('No paper ID found in URL');
+        return;
+    }
+
+    try {
+        const response = await fetch(`/papers/${paperId}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const paper = await response.json();
+
+        // Assuming you have elements with these IDs in your content_page.html
+        document.getElementById('paper-title').textContent = paper.title;
+        document.getElementById('paper-image').src = paper.picture;
+        document.getElementById('paper-content').textContent = paper.content;
+
+    } catch (error) {
+        console.error("Error fetching full paper:", error);
+    }
+}
+
+// --- Fetch Logged-In User ---
+async function fetchLoggedInUser() {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        // No token, user is not logged in
+        return;
+    }
+
+    try {
+        const response = await fetch('/users/me', {
+            headers: {
+                'Authorization': `Bearer ${token}` // Send the token in the header
+            }
+        });
+
+        if (response.ok) {
+            const user = await response.json();
+            // Example: Display the username
+            document.getElementById('user-greeting').textContent = `Welcome back, ${user.username}!`;
+        } else {
+           //clear local storage if there is any error and redirects the user to the login page.
+           localStorage.clear();
+           window.location.href = '/';
+        }
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+         //clear local storage if there is any error and redirects the user to the login page.
+        localStorage.clear();
+        window.location.href = '/';
+    }
+}
+
+// Call functions based on the current page
+if (window.location.pathname === '/homepage.html' || window.location.pathname === '/homepage') {
+    fetchAndDisplayPapers();
+    fetchLoggedInUser(); // Fetch user data when the homepage loads
+} else if (window.location.pathname === '/content_page.html' || window.location.pathname === '/content_page') {
+    fetchAndDisplayFullPaper();
+}
+--- CODE END ---
+
+
+*   **`handleLogin` and `handleSignup`:**
+    *   Prevent the default form submission behavior.
+    *   Get the values from the input fields.
+    *   Use `fetch` to send a POST request to `/users/login` or `/users/register`.
+        *   **`headers: { 'Content-Type': 'application/json' }`:**  This is *crucial*. It tells FastAPI that you're sending JSON data.
+        *   **`body: JSON.stringify(...)`:** Converts the JavaScript object into a JSON string.
+    *   Handles the response:
+        *   If successful (status code 200-299), store token and redirect.
+        *   If there's an error, display an alert.
+*   **`fetchAndDisplayPapers`:**
+    *   Constructs the URL for the `/papers` endpoint, including query parameters.
+    *   Uses `fetch` to get the paper data.
+    *   Dynamically creates the HTML elements for each paper card and adds them to the `paper-container`.
+*   **`fetchAndDisplayFullPaper` (for `content_page.html`):**
+    *   Gets the `paper_id` from the URL query parameters.
+    *   Uses `fetch` to get the full paper data from `/papers/{paper_id}`.
+    *   Updates the HTML elements on the page with the paper's title, image, and content.
+* **`fetchLoggedInUser`:**
+    * Retrieves the access token from `localStorage`.
+    * Sends a request to `/users/me` with the token in the `Authorization` header.
+    * Updates the UI with the user's information if the request is successful.
+
+**Step 8: Running the Application**
+
+1.  **Start the Server:**
+    From your project's root directory (where `main.py` is), run:
+
+    ```bash
+    uvicorn main:app --reload
+    ```
+    *   **`main`:** The name of your Python file.
+    *   **`app`:** The name of your FastAPI application instance.
+    *   **`--reload`:**  This is *very* useful during development.  It automatically restarts the server whenever you make changes to your code.
+
+2.  **Open in Browser:**
+    Open your web browser and go to `http://127.0.0.1:8000`. You should see your `index.html` page.
+
+**Key Improvements and Explanations**
+
+*   **Organized Code:**  Using routers (`users.py`, `papers.py`) keeps your code clean and modular.
+*   **Data Validation (Pydantic):**  FastAPI uses Pydantic models to ensure that the data you receive from the frontend is in the correct format *before* it even reaches your database logic. This prevents many common errors.
+*   **Database Interaction:**  The `database.py` file provides functions for connecting to and closing the database connection, making your code more organized.  Using `sqlite3.Row` makes working with the data much easier.
+*   **Error Handling:**  `HTTPException` is used to return proper HTTP status codes and error messages, which your frontend can then handle.
+*   **Asynchronous Operations (`async` and `await`):** FastAPI is built on asynchronous programming.  This makes it very efficient, especially for handling many concurrent requests.
+*   **Frontend-Backend Communication:** The `fetch` API in JavaScript is used to make requests to your FastAPI endpoints. The responses are then used to update the HTML dynamically.
+*   **Token-Based Authentication:**  A *basic* token-based authentication system is implemented.  This is a crucial step towards securing your application. Remember to replace this with JWT in a real-world scenario.
+*   **URL Parameters:** The frontend and backend use URL parameters to fetch and display the full paper information.
+
+This comprehensive guide provides a solid foundation for building your dynamic research paper application with FastAPI. You've learned how to:
+
+*   Set up a FastAPI project.
+*   Create endpoints for user authentication and paper management.
+*   Interact with an SQLite database.
+*   Validate data using Pydantic models.
+*   Connect your frontend (HTML/JavaScript) to your FastAPI backend.
+*   Implement basic token-based authentication.
+
+Remember to replace the simple token generation with a proper JWT implementation for production use.  You can also add more features, like file uploads, AI integration, and chat functionality, by creating new endpoints and extending your frontend code. Good luck!
+
+
+================================================================================

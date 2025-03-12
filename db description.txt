@@ -1,0 +1,82 @@
+1. Users Table
+Stores user account information, including credentials and preferences.
+
+Column Name	Data Type	Constraints	Description
+user_id	Integer	Primary Key, Auto-increment	Unique identifier for each user.
+email	String	Unique, Not Null	User's email address.
+hashed_password	String	Not Null	Encrypted password for authentication.
+preferences	JSON/Text	Nullable	Stores user preferences (e.g., theme, notifications).
+2. Papers Table
+Stores research papers from various sources and ensures that duplicate DOIs are not processed.
+
+Column Name	Data Type	Constraints	Description
+doi	String	Primary Key	Unique identifier for each research paper.
+title	String	Not Null	Title of the research paper.
+authors	String	Not Null	Names of the authors.
+source	String	Not Null	The journal or source of the paper.
+data	Text	Nullable	Raw content of the paper.
+summary	Text	Nullable	Processed summary of the paper.
+Note: Before adding a new paper, the system checks if the DOI already exists to prevent duplicate processing.
+
+3. Newsletter Table
+Stores compiled newsletters created from multiple research papers.
+
+Column Name	Data Type	Constraints	Description
+summary_id	Integer	Primary Key, Auto-increment	Unique identifier for each newsletter.
+title	String	Not Null	Title of the newsletter.
+date	DateTime	Not Null, Default: UTC NOW	Date of newsletter creation.
+picture	String	Nullable	URL or path of an image for the newsletter.
+content	Text	Not Null	Full content of the newsletter.
+description	String(255)	Nullable	A short description of the newsletter.
+4. User Uploads Table
+Tracks research papers uploaded by users and their summaries.
+
+Column Name	Data Type	Constraints	Description
+upload_id	Integer	Primary Key, Auto-increment	Unique identifier for each upload.
+user_id	Integer	Foreign Key → Users.user_id, Not Null	ID of the user who uploaded the paper.
+doi	String	Not Null	DOI of the uploaded paper (used for duplicate checks).
+timestamp	DateTime	Default: UTC NOW	Time of upload.
+original_pdf	String	Nullable	File path or URL to the uploaded PDF.
+summary	Text	Nullable	Summary provided by the user.
+5. Chat Table
+Stores conversations between users and AI when interacting with research papers or newsletters.
+
+Column Name	Data Type	Constraints	Description
+chat_id	Integer	Primary Key, Auto-increment	Unique identifier for each chat.
+user_id	Integer	Foreign Key → Users.user_id, Not Null	ID of the user in the chat.
+paper_doi	String	Foreign Key → Papers.doi, Nullable	DOI of the paper being discussed.
+summary_id	Integer	Foreign Key → Newsletter.summary_id, Nullable	ID of the newsletter being discussed.
+messages	JSON/Text	Nullable	Stores chat messages as a conversation history.
+6. Newsletter Podcast Table
+Stores podcast versions of compiled newsletters.
+
+Column Name	Data Type	Constraints	Description
+summary_id	Integer	Primary Key, Foreign Key → Newsletter.summary_id	ID of the newsletter associated with the podcast.
+content	Text	Not Null	Description of the podcast content.
+podcast_url	String	Not Null	URL to the podcast audio file.
+7. Custom Paper Podcast Table
+Stores podcast versions of individual research papers.
+
+Column Name	Data Type	Constraints	Description
+doi	String	Primary Key, Foreign Key → Papers.doi	DOI of the research paper.
+summary	Text	Not Null	Processed summary used in the podcast.
+podcast_url	String	Not Null	URL to the podcast audio file.
+Key Features of the Database
+Duplicate Prevention:
+
+The Papers table ensures no duplicate processing by checking if the doi already exists.
+Uploaded papers also check against existing dois before processing.
+User-Generated Content:
+
+Users can upload their own research papers.
+Users can chat with papers and newsletters.
+Users can receive newsletters and their podcast versions.
+Relationships & Foreign Keys:
+
+Users ↔ UserUploads, Chats (Each user can upload papers and chat with content).
+Papers ↔ UserUploads, Chats, CustomPaperPodcasts (A paper can be uploaded, chatted with, and converted into a podcast).
+Newsletters ↔ Chats, NewsletterPodcasts (Newsletters can be discussed and turned into podcasts).
+Scalability:
+
+The system is built on SQLAlchemy, allowing for future migration to PostgreSQL if needed.
+JSON fields allow flexibility in storing user preferences and chat messages.

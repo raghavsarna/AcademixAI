@@ -5,6 +5,8 @@ class NewsletterBase(BaseModel):
     title: str
     picture: str
     description: str
+    content: str
+
 
     class Config:
         orm_mode = True

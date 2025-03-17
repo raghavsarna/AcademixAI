@@ -42,7 +42,7 @@ async def read_content(request: Request):
 # API endpoints
 @app.get("/api/papers", response_model=List[NewsletterBase])
 async def get_papers(db: Session = Depends(get_db)):
-    papers = db.query(Newsletter).order_by(Newsletter.summary_id.asc()).all()
+    papers = db.query(Newsletter).order_by(Newsletter.summary_id.desc()).all()
     return papers
 
 @app.get("/api/paper/{summary_id}", response_model=NewsletterBase)

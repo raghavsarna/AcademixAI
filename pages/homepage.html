@@ -16,7 +16,7 @@
     </header>
     <div class="container">
         <div class="welcome-section">
-            <h1>WELCOME BACK, <span class="gradient">Guest</span></h1>
+            <h1>WELCOME BACK, <span class="gradient">Raghav</span></h1>
         </div>
         <div class="main-content">
             <div class="research-section">
@@ -59,8 +59,14 @@
             maxDistance: 22.00,
             spacing: 19.00
         });
-
-        // Drag and Drop Functionality
+        
+        // Global variables for papers management
+        const papersContainer = document.getElementById('papers-container');
+        const loadMoreBtn = document.querySelector('.more-btn');
+        let allPapers = [];
+        let displayedCount = 0;
+        
+        // Drag and Drop Functionality (unchanged)
         const dropzone = document.getElementById('dropzone');
         dropzone.addEventListener('dragover', (e) => {
             e.preventDefault();
@@ -79,20 +85,20 @@
                 alert('Please upload a PDF file.');
             }
         });
-
-        // Click to Browse
+        
+        // Click to Browse (unchanged)
         dropzone.addEventListener('click', () => {
             document.querySelector('#upload-form input').click();
         });
-
-        // File Input Change
+        
+        // File Input Change (unchanged)
         document.querySelector('#upload-form input').addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) {
                 uploadFile(file);
             }
         });
-
+        
         async function uploadFile(file) {
             const formData = new FormData();
             formData.append('file', file);
@@ -109,32 +115,59 @@
                 alert('Error uploading paper');
             }
         }
-
-        // Fetch and Display Papers
-        function createPaperCard(paper) {
-            return `
-                <a href="/content?summary_id=${paper.summary_id}" style="text-decoration: none; color: inherit;">
-                    <div class="paper-card">
-                        <img src="${paper.picture}" alt="Research Paper">
-                        <h2>${paper.title}</h2>
-                        <p>${paper.description}</p>
-                    </div>
-                </a>
-            `;
-        }
-
+        
+        // Fetch papers and initialize display
         async function fetchAndDisplayPapers() {
             try {
                 const response = await fetch('/api/papers');
                 if (!response.ok) throw new Error('Failed to fetch papers');
-                const papers = await response.json();
-                document.getElementById('papers-container').innerHTML = papers.map(createPaperCard).join('');
+                allPapers = await response.json();
+                if (allPapers.length === 0) {
+                    papersContainer.innerHTML = '<p>No papers available.</p>';
+                    loadMoreBtn.style.display = 'none';
+                } else {
+                    displayMorePapers();
+                }
             } catch (error) {
                 console.error('Error:', error);
-                document.getElementById('papers-container').innerHTML = '<p>Error loading papers.</p>';
+                papersContainer.innerHTML = '<p>Error loading papers.</p>';
+                loadMoreBtn.style.display = 'none';
             }
         }
-
+        
+        // Display the next set of papers
+        function displayMorePapers() {
+            const toDisplay = Math.min(3, allPapers.length - displayedCount);
+            if (toDisplay <= 0) return;
+        
+            const newPapers = allPapers.slice(displayedCount, displayedCount + toDisplay);
+        
+            newPapers.forEach((paper) => {
+                const link = document.createElement('a');
+                link.href = `/content?summary_id=${paper.summary_id}`;
+                link.style.textDecoration = 'none';
+                link.style.color = 'inherit';
+                const paperCard = document.createElement('div');
+                paperCard.className = 'paper-card';
+                paperCard.innerHTML = `
+                    <img src="${paper.picture}" alt="Research Paper">
+                    <h2>${paper.title}</h2>
+                    <p>${paper.description}</p>
+                `;
+                link.appendChild(paperCard);
+                papersContainer.appendChild(link);
+            });
+        
+            displayedCount += toDisplay;
+        
+            // Hide the button if all papers are displayed
+            if (displayedCount >= allPapers.length) {
+                loadMoreBtn.style.display = 'none';
+            }
+        }
+        
+        // Event listeners
+        loadMoreBtn.addEventListener('click', displayMorePapers);
         document.addEventListener('DOMContentLoaded', fetchAndDisplayPapers);
     </script>
 </body>

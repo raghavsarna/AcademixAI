@@ -15,6 +15,25 @@ app.mount("/static", StaticFiles(directory="pages"), name="static")  # CSS and J
 app.mount("/images", StaticFiles(directory="images"), name="images")  # Images
 app.mount("/videos", StaticFiles(directory="videos"), name="videos")  # Videos
 
+# Add routes to serve CSS files directly
+from fastapi.responses import FileResponse
+
+@app.get("/homepage.css")
+async def get_homepage_css():
+    return FileResponse("pages/homepage.css")
+
+@app.get("/index.css")
+async def get_index_css():
+    return FileResponse("pages/index.css")
+
+@app.get("/content_page.css")
+async def get_content_page_css():
+    response = FileResponse("pages/content_page.css")
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
+
 # Set up Jinja2 templates from pages directory
 templates = Jinja2Templates(directory="pages")
 

@@ -4,15 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AcademixAI - Home</title>
-    <link rel="stylesheet" href="/static/homepage.css">
+    <link rel="stylesheet" href="/homepage.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="vanta-background"></div>
+    <div class="background">
+        <div class="gradient-bg"></div>
+        <canvas id="particles-canvas"></canvas>
+    </div>
     <header>
-        <a href="/">
-            <img src="/images/logo.png" alt="AcademixAI" class="logo">
-        </a>
+        <div class="left">
+            <a href="/">
+                <img src="/images/logo.png" alt="AcademixAI">
+            </a>
+        </div>
+        <ul>
+            <li><a href='/#features-section'>About</a></li>
+            <li><a href='/home'>Home</a></li>
+            <li><a href='#'>Contact Us</a></li>
+        </ul>
+        <div class="cta-buttons">
+            <button class="login-btn">Login</button>
+            <button class="signup-btn">Sign Up</button>
+        </div>
+        <div class="menu-icon" aria-label="Open menu">
+            <i class='bx bx-menu'></i>
+        </div>
     </header>
     <div class="container">
         <div class="welcome-section">
@@ -41,31 +59,135 @@
     <footer>
         <h1>Copyright © AcademixAI, Made with ❤️ by Raghav Sarna</h1>
     </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
     <script>
-        VANTA.NET({
-            el: "#vanta-background",
-            mouseControls: true,
-            touchControls: true,
-            gyroControls: false,
-            minHeight: 200.00,
-            minWidth: 200.00,
-            scale: 1.00,
-            scaleMobile: 1.00,
-            color: 0x6a0cbf,
-            backgroundColor: 0x50508,
-            points: 9.00,
-            maxDistance: 22.00,
-            spacing: 19.00
-        });
-        
+        // Particles animation
+        function initParticles() {
+            const canvas = document.getElementById('particles-canvas');
+            if (!canvas) {
+                console.error('Canvas element not found');
+                return;
+            }
+
+            const ctx = canvas.getContext('2d');
+            if (!ctx) {
+                console.error('Could not get canvas context');
+                return;
+            }
+
+            let particles = [];
+            let mouseX = 0;
+            let mouseY = 0;
+
+            // Set canvas size
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+
+            // Track mouse position
+            document.addEventListener('mousemove', function(e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            // Create particles
+            function createParticles() {
+                particles = [];
+                const particleCount = Math.floor(window.innerWidth / 10); // Responsive particle count
+
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        radius: Math.random() * 2 + 0.5,
+                        color: `rgba(255, 255, 255, ${Math.random() * 0.5 + 0.1})`,
+                        speedX: Math.random() * 0.5 - 0.25,
+                        speedY: Math.random() * 0.5 - 0.25
+                    });
+                }
+            }
+
+            // Draw particles
+            function drawParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                particles.forEach(particle => {
+                    // Move particles
+                    particle.x += particle.speedX;
+                    particle.y += particle.speedY;
+
+                    // Wrap around edges
+                    if (particle.x < 0) particle.x = canvas.width;
+                    if (particle.x > canvas.width) particle.x = 0;
+                    if (particle.y < 0) particle.y = canvas.height;
+                    if (particle.y > canvas.height) particle.y = 0;
+
+                    // Draw particle
+                    ctx.beginPath();
+                    ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = particle.color;
+                    ctx.fill();
+
+                    // Connect particles near mouse
+                    const dx = mouseX - particle.x;
+                    const dy = mouseY - particle.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 150) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.2 * (1 - distance/150)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particle.x, particle.y);
+                        ctx.lineTo(mouseX, mouseY);
+                        ctx.stroke();
+
+                        // Slight attraction to mouse
+                        particle.x += dx * 0.01;
+                        particle.y += dy * 0.01;
+                    }
+
+                    // Connect nearby particles
+                    particles.forEach(otherParticle => {
+                        const dx = particle.x - otherParticle.x;
+                        const dy = particle.y - otherParticle.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+
+                        if (distance < 100) {
+                            ctx.beginPath();
+                            ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 * (1 - distance/100)})`;
+                            ctx.lineWidth = 0.3;
+                            ctx.moveTo(particle.x, particle.y);
+                            ctx.lineTo(otherParticle.x, otherParticle.y);
+                            ctx.stroke();
+                        }
+                    });
+                });
+            }
+
+            // Animation loop
+            function animate() {
+                drawParticles();
+                requestAnimationFrame(animate);
+            }
+
+            // Initialize
+            window.addEventListener('resize', function() {
+                resizeCanvas();
+                createParticles();
+            });
+
+            resizeCanvas();
+            createParticles();
+            animate();
+            console.log('Particles animation initialized');
+        }
+
         // Global variables for papers management
         const papersContainer = document.getElementById('papers-container');
         const loadMoreBtn = document.querySelector('.more-btn');
         let allPapers = [];
         let displayedCount = 0;
-        
+
         // Drag and Drop Functionality (unchanged)
         const dropzone = document.getElementById('dropzone');
         dropzone.addEventListener('dragover', (e) => {
@@ -85,12 +207,12 @@
                 alert('Please upload a PDF file.');
             }
         });
-        
+
         // Click to Browse (unchanged)
         dropzone.addEventListener('click', () => {
             document.querySelector('#upload-form input').click();
         });
-        
+
         // File Input Change (unchanged)
         document.querySelector('#upload-form input').addEventListener('change', (e) => {
             const file = e.target.files[0];
@@ -98,7 +220,7 @@
                 uploadFile(file);
             }
         });
-        
+
         async function uploadFile(file) {
             const formData = new FormData();
             formData.append('file', file);
@@ -115,7 +237,7 @@
                 alert('Error uploading paper');
             }
         }
-        
+
         // Fetch papers and initialize display
         async function fetchAndDisplayPapers() {
             try {
@@ -134,14 +256,14 @@
                 loadMoreBtn.style.display = 'none';
             }
         }
-        
+
         // Display the next set of papers
         function displayMorePapers() {
             const toDisplay = Math.min(3, allPapers.length - displayedCount);
             if (toDisplay <= 0) return;
-        
+
             const newPapers = allPapers.slice(displayedCount, displayedCount + toDisplay);
-        
+
             newPapers.forEach((paper) => {
                 const link = document.createElement('a');
                 link.href = `/content?summary_id=${paper.summary_id}`;
@@ -157,18 +279,26 @@
                 link.appendChild(paperCard);
                 papersContainer.appendChild(link);
             });
-        
+
             displayedCount += toDisplay;
-        
+
             // Hide the button if all papers are displayed
             if (displayedCount >= allPapers.length) {
                 loadMoreBtn.style.display = 'none';
             }
         }
-        
+
         // Event listeners
         loadMoreBtn.addEventListener('click', displayMorePapers);
-        document.addEventListener('DOMContentLoaded', fetchAndDisplayPapers);
+
+        // Initialize everything when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize particles animation
+            initParticles();
+
+            // Fetch and display papers
+            fetchAndDisplayPapers();
+        });
     </script>
 </body>
 </html>

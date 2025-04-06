@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AcademixAI - Login</title>
+    <title>AcademixAI - Register</title>
     <link rel="stylesheet" href="/login.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -25,7 +25,7 @@
             <li><a href='#'>Contact Us</a></li>
         </ul>
         <div class="cta-buttons">
-            <a href="/register"><button class="signup-btn">Sign Up</button></a>
+            <a href="/login"><button class="login-btn">Login</button></a>
         </div>
         <div class="menu-icon" aria-label="Open menu">
             <i class='bx bx-menu'></i>
@@ -33,21 +33,29 @@
     </header>
     <div class="container">
         <div class="auth-container">
-            <h1>Login to <span class="gradient">AcademixAI</span></h1>
+            <h1>Create an <span class="gradient">Account</span></h1>
             <div class="auth-form">
                 <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
                     <label for="username">Username</label>
-                    <input type="text" id="username" name="username" placeholder="Enter your username">
+                    <input type="text" id="username" name="username" placeholder="Choose a username">
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Enter your password">
+                    <input type="password" id="password" name="password" placeholder="Create a password">
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password">
                 </div>
                 <div class="form-actions">
-                    <button id="login-btn" class="primary-btn">Login</button>
+                    <button id="register-btn" class="primary-btn">Create Account</button>
                 </div>
                 <div class="auth-links">
-                    <p>Don't have an account? <a href="/register">Sign up</a></p>
+                    <p>Already have an account? <a href="/login">Login</a></p>
                 </div>
                 <div id="error-message" class="error-message"></div>
             </div>
@@ -168,42 +176,54 @@
             animate();
         });
 
-        // Login functionality
-        document.getElementById('login-btn').addEventListener('click', async function() {
+        // Registration functionality
+        document.getElementById('register-btn').addEventListener('click', async function() {
+            const email = document.getElementById('email').value;
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
             const errorMessage = document.getElementById('error-message');
-
-            if (!username || !password) {
-                errorMessage.textContent = 'Please enter both username and password';
+            
+            // Basic validation
+            if (!email || !username || !password || !confirmPassword) {
+                errorMessage.textContent = 'Please fill in all fields';
                 return;
             }
-
+            
+            if (password !== confirmPassword) {
+                errorMessage.textContent = 'Passwords do not match';
+                return;
+            }
+            
+            if (password.length < 8) {
+                errorMessage.textContent = 'Password must be at least 8 characters long';
+                return;
+            }
+            
             try {
-                const formData = new FormData();
-                formData.append('username', username);
-                formData.append('password', password);
-
-                const response = await fetch('/api/token', {
+                const response = await fetch('/api/register', {
                     method: 'POST',
-                    body: formData
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email,
+                        username,
+                        password
+                    })
                 });
-
+                
                 const data = await response.json();
-
+                
                 if (response.ok) {
-                    // Store token in localStorage
-                    localStorage.setItem('access_token', data.access_token);
-                    localStorage.setItem('token_type', data.token_type);
-
-                    // Redirect to homepage
-                    window.location.href = '/home';
+                    // Redirect to login page
+                    window.location.href = '/login';
                 } else {
-                    errorMessage.textContent = data.detail || 'Login failed';
+                    errorMessage.textContent = data.detail || 'Registration failed';
                 }
             } catch (error) {
                 console.error('Error:', error);
-                errorMessage.textContent = 'An error occurred during login';
+                errorMessage.textContent = 'An error occurred during registration';
             }
         });
     </script>

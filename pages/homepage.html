@@ -24,17 +24,28 @@
             <li><a href='/home'>Home</a></li>
             <li><a href='#'>Contact Us</a></li>
         </ul>
-        <div class="cta-buttons">
-            <button class="login-btn">Login</button>
-            <button class="signup-btn">Sign Up</button>
+        <div class="cta-buttons" id="auth-buttons">
+            <a href="/login"><button class="login-btn">Login</button></a>
+            <a href="/register"><button class="signup-btn">Sign Up</button></a>
         </div>
+        <div class="cta-buttons" id="profile-button" style="position: relative; z-index: 1000;">
+            <a href="/profile"><button class="profile-btn" style="background-color: #9c27b0; color: white;"><i class='bx bxs-user-circle'></i> My Profile</button></a>
+        </div>
+        <style>
+            #profile-button {
+                display: flex;
+            }
+            #profile-button.hidden {
+                display: none !important;
+            }
+        </style>
         <div class="menu-icon" aria-label="Open menu">
             <i class='bx bx-menu'></i>
         </div>
     </header>
     <div class="container">
         <div class="welcome-section">
-            <h1>WELCOME BACK, <span class="gradient">Raghav</span></h1>
+            <h1 id="welcome-message">WELCOME TO <span class="gradient">AcademixAI</span></h1>
         </div>
         <div class="main-content">
             <div class="research-section">
@@ -60,6 +71,27 @@
         <h1>Copyright © AcademixAI, Made with ❤️ by Raghav Sarna</h1>
     </footer>
     <script>
+        // Direct check for token
+        (function() {
+            const token = localStorage.getItem('access_token');
+            if (token) {
+                document.getElementById('auth-buttons').style.display = 'none';
+            } else {
+                document.getElementById('profile-button').classList.add('hidden');
+                document.getElementById('auth-buttons').style.display = 'flex';
+            }
+        })();
+    </script>
+    <script>
+        // Check for token on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('access_token');
+            if (token) {
+                document.getElementById('auth-buttons').style.display = 'none';
+                document.getElementById('profile-button').classList.add('visible');
+            }
+        });
+
         // Particles animation
         function initParticles() {
             const canvas = document.getElementById('particles-canvas');
@@ -291,6 +323,41 @@
         // Event listeners
         loadMoreBtn.addEventListener('click', displayMorePapers);
 
+        // Check login status and update UI
+        async function checkLoginStatus() {
+            const token = localStorage.getItem('access_token');
+            const tokenType = localStorage.getItem('token_type');
+
+            if (token && tokenType) {
+                try {
+                    const response = await fetch('/api/users/me', {
+                        headers: {
+                            'Authorization': `${tokenType} ${token}`
+                        }
+                    });
+
+                    if (response.ok) {
+                        const userData = await response.json();
+
+                        // Update welcome message
+                        document.getElementById('welcome-message').innerHTML =
+                            `Welcome back, <span class="gradient">${userData.username}</span>`;
+
+                        // Show profile button, hide login/signup buttons
+                        document.getElementById('auth-buttons').style.display = 'none';
+                        document.getElementById('profile-button').classList.add('visible');
+                        console.log('Profile button should be visible now:', document.getElementById('profile-button'));
+                    } else {
+                        // Token invalid, remove from storage
+                        localStorage.removeItem('access_token');
+                        localStorage.removeItem('token_type');
+                    }
+                } catch (error) {
+                    console.error('Error checking login status:', error);
+                }
+            }
+        }
+
         // Initialize everything when the DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize particles animation
@@ -298,6 +365,9 @@
 
             // Fetch and display papers
             fetchAndDisplayPapers();
+
+            // Check login status
+            checkLoginStatus();
         });
     </script>
 </body>

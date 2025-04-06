@@ -925,6 +925,62 @@ header .cta-buttons button {
     box-shadow: 0 15px 30px rgba(156, 39, 176, 0.4);
 }
 
+.profile-btn {
+    color: white;
+    border: 2px solid #9c27b0;
+    background-color: #9c27b0;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    font-weight: 600;
+    padding: 8px 20px;
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 10px rgba(156, 39, 176, 0.4);
+}
+
+.profile-btn i {
+    font-size: 18px;
+}
+
+#profile-button.visible {
+    display: flex !important;
+}
+
+/* Force profile button visibility */
+#profile-button {
+    position: relative;
+    z-index: 1000;
+}
+
+.profile-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(135deg, #7b1fa2 0%, #9c27b0 100%);
+    transition: width 0.5s ease;
+    z-index: -1;
+}
+
+.profile-btn:hover::before {
+    width: 100%;
+}
+
+.profile-btn:hover {
+    transform: translateY(-3px);
+    border-color: #7b1fa2;
+    box-shadow: 0 10px 25px rgba(156, 39, 176, 0.5);
+}
+
 footer {
     background-color: rgba(0, 0, 0, 0.8);
     border-top: 1px solid rgba(156, 39, 176, 0.2);

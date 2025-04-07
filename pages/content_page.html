@@ -49,14 +49,14 @@
     <div class="container">
         <div class="paper-content">
             <div class="paper-header">
-                <img id="paper-image" src="" alt="Research Paper Header">
+                <img id="paper-image" src="https://picsum.photos/1200/400" alt="Research Paper Header">
                 <div class="podcast-icon">
                     <i class='bx bx-podcast' style="font-size: 24px;"></i>
                 </div>
             </div>
             <h1 id="paper-title" class="paper-title"></h1>
             <div class="paper-content-scroll">
-                <div id="content-container"></div>
+                <div id="content-container" class="markdown-content"></div>
             </div>
         </div>
         <div class="chat-section">
@@ -89,7 +89,14 @@
             spacing: 19.00
         });
 
-        marked.setOptions({ breaks: true, gfm: true });
+        marked.setOptions({
+            breaks: true,      // Add line breaks
+            gfm: true,         // Use GitHub Flavored Markdown
+            headerIds: false,  // Don't add IDs to headers
+            mangle: false,     // Don't mangle email links
+            smartLists: true,  // Use smarter list behavior
+            smartypants: true  // Use smart typography
+        });
 
         async function loadPaper() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -101,7 +108,36 @@
                     const paper = await response.json();
                     document.getElementById('paper-title').textContent = paper.title;
                     document.getElementById('paper-image').src = paper.picture;
-                    document.getElementById('content-container').innerHTML = marked.parse(paper.content || '');
+                    // Get the content
+                    let content = paper.content || '';
+
+                    // Additional client-side cleanup for common LLM output issues
+                    // Fix asterisks that might be escaped or improperly formatted
+                    content = content.replace(/\\\*/g, '*');
+
+                    // Fix bullet points that might be malformed
+                    content = content.replace(/^\s*[-*]\s*/gm, '- ');
+
+                    // Fix headers that might be malformed
+                    content = content.replace(/^\s*#+\s*/gm, match => match.trim() + ' ');
+
+                    // Parse the content as markdown
+                    try {
+                        document.getElementById('content-container').innerHTML = marked.parse(content);
+
+                        // Add target="_blank" to all links to open in new tab
+                        const links = document.getElementById('content-container').querySelectorAll('a');
+                        links.forEach(link => {
+                            link.setAttribute('target', '_blank');
+                            link.setAttribute('rel', 'noopener noreferrer');
+                        });
+                    } catch (e) {
+                        console.error('Error parsing markdown:', e);
+                        // Fallback to plain text with basic formatting
+                        document.getElementById('content-container').innerHTML = content
+                            .replace(/\n\n/g, '<br><br>')
+                            .replace(/\n/g, '<br>');
+                    }
                 } catch (error) {
                     console.error('Error:', error);
                     document.getElementById('content-container').innerHTML = '<p>Error loading content.</p>';

@@ -6,12 +6,18 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from typing import List
 from datetime import timedelta
+import logging
+import json
+import os
+import hashlib
+import re
 
 from database import SessionLocal, engine, create_tables
-from models import Newsletter, User
+from models import Newsletter, User, Research, Paper, UserUpload
 from schemas import NewsletterBase, UserCreate, UserResponse, Token, UserLogin
 import auth
 from auth import get_current_active_user, get_current_user, ACCESS_TOKEN_EXPIRE_MINUTES
+from pdf_processor import process_pdf
 
 app = FastAPI()
 
@@ -20,9 +26,13 @@ app = FastAPI()
 create_tables()
 
 # Mount static directories
-app.mount("/static", StaticFiles(directory="pages"), name="static")  # CSS and JS from pages
+app.mount("/static", StaticFiles(directory="static"), name="static")  # CSS and JS files
 app.mount("/images", StaticFiles(directory="images"), name="images")  # Images
+# Videos directory
 app.mount("/videos", StaticFiles(directory="videos"), name="videos")  # Videos
+
+# Mount pages directory for direct access to CSS files in pages
+app.mount("/pages", StaticFiles(directory="pages"), name="pages")
 
 # Add routes to serve CSS files directly
 from fastapi.responses import FileResponse
@@ -107,13 +117,34 @@ async def chat_with_paper(summary_id: int, message: ChatMessage):
     # Placeholder: Echo the message (replace with AI logic later)
     return {"bot_message": f"You said: {message.message}"}
 
-# Placeholder for paper upload
+# Paper upload endpoint
 from fastapi import File, UploadFile
+from fastapi.responses import JSONResponse
 
 @app.post("/api/upload")
-async def upload_paper(file: UploadFile = File(...)):
-    # Placeholder: Add logic to process PDF
-    return {"message": "Paper uploaded successfully"}
+async def upload_paper(file: UploadFile = File(...), current_user: User = Depends(get_current_active_user)):
+    """Upload and process a research paper PDF.
+
+    This endpoint:
+    1. Extracts text from the uploaded PDF
+    2. Uses Gemini to analyze the content
+    3. Extracts metadata (DOI, title, authors, etc.)
+    4. Generates a summary
+    5. Stores the information in the database
+
+    Returns a JSON response with the processing results and a redirect URL.
+    """
+    try:
+        # Process the PDF using our processor module
+        result = await process_pdf(file, current_user.id)
+        return JSONResponse(content=result)
+    except HTTPException as e:
+        # Re-raise HTTP exceptions
+        raise e
+    except Exception as e:
+        # Log and convert other exceptions to HTTP exceptions
+        logging.error(f"Error processing PDF: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error processing PDF: {str(e)}")
 
 # Authentication endpoints
 @app.post("/api/register", response_model=UserResponse)
@@ -159,6 +190,50 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
 async def read_users_me(current_user: User = Depends(get_current_active_user)):
     return current_user
 
+@app.get("/api/user/papers")
+async def get_user_papers(current_user: User = Depends(get_current_active_user), db: Session = Depends(get_db)):
+    # Get all papers uploaded by the current user
+    user_uploads = db.query(UserUpload).filter(UserUpload.user_id == current_user.id).all()
+
+    # Get the papers from the uploads
+    papers = []
+    for upload in user_uploads:
+        paper = db.query(Paper).filter(Paper.doi == upload.doi).first()
+        if paper:
+            # Create a unique image filename based on the DOI
+            image_filename = f"{hashlib.md5(paper.doi.encode()).hexdigest()}.jpg"
+            image_path = f"/images/papers/{image_filename}"
+
+            # Check if the image exists, otherwise use default
+            if os.path.exists(os.path.join("images", "papers", image_filename)):
+                image_url = image_path
+            else:
+                image_url = "/images/default_paper.jpg"
+
+            # Extract paper data
+            paper_data = {}
+            if paper.data:
+                try:
+                    paper_data = json.loads(paper.data)
+                except:
+                    paper_data = {}
+
+            # Add paper to the list
+            papers.append({
+                "doi": paper.doi,
+                "title": paper.title,
+                "authors": paper.authors,
+                "source": paper.source,
+                "summary": paper.summary,
+                "image_url": image_url,
+                "upload_date": upload.timestamp.isoformat() if upload.timestamp else None
+            })
+
+    # Sort papers by upload date (newest first)
+    papers.sort(key=lambda x: x.get("upload_date", ""), reverse=True)
+
+    return papers
+
 # Login page route
 @app.get("/login", response_class=HTMLResponse)
 async def login_page(request: Request):
@@ -173,3 +248,128 @@ async def register_page(request: Request):
 @app.get("/profile", response_class=HTMLResponse)
 async def profile_page(request: Request):
     return templates.TemplateResponse("profile.html", {"request": request})
+
+# Upload page route
+@app.get("/upload", response_class=HTMLResponse)
+async def upload_page(request: Request):
+    return templates.TemplateResponse("upload_paper.html", {"request": request})
+
+import requests
+import os
+import hashlib
+
+# View paper route
+@app.get("/paper/{doi}", response_class=HTMLResponse)
+async def view_paper(request: Request, doi: str, db: Session = Depends(get_db)):
+    # Get paper from database
+    paper = db.query(Paper).filter(Paper.doi == doi).first()
+    if not paper:
+        raise HTTPException(status_code=404, detail="Paper not found")
+
+    # Extract additional fields from the data JSON if available
+    paper_data = {}
+    if paper.data:
+        try:
+            import json
+            paper_data = json.loads(paper.data)
+        except:
+            paper_data = {}
+
+    # Handle the paper image
+    image_url = ""
+    # Create a unique image filename based on the DOI
+    image_filename = f"{hashlib.md5(doi.encode()).hexdigest()}.jpg"
+    image_path = os.path.join("images", "papers", image_filename)
+
+    # Check if the image already exists
+    if not os.path.exists(os.path.join("images", "papers")):
+        os.makedirs(os.path.join("images", "papers"), exist_ok=True)
+
+    if os.path.exists(image_path):
+        # Use the existing image
+        image_url = f"/images/papers/{image_filename}"
+    else:
+        try:
+            # Download a new image from Lorem Picsum
+            response = requests.get("https://picsum.photos/1200/400", stream=True)
+            if response.status_code == 200:
+                with open(image_path, 'wb') as f:
+                    for chunk in response.iter_content(1024):
+                        f.write(chunk)
+                image_url = f"/images/papers/{image_filename}"
+            else:
+                # Fallback to a default image
+                image_url = "/images/default_paper.jpg"
+        except Exception as e:
+            logging.error(f"Error downloading image: {str(e)}")
+            # Fallback to a default image
+            image_url = "/images/default_paper.jpg"
+
+    # Helper function to clean and format text for markdown
+    def clean_text(text):
+        if not text:
+            return "No information available"
+
+        # Fix common LLM formatting issues
+
+        # 1. Fix asterisks for emphasis (bold/italic)
+        # Replace multiple asterisks with proper markdown
+        text = re.sub(r'\*\*\*([^*]+)\*\*\*', r'***\1***', text)  # Fix bold+italic
+        text = re.sub(r'\*\*([^*]+)\*\*', r'**\1**', text)  # Fix bold
+        text = re.sub(r'\*([^*]+)\*', r'*\1*', text)  # Fix italic
+
+        # 2. Fix bullet points and lists
+        # Ensure proper spacing for markdown lists
+        text = re.sub(r'(\n\s*)-\s*', '\n- ', text)
+        text = re.sub(r'(\n\s*)\*\s+', '\n* ', text)  # Alternative bullet style
+        text = re.sub(r'(\n\s*)(\d+)\.\s+', '\n\1\2. ', text)  # Numbered lists
+
+        # 3. Fix headers
+        # Ensure proper spacing for markdown headers
+        text = re.sub(r'(\n\s*)#\s+', '\n# ', text)
+        text = re.sub(r'(\n\s*)##\s+', '\n## ', text)
+        text = re.sub(r'(\n\s*)###\s+', '\n### ', text)
+
+        # 4. Fix common formatting patterns from LLM output
+        # Convert "Title:" patterns to headers
+        text = re.sub(r'\n([A-Za-z\s]+):\s*\n', r'\n## \1\n', text)
+
+        # 5. Fix quotes
+        text = re.sub(r'(\n\s*)>\s*', '\n> ', text)
+
+        # 6. Fix code blocks
+        text = re.sub(r'```([^`]*)```', r'```\n\1\n```', text)
+
+        # 7. Fix line breaks - ensure paragraphs have proper spacing
+        text = re.sub(r'\n{3,}', '\n\n', text)  # Replace multiple line breaks with double
+
+        # 8. Fix special characters that might break markdown
+        text = text.replace('\\*', '*')
+        text = text.replace('\\#', '#')
+        text = text.replace('\\[', '[')
+        text = text.replace('\\]', ']')
+
+        # 9. Fix raw LLM formatting patterns
+        # Convert "**Key Finding:**" patterns to proper markdown
+        text = re.sub(r'\*\*([^:]+):\*\*\s*', r'**\1:** ', text)
+
+        return text
+
+    # Create a complete paper object with all fields
+    complete_paper = {
+        "doi": paper.doi,
+        "title": paper.title,
+        "authors": paper.authors,
+        "source": paper.source,
+        "summary": clean_text(paper.summary),
+        "abstract": clean_text(paper_data.get("abstract", "No abstract available")),
+        "main_findings": clean_text(paper_data.get("main_findings", "No main findings available")),
+        "methodology": clean_text(paper_data.get("methodology", "No methodology information available")),
+        "image_url": image_url
+    }
+
+    # Render the paper view template
+    return templates.TemplateResponse("paper_view.html", {
+        "request": request,
+        "paper": complete_paper
+    })

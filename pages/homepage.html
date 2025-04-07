@@ -60,10 +60,7 @@
                     <p>Drag and drop your paper here</p>
                     <p>or click to browse</p>
                 </div>
-                <form id="upload-form" enctype="multipart/form-data" style="display: none;">
-                    <input type="file" name="file" accept=".pdf">
-                </form>
-                <button class="upload-btn" onclick="document.querySelector('#upload-form input').click()">Upload Paper</button>
+                <button class="upload-btn" onclick="window.location.href='/upload'">Upload Paper</button>
             </div>
         </div>
     </div>
@@ -232,43 +229,15 @@
         dropzone.addEventListener('drop', (e) => {
             e.preventDefault();
             dropzone.classList.remove('dragover');
-            const file = e.dataTransfer.files[0];
-            if (file && file.type === 'application/pdf') {
-                uploadFile(file);
-            } else {
-                alert('Please upload a PDF file.');
-            }
+            window.location.href = '/upload';
         });
 
-        // Click to Browse (unchanged)
+        // Click to Browse - redirect to upload page
         dropzone.addEventListener('click', () => {
-            document.querySelector('#upload-form input').click();
+            window.location.href = '/upload';
         });
 
-        // File Input Change (unchanged)
-        document.querySelector('#upload-form input').addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                uploadFile(file);
-            }
-        });
-
-        async function uploadFile(file) {
-            const formData = new FormData();
-            formData.append('file', file);
-            try {
-                const response = await fetch('/api/upload', {
-                    method: 'POST',
-                    body: formData
-                });
-                const data = await response.json();
-                if (response.ok) alert(data.message);
-                else throw new Error(data.detail);
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Error uploading paper');
-            }
-        }
+        // Upload functionality moved to the dedicated upload page
 
         // Fetch papers and initialize display
         async function fetchAndDisplayPapers() {

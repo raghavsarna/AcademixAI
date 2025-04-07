@@ -46,26 +46,29 @@
                     <p id="member-since">Member since: January 1, 2023</p>
                 </div>
             </div>
-            
+
             <div class="profile-tabs">
                 <button class="tab-btn active" data-tab="papers">My Papers</button>
                 <button class="tab-btn" data-tab="settings">Account Settings</button>
                 <button class="tab-btn" data-tab="activity">Recent Activity</button>
             </div>
-            
+
             <div class="tab-content">
                 <div id="papers-tab" class="tab-pane active">
                     <h2>Your Uploaded Papers</h2>
                     <div id="user-papers" class="papers-grid">
                         <!-- Papers will be loaded here -->
-                        <div class="empty-state">
+                        <div id="user-papers-container" class="papers-grid">
+                            <!-- Papers will be dynamically loaded here -->
+                        </div>
+                        <div id="papers-empty-state" class="empty-state">
                             <i class='bx bx-file'></i>
                             <p>You haven't uploaded any papers yet.</p>
-                            <a href="/home"><button class="upload-btn-small">Upload a Paper</button></a>
+                            <a href="/upload"><button class="upload-btn-small">Upload a Paper</button></a>
                         </div>
                     </div>
                 </div>
-                
+
                 <div id="settings-tab" class="tab-pane">
                     <h2>Account Settings</h2>
                     <div class="settings-form">
@@ -88,7 +91,7 @@
                         <button class="save-btn">Save Changes</button>
                     </div>
                 </div>
-                
+
                 <div id="activity-tab" class="tab-pane">
                     <h2>Recent Activity</h2>
                     <div class="activity-list">
@@ -258,38 +261,84 @@
         async function loadUserData() {
             const token = localStorage.getItem('access_token');
             const tokenType = localStorage.getItem('token_type');
-            
+
             if (!token) {
                 // Redirect to login if no token
                 window.location.href = '/login';
                 return;
             }
-            
+
             try {
                 const response = await fetch('/api/users/me', {
                     headers: {
                         'Authorization': `${tokenType} ${token}`
                     }
                 });
-                
+
                 if (response.ok) {
                     const userData = await response.json();
-                    
+
                     // Update UI with user data
                     document.getElementById('username').textContent = userData.username;
                     document.getElementById('user-email').textContent = userData.email;
-                    
+
                     // Format date
                     const createdDate = new Date(userData.created_at);
                     const options = { year: 'numeric', month: 'long', day: 'numeric' };
                     document.getElementById('member-since').textContent = `Member since: ${createdDate.toLocaleDateString('en-US', options)}`;
-                    
+
                     // Update form fields
                     document.getElementById('update-email').value = userData.email;
                     document.getElementById('update-username').value = userData.username;
-                    
-                    // Load user papers (placeholder for now)
-                    // loadUserPapers(userData.id);
+
+                    // Load user papers
+                    fetch('/api/user/papers', {
+                        headers: {
+                            'Authorization': `${tokenType} ${token}`
+                        }
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to fetch user papers');
+                        }
+                        return response.json();
+                    })
+                    .then(papers => {
+                        const papersContainer = document.getElementById('user-papers-container');
+                        const emptyState = document.getElementById('papers-empty-state');
+
+                        if (papers.length === 0) {
+                            // Show empty state
+                            papersContainer.style.display = 'none';
+                            emptyState.style.display = 'flex';
+                        } else {
+                            // Hide empty state and show papers
+                            emptyState.style.display = 'none';
+                            papersContainer.style.display = 'grid';
+
+                            // Clear existing papers
+                            papersContainer.innerHTML = '';
+
+                            // Add papers to the container
+                            papers.forEach(paper => {
+                                const paperCard = document.createElement('div');
+                                paperCard.className = 'paper-card';
+
+                                // Create paper card HTML
+                                paperCard.innerHTML = `
+                                    <img src="${paper.image_url || '/images/default_paper.jpg'}" alt="${paper.title}">
+                                    <h3>${paper.title}</h3>
+                                    <p>${paper.authors}</p>
+                                    <a href="/paper/${paper.doi}" class="view-paper-btn">View Paper</a>
+                                `;
+
+                                papersContainer.appendChild(paperCard);
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error loading papers:', error);
+                    });
                 } else {
                     // Token invalid, redirect to login
                     localStorage.removeItem('access_token');

@@ -20,10 +20,13 @@ Base = declarative_base()
 def create_tables():
     # Import models here to avoid circular imports
     # This ensures models are imported only when create_tables is called
-    from models import User, Newsletter
+    # These imports are necessary for SQLAlchemy to discover the models and create tables
+    # pylint: disable=unused-import
+    from models import User, Newsletter, Research, Paper, UserUpload, Chat, NewsletterPodcast, CustomPaperPodcast
 
-    # Drop all tables first to ensure a clean start
-    Base.metadata.drop_all(bind=engine)
+    # In a production environment, you might want to comment out the next line
+    # to avoid dropping tables accidentally
+    # Base.metadata.drop_all(bind=engine)
 
     # Create all tables
     Base.metadata.create_all(bind=engine)

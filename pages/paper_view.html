@@ -191,6 +191,49 @@
         .markdown-content br + br {
             display: none;
         }
+
+        /* Chat typing indicator */
+        .typing-indicator {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .typing-indicator span {
+            height: 5px;
+            width: 5px;
+            margin: 0 1px;
+            background-color: rgba(255, 255, 255, 0.7);
+            display: block;
+            border-radius: 50%;
+            opacity: 0.4;
+        }
+
+        .typing-indicator span:nth-child(1) {
+            animation: typing 1s infinite 0s;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation: typing 1s infinite 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation: typing 1s infinite 0.4s;
+        }
+
+        @keyframes typing {
+            0% {
+                opacity: 0.4;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+            100% {
+                opacity: 0.4;
+                transform: scale(1);
+            }
+        }
     </style>
 </head>
 <body>
@@ -361,6 +404,11 @@
             renderMarkdown('summary-content');
             renderMarkdown('findings-content');
             renderMarkdown('methodology-content');
+
+            // Add welcome message to chat
+            setTimeout(() => {
+                addMessage('bot', 'Hello! I\'m your AI research assistant. Ask me anything about this paper.');
+            }, 500);
         });
     </script>
     <script>
@@ -483,6 +531,9 @@
             addMessage('user', message);
             input.value = '';
 
+            // Show loading indicator
+            const loadingId = showLoadingMessage();
+
             // Send to backend
             fetch(`/api/chat/paper/${paperDoi}`, {
                 method: 'POST',
@@ -494,10 +545,14 @@
             })
             .then(response => response.json())
             .then(data => {
+                // Remove loading indicator
+                removeLoadingMessage(loadingId);
                 // Add bot response to chat
                 addMessage('bot', data.bot_message);
             })
             .catch(error => {
+                // Remove loading indicator
+                removeLoadingMessage(loadingId);
                 console.error('Error:', error);
                 addMessage('bot', 'Sorry, there was an error processing your request.');
             });
@@ -519,6 +574,35 @@
 
             // Store message
             messages.push({ sender, text });
+
+            return messageElement.id;
+        }
+
+        // Show loading message with typing animation
+        function showLoadingMessage() {
+            const messagesContainer = document.getElementById('chat-messages');
+            const messageElement = document.createElement('div');
+            messageElement.className = 'message bot-message loading-message';
+            messageElement.id = 'loading-' + Date.now();
+
+            const textElement = document.createElement('p');
+            textElement.innerHTML = '<span class="typing-indicator"><span>.</span><span>.</span><span>.</span></span>';
+
+            messageElement.appendChild(textElement);
+            messagesContainer.appendChild(messageElement);
+
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            return messageElement.id;
+        }
+
+        // Remove loading message
+        function removeLoadingMessage(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.remove();
+            }
         }
 
         // Handle Enter key in chat input

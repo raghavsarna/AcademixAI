@@ -18,6 +18,7 @@ from schemas import NewsletterBase, UserCreate, UserResponse, Token, UserLogin
 import auth
 from auth import get_current_active_user, get_current_user, ACCESS_TOKEN_EXPIRE_MINUTES
 from pdf_processor import process_pdf
+import google.generativeai as genai
 
 app = FastAPI()
 
@@ -116,6 +117,61 @@ class ChatMessage(BaseModel):
 async def chat_with_paper(summary_id: int, message: ChatMessage):
     # Placeholder: Echo the message (replace with AI logic later)
     return {"bot_message": f"You said: {message.message}"}
+
+# Configure Gemini API
+GEMINI_API_KEY = "AIzaSyAsH6fY-voLT1WP4PgZL0b2nA3gZqoz6WQ"
+genai.configure(api_key=GEMINI_API_KEY)
+
+@app.post("/api/chat/paper/{doi}")
+async def chat_with_paper_by_doi(doi: str, message: ChatMessage, db: Session = Depends(get_db)):
+    # Get the paper from the database
+    paper = db.query(Paper).filter(Paper.doi == doi).first()
+    if paper is None:
+        raise HTTPException(status_code=404, detail="Paper not found")
+
+    try:
+        # Extract paper data for context
+        paper_data = {}
+        if paper.data:
+            try:
+                paper_data = json.loads(paper.data)
+            except:
+                paper_data = {}
+
+        # Create context from paper information
+        context = f"""Title: {paper.title}
+        Authors: {paper.authors}
+        Source: {paper.source}
+        Abstract: {paper_data.get('abstract', 'Not available')}
+        Summary: {paper.summary}
+        Main Findings: {paper_data.get('main_findings', 'Not available')}
+        Methodology: {paper_data.get('methodology', 'Not available')}
+        """
+
+        # Create prompt for Gemini
+        prompt = f"""You are an AI research assistant helping a user understand a research paper.
+        Below is information about the paper. Use this context to answer the user's question.
+
+        PAPER CONTEXT:
+        {context}
+
+        USER QUESTION: {message.message}
+
+        Provide a clear, concise, and accurate answer based on the paper's content.
+        If the answer cannot be determined from the paper, say so politely.
+        """
+
+        # Initialize Gemini model
+        model = genai.GenerativeModel('gemini-2.0-flash-lite')
+
+        # Generate response
+        response = model.generate_content(prompt)
+
+        # Return the response
+        return {"bot_message": response.text}
+    except Exception as e:
+        logging.error(f"Error generating chat response: {str(e)}")
+        return {"bot_message": f"I'm sorry, I encountered an error while processing your question. Please try again."}
 
 # Paper upload endpoint
 from fastapi import File, UploadFile

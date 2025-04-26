@@ -324,12 +324,17 @@
                                 const paperCard = document.createElement('div');
                                 paperCard.className = 'paper-card';
 
-                                // Create paper card HTML
+                                // Create paper card HTML with improved design
                                 paperCard.innerHTML = `
-                                    <img src="${paper.image_url || '/images/default_paper.jpg'}" alt="${paper.title}">
-                                    <h3>${paper.title}</h3>
-                                    <p>${paper.authors}</p>
-                                    <a href="/paper/${paper.doi}" class="view-paper-btn">View Paper</a>
+                                    <div class="paper-image-container">
+                                        <img src="${paper.image_url || '/images/default_paper.jpg'}" alt="${paper.title}">
+                                    </div>
+                                    <div class="paper-content">
+                                        <h3 class="paper-title">${paper.title}</h3>
+                                        <p class="paper-authors">${paper.authors}</p>
+                                        <p class="paper-date">${paper.upload_date ? new Date(paper.upload_date).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric'}) : 'Date not available'}</p>
+                                        <a href="/paper/${paper.doi}" class="view-paper-btn">View Paper</a>
+                                    </div>
                                 `;
 
                                 papersContainer.appendChild(paperCard);

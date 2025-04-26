@@ -97,7 +97,18 @@ async def read_content(request: Request):
 # API endpoints
 @app.get("/api/papers", response_model=List[NewsletterBase])
 async def get_papers(db: Session = Depends(get_db)):
+    # Only return newsletters, not user-uploaded papers
+    # This ensures user-uploaded papers are only visible in the user's profile
     papers = db.query(Newsletter).order_by(Newsletter.summary_id.desc()).all()
+    return papers
+
+@app.get("/api/latest-papers", response_model=List[NewsletterBase])
+async def get_latest_papers(limit: int = 3, db: Session = Depends(get_db)):
+    """
+    Get the latest papers for display on the landing page.
+    Returns the most recent newsletters, limited to the specified number (default: 3).
+    """
+    papers = db.query(Newsletter).order_by(Newsletter.summary_id.desc()).limit(limit).all()
     return papers
 
 @app.get("/api/paper/{summary_id}", response_model=NewsletterBase)
@@ -114,9 +125,43 @@ class ChatMessage(BaseModel):
     message: str
 
 @app.post("/api/chat/{summary_id}")
-async def chat_with_paper(summary_id: int, message: ChatMessage):
-    # Placeholder: Echo the message (replace with AI logic later)
-    return {"bot_message": f"You said: {message.message}"}
+async def chat_with_paper(summary_id: int, message: ChatMessage, db: Session = Depends(get_db)):
+    # Get the newsletter from the database
+    newsletter = db.query(Newsletter).filter(Newsletter.summary_id == summary_id).first()
+    if newsletter is None:
+        raise HTTPException(status_code=404, detail="Content not found")
+
+    try:
+        # Create context from newsletter information
+        context = f"""Title: {newsletter.title}
+        Description: {newsletter.description}
+        Content: {newsletter.content}
+        """
+
+        # Create prompt for Gemini
+        prompt = f"""You are an AI research assistant helping a user understand a research paper.
+        Below is information about the paper. Use this context to answer the user's question.
+
+        PAPER CONTEXT:
+        {context}
+
+        USER QUESTION: {message.message}
+
+        Provide a clear, concise, and accurate answer based on the paper's content.
+        If the answer cannot be determined from the paper, say so politely.
+        """
+
+        # Initialize Gemini model
+        model = genai.GenerativeModel('gemini-2.0-flash-lite')
+
+        # Generate response
+        response = model.generate_content(prompt)
+
+        # Return the response
+        return {"bot_message": response.text}
+    except Exception as e:
+        logging.error(f"Error generating chat response: {str(e)}")
+        return {"bot_message": f"I'm sorry, I encountered an error while processing your question. Please try again."}
 
 # Configure Gemini API
 GEMINI_API_KEY = "AIzaSyAsH6fY-voLT1WP4PgZL0b2nA3gZqoz6WQ"
@@ -248,6 +293,11 @@ async def read_users_me(current_user: User = Depends(get_current_active_user)):
 
 @app.get("/api/user/papers")
 async def get_user_papers(current_user: User = Depends(get_current_active_user), db: Session = Depends(get_db)):
+    """
+    Get papers uploaded by the current authenticated user.
+    These papers are only visible to the user who uploaded them and are not shown in the 'Latest Research' section.
+    The 'Latest Research' section only shows newsletters from the Newsletter table.
+    """
     # Get all papers uploaded by the current user
     user_uploads = db.query(UserUpload).filter(UserUpload.user_id == current_user.id).all()
 

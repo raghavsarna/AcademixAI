@@ -361,6 +361,16 @@ header .cta-buttons button {
     border-radius: 3px;
 }
 
+.section-description {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 20px;
+    text-align: center;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .research-section, .upload-section {
     display: flex;
     flex-direction: column;

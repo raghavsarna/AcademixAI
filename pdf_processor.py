@@ -196,27 +196,10 @@ async def store_paper_in_database(paper_data, user_id, original_pdf_path=None):
         )
         db.add(new_upload)
 
-        # Create Newsletter entry with the summary (for backward compatibility)
-        new_newsletter = Newsletter(
-            title=paper_data["title"],
-            picture="/images/default_paper.jpg",  # Default image
-            description=paper_data.get("abstract", "")[:200] + "...",  # Short description from abstract
-            content=f"""# {paper_data["title"]}
-
-## Authors
-{", ".join(paper_data["authors"])}
-
-## Abstract
-{paper_data.get("abstract", "")}
-
-## Summary
-{paper_data.get("summary", "")}
-
-## Main Findings
-{paper_data.get("main_findings", "")}
-"""
-        )
-        db.add(new_newsletter)
+        # No longer creating Newsletter entries for user uploads
+        # This ensures user uploads only appear in the user's profile
+        # and not in the homepage's 'Latest Research' section
+        new_newsletter = None
 
         # Also keep the Research entry for backward compatibility
         new_research = Research(
@@ -237,7 +220,6 @@ async def store_paper_in_database(paper_data, user_id, original_pdf_path=None):
             "message": "Paper successfully processed and stored",
             "paper_doi": new_paper.doi,
             "upload_id": new_upload.upload_id,
-            "newsletter_id": new_newsletter.summary_id,  # For backward compatibility
             "redirect_url": f"/paper/{new_paper.doi}"
         }
     except Exception as e:

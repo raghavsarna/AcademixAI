@@ -115,36 +115,13 @@
         <section id="research-section" class="research-section">
             <div class="research-section-inner">
                 <h1 class="section-title">Latest Research</h1>
-                <div class="research-item">
-                <div class="research-media">
-                    <img src="/images/paper1.jpg" alt="AI Breakthroughs">
+                <div id="dynamic-research-container">
+                    <!-- Research items will be loaded dynamically -->
+                    <div class="loading-spinner">
+                        <i class='bx bx-loader-alt bx-spin'></i>
+                        <p>Loading latest research...</p>
+                    </div>
                 </div>
-                <div class="research-details">
-                    <h1>🚀 Breakthroughs in AI: February Highlights</h1>
-                    <p>Stay ahead with key insights on the latest AI/ML advancements. This monthly digest covers groundbreaking research papers, innovative algorithms, and transformative applications that are pushing the boundaries of artificial intelligence.</p>
-                    <a href="/content">Read More <i class='bx bx-right-arrow-alt'></i></a>
-                </div>
-            </div>
-            <div class="research-item">
-                <div class="research-media">
-                    <img src="/images/paper2.jpg" alt="Neural Networks Evolution">
-                </div>
-                <div class="research-details">
-                    <h1>🧠 Neural Networks Evolve: What's Next?</h1>
-                    <p>Explore how next-gen neural networks are revolutionizing AI. Discover the latest architectures, training methods, and applications that are pushing the boundaries of what's possible with deep learning.</p>
-                    <a href="/content">Read More <i class='bx bx-right-arrow-alt'></i></a>
-                </div>
-            </div>
-            <div class="research-item">
-                <div class="research-media">
-                    <img src="/images/paper3.jpg" alt="AI in Practice">
-                </div>
-                <div class="research-details">
-                    <h1>📊 From Papers to Practice: AI in the Real World</h1>
-                    <p>Discover how recent AI research is shaping industries and transforming business operations. Learn about real-world applications in healthcare, finance, manufacturing, and more that are driving innovation.</p>
-                    <a href="/content">Read More <i class='bx bx-right-arrow-alt'></i></a>
-                </div>
-            </div>
             </div>
         </section>
 
@@ -234,6 +211,52 @@
                 document.getElementById('auth-buttons').style.display = 'flex';
             }
         })();
+
+        // Function to fetch and display latest papers
+        async function fetchAndDisplayLatestPapers() {
+            try {
+                const response = await fetch('/api/latest-papers');
+                if (!response.ok) throw new Error('Failed to fetch latest papers');
+                const papers = await response.json();
+
+                const container = document.getElementById('dynamic-research-container');
+
+                // Clear loading spinner
+                container.innerHTML = '';
+
+                if (papers.length === 0) {
+                    container.innerHTML = '<p class="no-papers">No research papers available at the moment.</p>';
+                    return;
+                }
+
+                // Create research items for each paper
+                papers.forEach(paper => {
+                    const researchItem = document.createElement('div');
+                    researchItem.className = 'research-item';
+
+                    // Add emoji based on paper index to make it more engaging
+                    
+
+                    researchItem.innerHTML = `
+                        <div class="research-media">
+                            <img src="${paper.picture}" alt="${paper.title}">
+                        </div>
+                        <div class="research-details">
+                            <h1> ${paper.title}</h1>
+                            <p>${paper.description}</p>
+                            <a href="/content?summary_id=${paper.summary_id}">Read More <i class='bx bx-right-arrow-alt'></i></a>
+                        </div>
+                    `;
+
+                    container.appendChild(researchItem);
+                });
+
+            } catch (error) {
+                console.error('Error fetching latest papers:', error);
+                const container = document.getElementById('dynamic-research-container');
+                container.innerHTML = '<p class="error-message">Failed to load latest research papers. Please try again later.</p>';
+            }
+        }
     </script>
     <script>
         // Check for token on page load
@@ -244,6 +267,9 @@
                 document.getElementById('profile-button').classList.add('visible');
                 console.log('Profile button should be visible now:', document.getElementById('profile-button'));
             }
+
+            // Fetch and display latest papers
+            fetchAndDisplayLatestPapers();
         });
 
         // Particles animation

@@ -10,188 +10,6 @@
     <link rel="stylesheet" href="/content_page.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <style>
-        /* Markdown content styling */
-        .markdown-content {
-            line-height: 1.6;
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 16px;
-        }
-
-        .markdown-content h1, .markdown-content h2, .markdown-content h3,
-        .markdown-content h4, .markdown-content h5, .markdown-content h6 {
-            margin-top: 1.5em;
-            margin-bottom: 0.5em;
-            color: white;
-            font-weight: 600;
-            line-height: 1.3;
-        }
-
-        .markdown-content h1 {
-            font-size: 1.8em;
-            border-bottom: 1px solid rgba(156, 39, 176, 0.3);
-            padding-bottom: 0.3em;
-        }
-
-        .markdown-content h2 {
-            font-size: 1.5em;
-            border-bottom: 1px solid rgba(156, 39, 176, 0.2);
-            padding-bottom: 0.2em;
-        }
-
-        .markdown-content h3 {
-            font-size: 1.3em;
-        }
-
-        .markdown-content h4 {
-            font-size: 1.1em;
-        }
-
-        .markdown-content p {
-            margin-bottom: 1em;
-            text-align: justify;
-        }
-
-        .markdown-content strong, .markdown-content b {
-            font-weight: 600;
-            color: white;
-        }
-
-        .markdown-content em, .markdown-content i {
-            font-style: italic;
-            color: rgba(255, 255, 255, 0.95);
-        }
-
-        .markdown-content ul, .markdown-content ol {
-            margin-left: 2em;
-            margin-bottom: 1em;
-            padding-left: 0.5em;
-        }
-
-        .markdown-content ul li, .markdown-content ol li {
-            margin-bottom: 0.5em;
-        }
-
-        .markdown-content ul {
-            list-style-type: disc;
-        }
-
-        .markdown-content ul ul {
-            list-style-type: circle;
-        }
-
-        .markdown-content ul ul ul {
-            list-style-type: square;
-        }
-
-        .markdown-content ol {
-            list-style-type: decimal;
-        }
-
-        .markdown-content ol ol {
-            list-style-type: lower-alpha;
-        }
-
-        .markdown-content ol ol ol {
-            list-style-type: lower-roman;
-        }
-
-        .markdown-content blockquote {
-            border-left: 4px solid rgba(156, 39, 176, 0.7);
-            padding: 0.5em 1em;
-            margin: 1em 0;
-            background-color: rgba(0, 0, 0, 0.2);
-            color: rgba(255, 255, 255, 0.8);
-            border-radius: 0 4px 4px 0;
-        }
-
-        .markdown-content blockquote p:last-child {
-            margin-bottom: 0;
-        }
-
-        .markdown-content code {
-            background-color: rgba(0, 0, 0, 0.3);
-            padding: 0.2em 0.4em;
-            border-radius: 3px;
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-            font-size: 0.9em;
-            color: #bb86fc;
-        }
-
-        .markdown-content pre {
-            background-color: rgba(0, 0, 0, 0.3);
-            padding: 1em;
-            border-radius: 5px;
-            overflow-x: auto;
-            margin-bottom: 1em;
-            border: 1px solid rgba(156, 39, 176, 0.2);
-        }
-
-        .markdown-content pre code {
-            background-color: transparent;
-            padding: 0;
-            border-radius: 0;
-            font-size: 0.9em;
-            color: rgba(255, 255, 255, 0.9);
-            display: block;
-            line-height: 1.5;
-        }
-
-        .markdown-content a {
-            color: #bb86fc;
-            text-decoration: none;
-            border-bottom: 1px dotted rgba(187, 134, 252, 0.5);
-            transition: all 0.2s ease;
-        }
-
-        .markdown-content a:hover {
-            border-bottom: 1px solid #bb86fc;
-            background-color: rgba(187, 134, 252, 0.1);
-        }
-
-        .markdown-content hr {
-            border: none;
-            height: 1px;
-            background-color: rgba(156, 39, 176, 0.3);
-            margin: 2em 0;
-        }
-
-        .markdown-content table {
-            border-collapse: collapse;
-            width: 100%;
-            margin: 1em 0 2em;
-            overflow-x: auto;
-            display: block;
-        }
-
-        .markdown-content th, .markdown-content td {
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 0.5em 0.8em;
-            text-align: left;
-        }
-
-        .markdown-content th {
-            background-color: rgba(156, 39, 176, 0.2);
-            font-weight: 600;
-            color: white;
-        }
-
-        .markdown-content tr:nth-child(even) {
-            background-color: rgba(0, 0, 0, 0.2);
-        }
-
-        .markdown-content tr:hover {
-            background-color: rgba(156, 39, 176, 0.1);
-        }
-
-        /* Fix for common LLM output issues */
-        .markdown-content p:empty {
-            display: none;
-        }
-
-        .markdown-content br + br {
-            display: none;
-        }
-
         /* Chat typing indicator */
         .typing-indicator {
             display: inline-flex;
@@ -273,58 +91,54 @@
         </div>
     </header>
     <div class="container">
-        <div class="content-wrapper">
-            <div class="paper-content">
-                <div class="paper-header">
-                    <img id="paper-image" src="{{ paper.image_url }}" alt="Research Paper Header">
-                    <div class="podcast-icon">
-                        <i class='bx bx-podcast' style="font-size: 24px;"></i>
+        <div class="paper-content">
+            <div class="paper-header">
+                <img id="paper-image" src="{{ paper.image_url }}" alt="Research Paper Header">
+                <div class="podcast-icon">
+                    <i class='bx bx-podcast' style="font-size: 24px;"></i>
+                </div>
+            </div>
+            <h1 id="paper-title" class="paper-title">{{ paper.title }}</h1>
+            <div class="paper-metadata">
+                <p class="authors"><strong>Authors:</strong> {{ paper.authors }}</p>
+                <p class="source"><strong>Source:</strong> {{ paper.source }}</p>
+            </div>
+            <div class="paper-content-scroll">
+                <div id="content-container" class="markdown-content">
+                    <h2>Abstract</h2>
+                    <div class="abstract-section" id="abstract-content">
+                        {{ paper.abstract }}
                     </div>
-                </div>
-                <h1 id="paper-title" class="paper-title">{{ paper.title }}</h1>
-                <div class="paper-metadata">
-                    <p class="authors"><strong>Authors:</strong> {{ paper.authors }}</p>
-                    <p class="source"><strong>Source:</strong> {{ paper.source }}</p>
-                </div>
-                <div class="paper-content-scroll">
-                    <div id="content-container">
-                        <h2>Abstract</h2>
-                        <div class="abstract-section markdown-content" id="abstract-content">
-                            {{ paper.abstract }}
-                        </div>
 
-                        <h2>Summary</h2>
-                        <div class="summary-section markdown-content" id="summary-content">
-                            {{ paper.summary }}
-                        </div>
+                    <h2>Summary</h2>
+                    <div class="summary-section" id="summary-content">
+                        {{ paper.summary }}
+                    </div>
 
-                        <h2>Main Findings</h2>
-                        <div class="findings-section markdown-content" id="findings-content">
-                            {{ paper.main_findings }}
-                        </div>
+                    <h2>Main Findings</h2>
+                    <div class="findings-section" id="findings-content">
+                        {{ paper.main_findings }}
+                    </div>
 
-                        <h2>Methodology</h2>
-                        <div class="methodology-section markdown-content" id="methodology-content">
-                            {{ paper.methodology }}
-                        </div>
+                    <h2>Methodology</h2>
+                    <div class="methodology-section" id="methodology-content">
+                        {{ paper.methodology }}
                     </div>
                 </div>
             </div>
         </div>
-        <div class="chat-wrapper">
-            <div class="chat-section">
-                <h2 class="chat-title">Chat with the Paper</h2>
-                <div class="chat-messages" id="chat-messages"></div>
-                <div class="chat-input">
-                    <input type="text" placeholder="Ask a question about the paper..." id="chat-input">
-                    <button onclick="sendMessage()">
-                        <i class='bx bx-send'></i>
-                    </button>
-                </div>
+        <div class="chat-section">
+            <h2 class="chat-title">Chat with the Paper</h2>
+            <div class="chat-messages" id="chat-messages"></div>
+            <div class="chat-input">
+                <input type="text" placeholder="Ask a question about the paper..." id="chat-input">
+                <button onclick="sendMessage()">
+                    <i class='bx bx-send'></i>
+                </button>
             </div>
         </div>
     </div>
-    <script src="/static/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
         // Direct check for token
         (function() {
@@ -337,18 +151,18 @@
             }
         })();
 
+        // Configure marked options - match content_page.html settings
+        marked.setOptions({
+            breaks: true,      // Add line breaks
+            gfm: true,         // Use GitHub Flavored Markdown
+            headerIds: false,  // Don't add IDs to headers
+            mangle: false,     // Don't mangle email links
+            smartLists: true,  // Use smarter list behavior
+            smartypants: true  // Use smart typography
+        });
+
         // Render markdown content
         document.addEventListener('DOMContentLoaded', function() {
-            // Configure marked options
-            marked.setOptions({
-                breaks: true,      // Add line breaks
-                gfm: true,         // Use GitHub Flavored Markdown
-                headerIds: false,  // Don't add IDs to headers
-                mangle: false,     // Don't mangle email links
-                smartLists: true,  // Use smarter list behavior
-                smartypants: true  // Use smart typography
-            });
-
             // Function to render markdown in an element
             function renderMarkdown(elementId) {
                 const element = document.getElementById(elementId);
@@ -372,6 +186,9 @@
                         // Fix asterisks that might be escaped or improperly formatted
                         content = content.replace(/\\\*/g, '*');
 
+                        // Fix section titles with asterisks like "Data Preprocessing:* *"
+                        content = content.replace(/([^*])(\*\s*\*)/g, '$1**');
+
                         // Fix bullet points that might be malformed
                         content = content.replace(/^\s*[-*]\s*/gm, '- ');
 
@@ -381,6 +198,13 @@
                         // Parse the content as markdown
                         try {
                             element.innerHTML = marked.parse(content);
+
+                            // Add target="_blank" to all links to open in new tab
+                            const links = element.querySelectorAll('a');
+                            links.forEach(link => {
+                                link.setAttribute('target', '_blank');
+                                link.setAttribute('rel', 'noopener noreferrer');
+                            });
                         } catch (e) {
                             console.error('Error parsing markdown:', e);
                             // Fallback to plain text with basic formatting
@@ -388,13 +212,6 @@
                                 .replace(/\n\n/g, '<br><br>')
                                 .replace(/\n/g, '<br>');
                         }
-
-                        // Add target="_blank" to all links to open in new tab
-                        const links = element.querySelectorAll('a');
-                        links.forEach(link => {
-                            link.setAttribute('target', '_blank');
-                            link.setAttribute('rel', 'noopener noreferrer');
-                        });
                     }
                 }
             }
@@ -564,7 +381,24 @@
             messageElement.className = `message ${sender}-message`;
 
             const textElement = document.createElement('p');
-            textElement.textContent = text;
+
+            // Process markdown in bot messages
+            if (sender === 'bot') {
+                // Fix asterisks that might be escaped or improperly formatted
+                let processedText = text.replace(/\\\*/g, '*');
+
+                // Fix section titles with asterisks like "Data Preprocessing:* *"
+                processedText = processedText.replace(/([^*])(\*\s*\*)/g, '$1**');
+
+                try {
+                    textElement.innerHTML = marked.parse(processedText);
+                } catch (e) {
+                    console.error('Error parsing markdown in chat:', e);
+                    textElement.textContent = text;
+                }
+            } else {
+                textElement.textContent = text;
+            }
 
             messageElement.appendChild(textElement);
             messagesContainer.appendChild(messageElement);

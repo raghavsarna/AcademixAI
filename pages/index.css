@@ -530,6 +530,53 @@ header .cta-buttons button {
     margin-bottom: 60px;
 }
 
+/* Loading spinner */
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 0;
+    width: 100%;
+}
+
+.loading-spinner i {
+    font-size: 40px;
+    color: rgba(156, 39, 176, 0.8);
+    margin-bottom: 15px;
+}
+
+.loading-spinner p {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Error message */
+.error-message {
+    text-align: center;
+    padding: 30px;
+    background-color: rgba(220, 53, 69, 0.1);
+    border: 1px solid rgba(220, 53, 69, 0.3);
+    border-radius: 10px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 18px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* No papers message */
+.no-papers {
+    text-align: center;
+    padding: 30px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px dashed rgba(156, 39, 176, 0.3);
+    border-radius: 10px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 18px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
 .research-item {
     display: flex;
     width: 100%;

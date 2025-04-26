@@ -10,6 +10,50 @@
     <link rel="stylesheet" href="/content_page.css?v=1.2">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        /* Chat typing indicator */
+        .typing-indicator {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .typing-indicator span {
+            height: 5px;
+            width: 5px;
+            margin: 0 1px;
+            background-color: rgba(255, 255, 255, 0.7);
+            display: block;
+            border-radius: 50%;
+            opacity: 0.4;
+        }
+
+        .typing-indicator span:nth-child(1) {
+            animation: typing 1s infinite 0s;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation: typing 1s infinite 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation: typing 1s infinite 0.4s;
+        }
+
+        @keyframes typing {
+            0% {
+                opacity: 0.4;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+            100% {
+                opacity: 0.4;
+                transform: scale(1);
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="background">
@@ -89,6 +133,7 @@
             spacing: 19.00
         });
 
+        // Configure marked options - match paper_view.html settings
         marked.setOptions({
             breaks: true,      // Add line breaks
             gfm: true,         // Use GitHub Flavored Markdown
@@ -108,12 +153,21 @@
                     const paper = await response.json();
                     document.getElementById('paper-title').textContent = paper.title;
                     document.getElementById('paper-image').src = paper.picture;
+
+                    // For content_page.html, we use the summary_id instead of DOI
+                    // since the Newsletter model doesn't have a DOI field
+                    paperDoi = summaryId;
+                    console.log("Using summary_id for chat:", paperDoi);
+
                     // Get the content
                     let content = paper.content || '';
 
                     // Additional client-side cleanup for common LLM output issues
                     // Fix asterisks that might be escaped or improperly formatted
                     content = content.replace(/\\\*/g, '*');
+
+                    // Fix section titles with asterisks like "Data Preprocessing:* *"
+                    content = content.replace(/([^*])(\*\s*\*)/g, '$1**');
 
                     // Fix bullet points that might be malformed
                     content = content.replace(/^\s*[-*]\s*/gm, '- ');
@@ -145,39 +199,133 @@
             }
         }
 
-        async function sendMessage() {
+        // Chat functionality
+        let messages = [];
+        let paperDoi = ""; // Store the paper DOI for chat
+
+        function sendMessage() {
             const input = document.getElementById('chat-input');
             const message = input.value.trim();
-            if (message) {
-                const messages = document.getElementById('chat-messages');
-                const userMsg = document.createElement('div');
-                userMsg.className = 'message user-message';
-                userMsg.textContent = message;
-                messages.appendChild(userMsg);
-                input.value = '';
 
-                const urlParams = new URLSearchParams(window.location.search);
-                const summaryId = urlParams.get('summary_id');
+            if (!message) return;
+
+            // Add user message to chat
+            addMessage('user', message);
+            input.value = '';
+
+            // Show loading indicator
+            const loadingId = showLoadingMessage();
+
+            // Check if we have a valid DOI
+            if (!paperDoi) {
+                removeLoadingMessage(loadingId);
+                addMessage('bot', 'Sorry, I cannot chat about this paper because the DOI is missing. Please try refreshing the page.');
+                return;
+            }
+
+            // Send to backend - use the summary_id endpoint for content_page.html
+            fetch(`/api/chat/${paperDoi}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                },
+                body: JSON.stringify({ message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Remove loading indicator
+                removeLoadingMessage(loadingId);
+                // Add bot response to chat
+                addMessage('bot', data.bot_message);
+            })
+            .catch(error => {
+                // Remove loading indicator
+                removeLoadingMessage(loadingId);
+                console.error('Error:', error);
+                addMessage('bot', 'Sorry, there was an error processing your request.');
+            });
+        }
+
+        function addMessage(sender, text) {
+            const messagesContainer = document.getElementById('chat-messages');
+            const messageElement = document.createElement('div');
+            messageElement.className = `message ${sender}-message`;
+
+            const textElement = document.createElement('p');
+
+            // Process markdown in bot messages
+            if (sender === 'bot') {
+                // Fix asterisks that might be escaped or improperly formatted
+                let processedText = text.replace(/\\\*/g, '*');
+
+                // Fix section titles with asterisks like "Data Preprocessing:* *"
+                processedText = processedText.replace(/([^*])(\*\s*\*)/g, '$1**');
+
                 try {
-                    const response = await fetch(`/api/chat/${summaryId}`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ message })
-                    });
-                    const data = await response.json();
-                    if (response.ok) {
-                        const botMsg = document.createElement('div');
-                        botMsg.className = 'message bot-message';
-                        botMsg.textContent = data.bot_message;
-                        messages.appendChild(botMsg);
-                    } else throw new Error(data.detail);
-                } catch (error) {
-                    console.error('Error:', error);
+                    textElement.innerHTML = marked.parse(processedText);
+                } catch (e) {
+                    console.error('Error parsing markdown in chat:', e);
+                    textElement.textContent = text;
                 }
+            } else {
+                textElement.textContent = text;
+            }
+
+            messageElement.appendChild(textElement);
+            messagesContainer.appendChild(messageElement);
+
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            // Store message
+            messages.push({ sender, text });
+
+            return messageElement.id;
+        }
+
+        // Show loading message with typing animation
+        function showLoadingMessage() {
+            const messagesContainer = document.getElementById('chat-messages');
+            const messageElement = document.createElement('div');
+            messageElement.className = 'message bot-message loading-message';
+            messageElement.id = 'loading-' + Date.now();
+
+            const textElement = document.createElement('p');
+            textElement.innerHTML = '<span class="typing-indicator"><span>.</span><span>.</span><span>.</span></span>';
+
+            messageElement.appendChild(textElement);
+            messagesContainer.appendChild(messageElement);
+
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            return messageElement.id;
+        }
+
+        // Remove loading message
+        function removeLoadingMessage(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.remove();
             }
         }
 
-        document.addEventListener('DOMContentLoaded', loadPaper);
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPaper();
+
+            // Add welcome message to chat
+            setTimeout(() => {
+                addMessage('bot', 'Hello! I\'m your AI research assistant. Ask me anything about this paper.');
+            }, 500);
+        });
+
+        // Handle Enter key in chat input
+        document.getElementById('chat-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
     </script>
     <script>
         // Particles animation

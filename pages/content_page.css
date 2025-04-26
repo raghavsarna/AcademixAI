@@ -253,7 +253,8 @@ header .cta-buttons button {
     max-width: 100%;
     margin: 0 auto;
     min-height: 100vh;
-    display: block;
+    display: flex;
+    flex-wrap: wrap;
     background-color: transparent;
     padding: 90px 20px 30px 20px;
     box-sizing: border-box;
@@ -272,8 +273,8 @@ header .cta-buttons button {
     gap: 15px;
     position: relative;
     max-width: 100%;
-    width: 72%;
-    margin-right: 28%;
+    width: 70%;
+    margin-right: 30%;
 }
 
 .paper-content::before {
@@ -348,6 +349,7 @@ header .cta-buttons button {
     overflow-y: visible;
     padding-right: 0;
     max-height: none;
+    width: 100%;
 }
 
 /* Markdown content styles */
@@ -732,7 +734,8 @@ header .cta-buttons button {
     position: fixed;
     top: 90px;
     right: 20px;
-    width: calc(25% - 30px);
+    width: 25%;
+    max-width: 25%;
     z-index: 10;
     transition: all 0.3s ease;
 }
@@ -785,6 +788,10 @@ header .cta-buttons button {
     line-height: 1.4;
 }
 
+.message p {
+    margin: 0;
+}
+
 .user-message {
     align-self: flex-end;
     background-color: #727fde;
@@ -795,6 +802,40 @@ header .cta-buttons button {
     align-self: flex-start;
     background-color: rgba(114, 127, 222, 0.2);
     border: 1px solid #727fde;
+}
+
+/* Markdown styling in chat messages */
+.bot-message p strong,
+.bot-message p b {
+    font-weight: 600;
+    color: white;
+}
+
+.bot-message p em,
+.bot-message p i {
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.bot-message p code {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.9em;
+    color: #bb86fc;
+}
+
+.bot-message p a {
+    color: #bb86fc;
+    text-decoration: none;
+    border-bottom: 1px dotted rgba(187, 134, 252, 0.5);
+    transition: all 0.2s ease;
+}
+
+.bot-message p a:hover {
+    border-bottom: 1px solid #bb86fc;
+    background-color: rgba(187, 134, 252, 0.1);
 }
 
 .chat-input {
@@ -862,6 +903,7 @@ header .cta-buttons button {
 @media (max-width: 1024px) {
     .container {
         padding: 90px 20px 70px;
+        flex-direction: column;
     }
 
     .paper-content {

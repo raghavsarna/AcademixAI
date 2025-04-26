@@ -127,7 +127,8 @@ async def read_content(request: Request):
 async def get_papers(db: Session = Depends(get_db)):
     # Only return newsletters, not user-uploaded papers
     # This ensures user-uploaded papers are only visible in the user's profile
-    papers = db.query(Newsletter).order_by(Newsletter.summary_id.desc()).all()
+    # Sort by date (newest first) instead of summary_id
+    papers = db.query(Newsletter).order_by(Newsletter.date.desc()).all()
     return papers
 
 @app.get("/api/latest-papers", response_model=List[NewsletterBase])
@@ -136,7 +137,8 @@ async def get_latest_papers(limit: int = 3, db: Session = Depends(get_db)):
     Get the latest papers for display on the landing page.
     Returns the most recent newsletters, limited to the specified number (default: 3).
     """
-    papers = db.query(Newsletter).order_by(Newsletter.summary_id.desc()).limit(limit).all()
+    # Sort by date (newest first) instead of summary_id
+    papers = db.query(Newsletter).order_by(Newsletter.date.desc()).limit(limit).all()
     return papers
 
 @app.get("/api/paper/{summary_id}", response_model=NewsletterBase)

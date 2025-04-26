@@ -246,6 +246,7 @@
                 const response = await fetch('/api/papers');
                 if (!response.ok) throw new Error('Failed to fetch papers');
                 allPapers = await response.json();
+                // Papers are already sorted in latest-first order from the API
                 if (allPapers.length === 0) {
                     papersContainer.innerHTML = '<p>No papers available.</p>';
                     loadMoreBtn.style.display = 'none';
@@ -261,9 +262,10 @@
 
         // Display the next set of papers
         function displayMorePapers() {
-            const toDisplay = Math.min(3, allPapers.length - displayedCount);
+            const toDisplay = Math.min(4, allPapers.length - displayedCount);
             if (toDisplay <= 0) return;
 
+            // Papers are already sorted in latest-first order from the API
             const newPapers = allPapers.slice(displayedCount, displayedCount + toDisplay);
 
             newPapers.forEach((paper) => {
@@ -273,6 +275,10 @@
                 link.style.color = 'inherit';
                 const paperCard = document.createElement('div');
                 paperCard.className = 'paper-card';
+
+                // Add a data attribute for the summary_id to help with debugging
+                paperCard.setAttribute('data-summary-id', paper.summary_id);
+
                 paperCard.innerHTML = `
                     <img src="${paper.picture}" alt="Research Paper">
                     <h2>${paper.title}</h2>
@@ -327,6 +333,8 @@
                 }
             }
         }
+
+
 
         // Initialize everything when the DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {

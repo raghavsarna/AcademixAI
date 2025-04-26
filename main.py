@@ -26,14 +26,32 @@ app = FastAPI()
 # This ensures the tables exist before any requests are processed
 create_tables()
 
-# Mount static directories
-app.mount("/static", StaticFiles(directory="static"), name="static")  # CSS and JS files
-app.mount("/images", StaticFiles(directory="images"), name="images")  # Images
-# Videos directory
-app.mount("/videos", StaticFiles(directory="videos"), name="videos")  # Videos
+# Create a custom StaticFiles class with cache control headers
+from fastapi.staticfiles import StaticFiles
+from starlette.staticfiles import StaticFiles as StarletteStaticFiles
+from starlette.responses import Response
+from starlette.types import Scope, Receive, Send
+
+class NoCacheStaticFiles(StarletteStaticFiles):
+    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
+        async def send_with_no_cache_headers(message):
+            if message["type"] == "http.response.start":
+                headers = list(message.get("headers", []))
+                headers.append((b"Cache-Control", b"no-cache, no-store, must-revalidate"))
+                headers.append((b"Pragma", b"no-cache"))
+                headers.append((b"Expires", b"0"))
+                message["headers"] = headers
+            await send(message)
+
+        await super().__call__(scope, receive, send_with_no_cache_headers)
+
+# Mount static directories with no-cache headers
+app.mount("/static", NoCacheStaticFiles(directory="static"), name="static")  # CSS and JS files
+app.mount("/images", NoCacheStaticFiles(directory="images"), name="images")  # Images
+app.mount("/videos", NoCacheStaticFiles(directory="videos"), name="videos")  # Videos
 
 # Mount pages directory for direct access to CSS files in pages
-app.mount("/pages", StaticFiles(directory="pages"), name="pages")
+app.mount("/pages", NoCacheStaticFiles(directory="pages"), name="pages")
 
 # Add routes to serve CSS files directly
 from fastapi.responses import FileResponse
@@ -44,7 +62,12 @@ async def get_homepage_css():
 
 @app.get("/index.css")
 async def get_index_css():
-    return FileResponse("pages/index.css")
+    response = FileResponse("pages/index.css")
+    # Add cache control headers to prevent caching
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
 
 @app.get("/content_page.css")
 async def get_content_page_css():
@@ -84,7 +107,12 @@ def get_db():
 # Routes for HTML pages
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    response = templates.TemplateResponse("index.html", {"request": request})
+    # Add cache control headers to prevent caching
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
 
 @app.get("/home", response_class=HTMLResponse)
 async def read_home(request: Request):

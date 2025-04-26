@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>AcademixAI</title>
-    <link rel="stylesheet" href="/index.css">
+    <link rel="stylesheet" href="/index.css?v=1.2">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
@@ -127,16 +130,73 @@
 
         <section class="mission-section">
             <div class="mission-section-inner">
-                <h1 class="section-title">Our Goal</h1>
-                <div class="mission-content">
-                <div class="mission-card">
-                    <h2>Breaking Barriers to <span class="gradient">Research</span></h2>
-                    <p>Accessing and understanding research shouldn't be a challenge. We're committed to making academic knowledge accessible to everyone, regardless of their background or expertise.</p>
+                <div class="mission-header">
+                    <h1 class="section-title">Our <span class="gradient-text">Goal</span></h1>
+                    <div class="mission-divider">
+                        <!-- <span class="divider-dot"></span>
+                        <span class="divider-line"></span>
+                        <span class="divider-dot"></span> -->
+                    </div>
                 </div>
-                <div class="mission-card">
-                    <h2>Engaged <span class="gradient">Learning</span></h2>
-                    <p>Passively reading research isn't enough. Our interactive platform lets you chat with papers and explore insights in a dynamic way that enhances understanding.</p>
+
+                <!-- <div class="mission-hero">
+                    <div class="mission-hero-text">
+                        <h2 class="mission-hero-title">Revolutionizing <span class="gradient-text">Academic Discovery</span></h2>
+                        <p class="mission-hero-subtitle">We're transforming how the world interacts with research through AI-powered insights and innovative learning experiences</p>
+                    </div>
+                </div> -->
+
+                <div class="mission-cards-container">
+                    <div class="mission-card-wrapper">
+                        <div class="mission-card" data-card="barriers">
+                            <div class="mission-card-inner">
+                                <div class="mission-card-front">
+                                    <div class="mission-icon-container">
+                                        <img src="/images/breaking_barriers.png" alt="Breaking Barriers to Research" class="mission-icon">
+                                    </div>
+                                    <h3>Breaking Barriers to <span class="gradient-text">Research</span></h3>
+                                </div>
+                                <div class="mission-card-back">
+                                    <p><strong>Knowledge should be accessible to everyone.</strong></p>
+                                    <p>We're committed to making academic research understandable and available to all, regardless of background or expertise level.</p>
+                                    <div class="mission-card-features">
+                                        <span class="feature-tag">AI Summaries</span>
+                                        <span class="feature-tag">Simplified Language</span>
+                                        <span class="feature-tag">Visual Learning</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mission-card-wrapper">
+                        <div class="mission-card" data-card="learning">
+                            <div class="mission-card-inner">
+                                <div class="mission-card-front">
+                                    <div class="mission-icon-container">
+                                        <img src="/images/engaged_learning.png" alt="Engaged Learning" class="mission-icon">
+                                    </div>
+                                    <h3>Engaged <span class="gradient-text">Learning</span></h3>
+                                </div>
+                                <div class="mission-card-back">
+                                    <p><strong>Passive reading isn't enough.</strong></p>
+                                    <p>Our interactive platform enables you to chat with papers and explore insights in a dynamic way that enhances understanding and retention.</p>
+                                    <div class="mission-card-features">
+                                        <span class="feature-tag">Interactive Q&A</span>
+                                        <span class="feature-tag">Personalized Content</span>
+                                        <span class="feature-tag">Research Podcasts</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="mission-cta">
+                    <a href="#research-section" class="mission-cta-button">
+                        <span>Explore Our Approach</span>
+                        <i class='bx bx-chevron-right'></i>
+                    </a>
                 </div>
             </div>
         </section>
@@ -145,8 +205,8 @@
             <div class="cta-section-inner">
                 <h1 class="section-title">Your Research, Simplified – Get Started Now!</h1>
                 <div class="cta-buttons">
-                <button class="login-btn">Login</button>
-                <button class="signup-btn">Sign Up</button>
+                    <a href="/login"><button class="login-btn">Login</button></a>
+                    <a href="/register"><button class="signup-btn">Sign Up</button></a>
                 </div>
             </div>
         </section>
@@ -201,6 +261,23 @@
 
     <script src="/static/app.js"></script>
     <script>
+        // Force reload of CSS file
+        (function() {
+            // Check if we're on 127.0.0.1
+            if (window.location.hostname === '127.0.0.1') {
+                // Create a new link element
+                var link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.type = 'text/css';
+                link.href = '/index.css?v=' + new Date().getTime(); // Add timestamp to prevent caching
+
+                // Append it to the head
+                document.head.appendChild(link);
+
+                console.log('Forced CSS reload for 127.0.0.1');
+            }
+        })();
+
         // Direct check for token
         (function() {
             const token = localStorage.getItem('access_token');
@@ -211,6 +288,57 @@
                 document.getElementById('auth-buttons').style.display = 'flex';
             }
         })();
+
+        // Mission cards hover and click effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const missionCards = document.querySelectorAll('.mission-card');
+
+            // Check if it's a touch device
+            const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+            // For touch devices only - add click to flip
+            if (isTouchDevice) {
+                missionCards.forEach(card => {
+                    card.addEventListener('click', function() {
+                        // Toggle the flip state
+                        this.classList.toggle('flipped');
+                    });
+                });
+            }
+
+            // Add keyboard accessibility for all devices
+            missionCards.forEach(card => {
+                card.setAttribute('tabindex', '0');
+                card.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        if (isTouchDevice) {
+                            this.classList.toggle('flipped');
+                        } else {
+                            // For non-touch devices, simulate hover
+                            if (this.classList.contains('hover-active')) {
+                                this.classList.remove('hover-active');
+                            } else {
+                                this.classList.add('hover-active');
+                            }
+                        }
+                        e.preventDefault();
+                    }
+                });
+
+                // For keyboard users, handle focus/blur
+                card.addEventListener('focus', function() {
+                    if (!isTouchDevice) {
+                        this.classList.add('hover-active');
+                    }
+                });
+
+                card.addEventListener('blur', function() {
+                    if (!isTouchDevice) {
+                        this.classList.remove('hover-active');
+                    }
+                });
+            });
+        });
 
         // Function to fetch and display latest papers
         async function fetchAndDisplayLatestPapers() {
@@ -235,7 +363,7 @@
                     researchItem.className = 'research-item';
 
                     // Add emoji based on paper index to make it more engaging
-                    
+
 
                     researchItem.innerHTML = `
                         <div class="research-media">
@@ -391,6 +519,10 @@
             const token = localStorage.getItem('access_token');
             const tokenType = localStorage.getItem('token_type');
 
+            // Get CTA section buttons
+            const ctaSection = document.querySelector('.cta-section');
+            const ctaButtons = ctaSection ? ctaSection.querySelector('.cta-buttons') : null;
+
             if (token && tokenType) {
                 try {
                     const response = await fetch('/api/users/me', {
@@ -403,6 +535,13 @@
                         // Show profile button, hide login/signup buttons
                         document.getElementById('auth-buttons').style.display = 'none';
                         document.getElementById('profile-button').classList.add('visible');
+
+                        // Update CTA section for logged-in users
+                        if (ctaButtons) {
+                            ctaButtons.innerHTML = `
+                                <a href="/home"><button class="signup-btn">Go to Dashboard</button></a>
+                            `;
+                        }
                     } else {
                         // Token invalid, remove from storage
                         localStorage.removeItem('access_token');

@@ -272,10 +272,26 @@ async def upload_paper(file: UploadFile = File(...), current_user: User = Depend
     except HTTPException as e:
         # Re-raise HTTP exceptions
         raise e
+    except json.JSONDecodeError as e:
+        # Handle JSON parsing errors specifically
+        error_message = f"Failed to parse Gemini response: {str(e)}"
+        logging.error(error_message)
+        # Provide a more user-friendly error message
+        raise HTTPException(
+            status_code=500,
+            detail="The AI had trouble processing your paper. This might be due to formatting issues or special characters in the document. Please try a different PDF or contact support."
+        )
     except Exception as e:
         # Log and convert other exceptions to HTTP exceptions
         logging.error(f"Error processing PDF: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Error processing PDF: {str(e)}")
+        # Check if it's a Gemini API error
+        if "Gemini" in str(e):
+            raise HTTPException(
+                status_code=500,
+                detail="The AI service encountered an issue while processing your paper. Please try again later."
+            )
+        else:
+            raise HTTPException(status_code=500, detail=f"Error processing PDF: {str(e)}")
 
 # Authentication endpoints
 @app.post("/api/register", response_model=UserResponse)

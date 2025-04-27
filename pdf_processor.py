@@ -113,9 +113,41 @@ async def analyze_paper_with_gemini(text_content: str):
                 if json_match:
                     response_text = json_match.group(1)
 
-            import json
-            paper_data = json.loads(response_text)
-            return paper_data
+            # Clean the response text to handle potential escape character issues
+            # Replace any problematic escape sequences
+            cleaned_text = response_text.replace('\\', '\\\\')  # Double all backslashes
+
+            # Handle the case where we might have accidentally doubled already proper escapes
+            cleaned_text = cleaned_text.replace('\\\\n', '\\n')
+            cleaned_text = cleaned_text.replace('\\\\r', '\\r')
+            cleaned_text = cleaned_text.replace('\\\\t', '\\t')
+            cleaned_text = cleaned_text.replace('\\\\"', '\\"')
+
+            try:
+                import json
+                paper_data = json.loads(cleaned_text)
+                return paper_data
+            except json.JSONDecodeError as json_err:
+                # If still failing, try a more aggressive approach
+                logger.error(f"First JSON parsing attempt failed: {str(json_err)}")
+
+                # Try to extract just the JSON part using regex
+                import re
+                json_pattern = r'\{.*\}'
+                match = re.search(json_pattern, response_text, re.DOTALL)
+
+                if match:
+                    try:
+                        # Try to parse the extracted JSON
+                        extracted_json = match.group(0)
+                        paper_data = json.loads(extracted_json)
+                        return paper_data
+                    except json.JSONDecodeError:
+                        # If that fails too, raise the original error
+                        raise
+                else:
+                    # If no JSON-like structure found, raise the original error
+                    raise
         except Exception as e:
             logger.error(f"Error parsing Gemini response: {str(e)}")
             logger.error(f"Raw response: {response.text}")

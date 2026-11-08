@@ -47,8 +47,7 @@ export function EditionMap({
       <div className="mt-4 hidden md:block">
         <Diagram map={map} selected={selected} onSelect={setSelected} label={editionLabel} />
       </div>
-      <Legend lines={map.lines} />
-      <div className="relative mt-6 hidden md:block">
+      <div className="relative mt-5 hidden md:block">
         <span
           aria-hidden
           className="absolute -top-[13px] size-0 border-x-[10px] border-b-[10px] border-x-transparent border-b-band transition-[left] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)]"
@@ -56,6 +55,7 @@ export function EditionMap({
         />
         <StationBoard station={current} total={map.stations.length} />
       </div>
+      <Legend lines={map.lines} />
       <StripMap stations={map.stations} label={editionLabel} />
     </div>
   );

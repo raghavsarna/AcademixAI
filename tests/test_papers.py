@@ -16,7 +16,15 @@ ANALYSIS = {
     "source": "NeurIPS 2017",
     "abstract": "We propose the Transformer.",
     "keywords": ["attention", "transformer"],
-    "summary": "A **new** architecture.",
+    "what_changed": "Replaces recurrence with self-attention.",
+    "change_type": "new-method",
+    "why_it_matters": "Trains much faster.",
+    "builds_on": [{"work": "RNN encoder-decoders", "relation": "replaces"}],
+    "explanations": {
+        "plain": "Reads everything at once.",
+        "student": "Self-attention.",
+        "expert": "Scaled dot-product.",
+    },
     "main_findings": ["Faster training", "Better BLEU"],
     "methodology": "Self-attention only.",
 }
@@ -40,12 +48,17 @@ def test_upload_analyses_and_stores_paper(client, db, fake_llm):
     assert body["created"] is True
     assert body["url"] == f"/papers/{body['paper']['id']}"
     assert body["paper"]["doi"] == "10.48550/arXiv.1706.03762"  # URL prefix removed
+    assert body["paper"]["origin"] == "upload"
     assert fake_llm.calls[0]["json_output"] is True
     assert "We propose the Transformer" in fake_llm.calls[0]["prompt"]
 
     paper = db.get(Paper, body["paper"]["id"])
     assert len(paper.id) == 32
     assert paper.main_findings == "- Faster training\n- Better BLEU"  # list turned into markdown
+    assert paper.arxiv_id == "1706.03762"  # read from the arXiv DOI
+    assert paper.source_url == "https://arxiv.org/abs/1706.03762"
+    assert paper.explanations["plain"] == "Reads everything at once."
+    assert paper.builds_on == [{"work": "RNN encoder-decoders", "relation": "replaces"}]
     assert "Transformer" in paper.full_text
     upload_row = db.query(Upload).one()
     assert upload_row.filename == "paper.pdf"
@@ -95,6 +108,7 @@ def test_paper_detail_and_page(client, fake_llm):
     detail = client.get(f"/api/papers/{paper_id}")
     assert detail.status_code == 200
     assert detail.json()["keywords"] == ["attention", "transformer"]
+    assert set(detail.json()["explanations"]) == {"plain", "student", "expert"}
     assert "full_text" not in detail.json()
 
     page = client.get(f"/papers/{paper_id}")
@@ -158,3 +172,33 @@ def test_chat_about_a_paper(client, fake_llm):
     assert response.json() == {"reply": "It uses self-attention."}
     assert "Self-attention only." in fake_llm.calls[-1]["prompt"]
     assert client.post("/api/papers/nope/chat", json={"message": "How?"}, headers=headers).status_code == 404
+
+
+def test_uploading_a_paper_from_an_edition_enriches_it(client, db, fake_llm):
+    edition_paper = Paper(
+        title="Attention Is All You Need",
+        origin="arxiv",
+        arxiv_id="1706.03762",
+        what_changed="From the abstract.",
+        explanations={"plain": "Short."},
+    )
+    db.add(edition_paper)
+    db.commit()
+    fake_llm.replies.append(json.dumps(ANALYSIS))
+    body = upload(client, auth_headers(client), make_pdf()).json()
+
+    assert body["created"] is False
+    assert body["paper"]["id"] == edition_paper.id
+    db.refresh(edition_paper)
+    assert edition_paper.main_findings == "- Faster training\n- Better BLEU"
+    assert edition_paper.explanations["expert"] == "Scaled dot-product."
+    assert db.query(Paper).count() == 1
+
+
+def test_chat_about_a_paper_uses_the_chosen_depth(client, fake_llm):
+    headers = auth_headers(client)
+    fake_llm.replies += [json.dumps(ANALYSIS), "Simply put, it reads everything at once."]
+    paper_id = upload(client, headers, make_pdf()).json()["paper"]["id"]
+    response = client.post(f"/api/papers/{paper_id}/chat", json={"message": "How?", "level": "plain"}, headers=headers)
+    assert response.status_code == 200
+    assert "no technical background" in fake_llm.calls[-1]["prompt"]

@@ -1,7 +1,7 @@
 """Request and response models for the JSON API."""
 
-from datetime import UTC, datetime
-from typing import Annotated
+from datetime import UTC, date, datetime
+from typing import Annotated, Literal
 
 from pydantic import AfterValidator, BaseModel, ConfigDict, EmailStr, Field
 
@@ -39,22 +39,14 @@ class Token(BaseModel):
     token_type: str = "bearer"
 
 
-# ---- Digests
-
-
-class DigestSummary(ORMModel):
-    id: int
-    title: str
-    description: str
-    image_url: str | None
-    published_at: UTCDateTime
-
-
-class DigestDetail(DigestSummary):
-    content: str
-
-
 # ---- Papers
+
+Depth = Literal["plain", "student", "expert"]
+
+
+class BuildsOn(BaseModel):
+    work: str
+    relation: str
 
 
 class PaperSummary(ORMModel):
@@ -63,19 +55,33 @@ class PaperSummary(ORMModel):
     authors: list[str]
     source: str | None
     doi: str | None
+    origin: str
     created_at: UTCDateTime
+
+
+class PaperCard(PaperSummary):
+    """A paper as it appears in an edition."""
+
+    arxiv_id: str | None
+    source_url: str | None
+    categories: list[str]
+    change_type: str | None
+    what_changed: str | None
+    why_it_matters: str | None
+    builds_on: list[BuildsOn]
 
 
 class MyPaper(PaperSummary):
     uploaded_at: UTCDateTime
     filename: str
+    what_changed: str | None
 
 
-class PaperDetail(PaperSummary):
+class PaperDetail(PaperCard):
     publication_date: str | None
     keywords: list[str]
     abstract: str | None
-    summary: str | None
+    explanations: dict[str, str]
     main_findings: str | None
     methodology: str | None
 
@@ -86,11 +92,47 @@ class UploadResult(BaseModel):
     url: str  # page to open for this paper
 
 
+# ---- Editions
+
+
+class Theme(BaseModel):
+    name: str
+    summary: str
+    papers: list[str]
+
+
+class EditionSummary(ORMModel):
+    id: int
+    edition_date: date
+    headline: str
+    overview: str
+    papers_scanned: int
+    entry_count: int
+
+
+class EditionEntryOut(ORMModel):
+    rank: int
+    paper: PaperCard
+
+
+class EditionDetail(ORMModel):
+    id: int
+    edition_date: date
+    headline: str
+    overview: str
+    papers_scanned: int
+    themes: list[Theme]
+    entries: list[EditionEntryOut]
+    previous_date: date | None = None
+    next_date: date | None = None
+
+
 # ---- Chat
 
 
 class ChatRequest(BaseModel):
     message: str = Field(min_length=1, max_length=2000)
+    level: Depth = "student"
 
 
 class ChatResponse(BaseModel):

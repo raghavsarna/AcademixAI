@@ -22,7 +22,13 @@ def test_health(client):
 
 def test_openapi_schema_lists_the_api(client):
     paths = client.get("/openapi.json").json()["paths"]
-    assert {"/api/auth/token", "/api/digests", "/api/papers", "/api/papers/{paper_id}/chat"} <= set(paths)
+    assert {
+        "/api/auth/token",
+        "/api/editions",
+        "/api/editions/latest",
+        "/api/papers",
+        "/api/papers/{paper_id}/chat",
+    } <= set(paths)
 
 
 def test_migrations_match_the_models(tmp_path):

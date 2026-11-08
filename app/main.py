@@ -12,8 +12,8 @@ from sqlalchemy import text
 from app.config import settings
 from app.db import SessionLocal
 from app.llm import LLMError
-from app.routers import auth, digests, pages, papers
-from app.services.papers import AnalysisError
+from app.routers import auth, editions, pages, papers
+from app.services.analysis import AnalysisError
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 logger = logging.getLogger("academixai")
@@ -22,7 +22,7 @@ ROOT = Path(__file__).resolve().parent.parent
 
 app = FastAPI(
     title="AcademixAI API",
-    description="Plain-language summaries of AI research: daily arXiv digests, PDF analysis and chat.",
+    description="What changed in AI research today, and every paper explained at your level.",
     version="0.2.0",
 )
 
@@ -38,7 +38,7 @@ app.mount("/static", StaticFiles(directory=ROOT / "static"), name="static")
 app.mount("/images", StaticFiles(directory=ROOT / "images"), name="images")
 
 app.include_router(auth.router)
-app.include_router(digests.router)
+app.include_router(editions.router)
 app.include_router(papers.router)
 app.include_router(pages.router)
 

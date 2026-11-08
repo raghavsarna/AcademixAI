@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     # Gemini models. 3.1 Flash-Lite is the cheapest Gemini model open to new
     # projects (Nov 2026). It shuts down on May 7, 2027; the recommended
     # replacement is gemini-3.5-flash-lite.
-    gemini_model: str = "gemini-3.1-flash-lite"  # paper analysis and digest generation
+    gemini_model: str = "gemini-3.1-flash-lite"  # paper analysis and daily editions
     gemini_fast_model: str = "gemini-3.1-flash-lite"  # chat replies
     # Used automatically when the main model hits its rate limit.
     # Gemma is free of charge on the Gemini API. Set to "" to disable.

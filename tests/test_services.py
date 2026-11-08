@@ -3,9 +3,9 @@
 import pytest
 
 from app.rate_limit import RateLimiter
-from app.services.digests import extract_description, extract_title
-from app.services.markdown import strip_leading_title, to_markdown
-from app.services.papers import AnalysisError, normalize_analysis, normalize_doi, parse_json_reply
+from app.services.analysis import AnalysisError, normalize_change_fields, parse_json_reply
+from app.services.markdown import to_markdown
+from app.services.papers import normalize_analysis, normalize_arxiv_id, normalize_doi
 from app.storage import LocalStorage
 
 
@@ -60,7 +60,8 @@ def test_normalize_analysis_fixes_types_and_placeholders():
     assert fields["source"] is None
     assert fields["keywords"] == ["ai", "ml"]
     assert fields["main_findings"] == "- One\n- Two"
-    assert fields["summary"] is None
+    assert fields["explanations"] == {}
+    assert fields["what_changed"] is None
 
 
 def test_to_markdown_cleans_model_output():
@@ -69,20 +70,43 @@ def test_to_markdown_cleans_model_output():
     assert to_markdown(None) is None
 
 
-def test_strip_leading_title():
-    assert strip_leading_title("# My Title\n\nBody", "My Title") == "Body"
-    assert strip_leading_title("# Other\n\nBody", "My Title") == "# Other\n\nBody"
+def test_parse_json_reply_repairs_latex_backslashes():
+    reply = r'{"expert": "scaled by \sqrt{d_k}, keeps \n newlines"}'
+    value = parse_json_reply(reply)["expert"]
+    assert value == "scaled by \\sqrt{d_k}, keeps \n newlines"
 
 
-def test_digest_title_and_description():
-    markdown = (
-        "# Robots Learn to Read\n\n"
-        "This week, researchers taught robots to read street signs. It could make delivery robots safer. "
-        "Here is why that matters for everyone.\n\n## Major Trends"
+@pytest.mark.parametrize(
+    ("value", "doi", "expected"),
+    [
+        ("2310.06825", None, "2310.06825"),
+        ("arXiv:2310.06825v2", None, "2310.06825"),
+        (None, "10.48550/arXiv.1706.03762", "1706.03762"),
+        ("not an id", "10.1145/123", None),
+    ],
+)
+def test_normalize_arxiv_id(value, doi, expected):
+    assert normalize_arxiv_id(value, doi) == expected
+
+
+def test_normalize_change_fields():
+    fields = normalize_change_fields(
+        {
+            "what_changed": "A new optimiser \u2014 twice as fast.",
+            "change_type": "New Method",
+            "builds_on": [{"work": "Adam", "relation": "extends"}, {"work": "SGD", "relation": "beats"}, "Lion", {}],
+            "explanations": {"plain": "Simple.", "student": ["A", "B"], "expert": None, "genius": "x"},
+        }
     )
-    assert extract_title(markdown, "2026-11-08") == "Robots Learn to Read"
-    assert extract_description(markdown, "2026-11-08").startswith("This week, researchers taught robots")
-    assert extract_title("no heading", "2026-11-08") == "AI Research Digest: 2026-11-08"
+    assert fields["what_changed"] == "A new optimiser, twice as fast."
+    assert fields["change_type"] == "new-method"
+    assert fields["builds_on"] == [
+        {"work": "Adam", "relation": "extends"},
+        {"work": "SGD", "relation": "extends"},
+        {"work": "Lion", "relation": "extends"},
+    ]
+    assert fields["explanations"] == {"plain": "Simple.", "student": "- A\n- B"}
+    assert normalize_change_fields({"change_type": "vibes"})["change_type"] is None
 
 
 def test_rate_limiter_window(monkeypatch):

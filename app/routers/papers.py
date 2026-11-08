@@ -34,6 +34,7 @@ def my_papers(user: CurrentUser, db: DbSession) -> list[MyPaper]:
             **PaperSummary.model_validate(u.paper).model_dump(),
             uploaded_at=u.created_at,
             filename=u.filename,
+            what_changed=u.paper.what_changed,
         )
         for u in uploads
     ]
@@ -71,4 +72,4 @@ def get_paper(paper_id: str, db: DbSession) -> Paper:
 @router.post("/{paper_id}/chat", response_model=ChatResponse, dependencies=[Depends(chat_limit)])
 async def chat_about_paper(paper_id: str, body: ChatRequest, db: DbSession, _: CurrentUser) -> ChatResponse:
     paper = get_paper_or_404(db, paper_id)
-    return ChatResponse(reply=await chat.answer(chat.paper_context(paper), body.message))
+    return ChatResponse(reply=await chat.answer(chat.paper_context(paper), body.message, body.level))

@@ -1,5 +1,6 @@
 """The one place that talks to Gemini."""
 
+import asyncio
 import logging
 
 from google import genai
@@ -10,6 +11,8 @@ from app.config import settings
 logger = logging.getLogger(__name__)
 
 _client: genai.Client | None = None
+
+RETRY_DELAY_SECONDS = 2.0
 
 
 class LLMError(Exception):
@@ -31,22 +34,39 @@ async def _call(model: str, prompt: str, json_output: bool) -> str:
     return response.text or ""
 
 
+async def _call_with_retry(model: str, prompt: str, json_output: bool) -> str:
+    """One retry for server errors and dropped connections; client errors (4xx) are not retried."""
+    try:
+        return await _call(model, prompt, json_output)
+    except errors.ClientError:
+        raise
+    except Exception as e:
+        logger.warning("%s call failed (%s), retrying once", model, type(e).__name__)
+        await asyncio.sleep(RETRY_DELAY_SECONDS)
+        return await _call(model, prompt, json_output)
+
+
 async def generate(prompt: str, model: str | None = None, json_output: bool = False) -> str:
     """Send a prompt to the model and return its text reply.
 
     json_output=True asks the model to reply with a JSON document.
-    If the model is rate limited (HTTP 429), retries once on the fallback model.
-    Raises LLMError if no answer could be produced.
+    Server errors and dropped connections are retried once. If the model is rate limited
+    (HTTP 429), the request moves to the fallback model. Raises LLMError if no answer
+    could be produced.
     """
     model = model or settings.gemini_model
     try:
-        return await _call(model, prompt, json_output)
+        return await _call_with_retry(model, prompt, json_output)
     except errors.APIError as e:
         fallback = settings.gemini_fallback_model
         if e.code == 429 and fallback and fallback != model:
             logger.warning("%s is rate limited, falling back to %s", model, fallback)
             try:
-                return await _call(fallback, prompt, json_output)
-            except errors.APIError as fallback_error:
+                return await _call_with_retry(fallback, prompt, json_output)
+            except Exception as fallback_error:
                 raise LLMError(f"{fallback} failed: {fallback_error}") from fallback_error
+        raise LLMError(f"{model} failed: {e}") from e
+    except LLMError:
+        raise
+    except Exception as e:
         raise LLMError(f"{model} failed: {e}") from e

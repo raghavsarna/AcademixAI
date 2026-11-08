@@ -57,3 +57,29 @@ def test_missing_api_key_is_an_llm_error(monkeypatch):
     monkeypatch.setattr(llm, "_client", None)
     with pytest.raises(llm.LLMError, match="GEMINI_API_KEY"):
         llm.get_client()
+
+
+def test_server_errors_and_dropped_connections_are_retried_once(monkeypatch):
+    monkeypatch.setattr(llm, "RETRY_DELAY_SECONDS", 0)
+    calls = []
+
+    async def flaky(model, prompt, json_output):
+        calls.append(model)
+        if len(calls) == 1:
+            raise ConnectionError("reset by peer")
+        return "ok"
+
+    monkeypatch.setattr(llm, "_call", flaky)
+    assert run(llm.generate("hi")) == "ok"
+    assert calls == [settings.gemini_model, settings.gemini_model]
+
+
+def test_repeated_network_failure_becomes_llm_error(monkeypatch):
+    monkeypatch.setattr(llm, "RETRY_DELAY_SECONDS", 0)
+
+    async def down(model, prompt, json_output):
+        raise errors.ServerError(503, {"error": {"code": 503, "message": "unavailable"}})
+
+    monkeypatch.setattr(llm, "_call", down)
+    with pytest.raises(llm.LLMError):
+        run(llm.generate("hi"))

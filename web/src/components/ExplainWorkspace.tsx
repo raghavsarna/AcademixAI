@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 
@@ -11,6 +12,8 @@ import { AuthGate } from "./AuthGate";
 import { UploadForm } from "./UploadForm";
 import { UploadJobs } from "./UploadJobs";
 import { WhatYouGet } from "./WhatYouGet";
+
+const RECENT_FINISHED = 3;
 
 /**
  * The upload form beside the reader's uploads. A paper the reader starts here opens by itself
@@ -47,7 +50,12 @@ export function ExplainWorkspace() {
     if (job.status === "ready" && job.url) router.push(job.url as never);
   }, [jobs, router]);
 
-  const showJobs = signedIn && jobs && jobs.length > 0;
+  // Uploads still being explained or that failed, then the few most recent finished ones;
+  // older papers live in Your papers
+  const unfinished = jobs?.filter((j) => j.status !== "ready") ?? [];
+  const finished = jobs?.filter((j) => j.status === "ready") ?? [];
+  const shown = [...unfinished, ...finished.slice(0, RECENT_FINISHED)];
+  const showJobs = signedIn && shown.length > 0;
   return (
     <div className="mt-10 grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16">
       <div className="min-w-0">
@@ -61,7 +69,12 @@ export function ExplainWorkspace() {
             <h2 id="uploads-title" className="mb-4 text-xl font-bold">
               Your uploads
             </h2>
-            <UploadJobs jobs={jobs} onRetry={retryAndFollow} onDismiss={dismiss} />
+            <UploadJobs jobs={shown} onRetry={retryAndFollow} onDismiss={dismiss} />
+            {finished.length > RECENT_FINISHED ? (
+              <Link href="/library" className="mt-4 inline-block font-semibold text-link underline">
+                All your papers
+              </Link>
+            ) : null}
           </section>
         ) : (
           <WhatYouGet />

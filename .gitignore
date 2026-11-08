@@ -9,9 +9,10 @@ __pycache__/
 .venv/
 venv/
 .pytest_cache/
+.ruff_cache/
 .ipynb_checkpoints/
 
-# Local data (recreate with: python seed.py)
+# Local data (recreate with: python -m scripts.seed)
 db/*.db
 *.sqlite3
 uploads/*

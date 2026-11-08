@@ -16,3 +16,7 @@ ignore = ["B008"]  # FastAPI's Depends()/File() in defaults is intended
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
+filterwarnings = [
+    # PyMuPDF's compiled bindings trigger this on import
+    "ignore:builtin type .* has no __module__ attribute:DeprecationWarning",
+]

@@ -188,7 +188,7 @@ async def chat_with_paper(summary_id: int, message: ChatMessage, db: Session = D
         logging.error(f"Error generating chat response: {str(e)}")
         return {"bot_message": f"I'm sorry, I encountered an error while processing your question. Please try again."}
 
-@app.post("/api/chat/paper/{doi}")
+@app.post("/api/chat/paper/{doi:path}")
 async def chat_with_paper_by_doi(doi: str, message: ChatMessage, db: Session = Depends(get_db)):
     # Get the paper from the database
     paper = db.query(Paper).filter(Paper.doi == doi).first()
@@ -396,7 +396,7 @@ import os
 import hashlib
 
 # View paper route
-@app.get("/paper/{doi}", response_class=HTMLResponse)
+@app.get("/paper/{doi:path}", response_class=HTMLResponse)
 async def view_paper(request: Request, doi: str, db: Session = Depends(get_db)):
     # Get paper from database
     paper = db.query(Paper).filter(Paper.doi == doi).first()
@@ -446,6 +446,12 @@ async def view_paper(request: Request, doi: str, db: Session = Depends(get_db)):
     def clean_text(text):
         if not text:
             return "No information available"
+
+        # The model sometimes returns a list (e.g. main findings) instead of markdown
+        if isinstance(text, list):
+            text = "\n".join(f"- {item}" for item in text)
+        elif not isinstance(text, str):
+            text = str(text)
 
         # Fix common LLM formatting issues
 

@@ -3,6 +3,7 @@ import tempfile
 import pymupdf
 from starlette.concurrency import run_in_threadpool
 import json
+import re
 import uuid
 import datetime
 from fastapi import UploadFile, HTTPException
@@ -89,20 +90,24 @@ async def analyze_paper_with_gemini(text_content: str):
         """
 
         # Generate response from Gemini
-        response_text = await run_in_threadpool(generate, prompt)
+        response_text = await run_in_threadpool(generate, prompt, None, True)
 
-        # Extract and parse the JSON response
+        # JSON mode normally returns valid JSON, so try it as-is first
+        try:
+            return json.loads(response_text)
+        except json.JSONDecodeError:
+            pass
+
+        # Otherwise fall back to cleaning up the response
         try:
             # The response might be in markdown code blocks, so we need to clean it
             if "```json" in response_text:
                 # Extract JSON from markdown code block
-                import re
                 json_match = re.search(r'```json\n(.*?)\n```', response_text, re.DOTALL)
                 if json_match:
                     response_text = json_match.group(1)
             elif "```" in response_text:
                 # Extract JSON from generic code block
-                import re
                 json_match = re.search(r'```\n(.*?)\n```', response_text, re.DOTALL)
                 if json_match:
                     response_text = json_match.group(1)
@@ -118,7 +123,6 @@ async def analyze_paper_with_gemini(text_content: str):
             cleaned_text = cleaned_text.replace('\\\\"', '\\"')
 
             try:
-                import json
                 paper_data = json.loads(cleaned_text)
                 return paper_data
             except json.JSONDecodeError as json_err:
@@ -126,7 +130,6 @@ async def analyze_paper_with_gemini(text_content: str):
                 logger.error(f"First JSON parsing attempt failed: {str(json_err)}")
 
                 # Try to extract just the JSON part using regex
-                import re
                 json_pattern = r'\{.*\}'
                 match = re.search(json_pattern, response_text, re.DOTALL)
 
@@ -144,7 +147,7 @@ async def analyze_paper_with_gemini(text_content: str):
                     raise
         except Exception as e:
             logger.error(f"Error parsing Gemini response: {str(e)}")
-            logger.error(f"Raw response: {response.text}")
+            logger.error(f"Raw response: {response_text[:2000]}")
             raise HTTPException(status_code=500, detail=f"Failed to parse Gemini response: {str(e)}")
 
     except Exception as e:
@@ -160,7 +163,6 @@ async def store_paper_in_database(paper_data, user_id, original_pdf_path=None):
         if not paper_data.get("doi") or paper_data.get("doi").lower() in ["n/a", "none", "unknown", "not available"] or len(paper_data.get("doi", "")) < 5:
             # Create a DOI from the paper title in lowercase separated by hyphens
             # Remove special characters and replace spaces with hyphens
-            import re
             title_slug = re.sub(r'[^\w\s-]', '', paper_data["title"].lower())
             title_slug = re.sub(r'[\s]+', '-', title_slug)
 

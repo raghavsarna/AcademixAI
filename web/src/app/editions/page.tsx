@@ -17,7 +17,7 @@ export default function EditionsPage() {
         One edition for each day of new arXiv papers in AI, machine learning, language and vision. Read down the
         timetable to see how the field moved.
       </p>
-      <Suspense fallback={<ListSkeleton />}>
+      <Suspense fallback={<div className="mt-8"><ListSkeleton /></div>}>
         <Timetable />
       </Suspense>
     </div>

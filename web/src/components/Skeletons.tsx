@@ -31,7 +31,7 @@ export function PaperSkeleton() {
 
 export function ListSkeleton() {
   return (
-    <div className="mt-8 grid gap-3" aria-busy="true" aria-label="Loading">
+    <div className="grid gap-3" aria-busy="true" aria-label="Loading">
       {Array.from({ length: 5 }, (_, i) => (
         <Block key={i} className="h-16" />
       ))}

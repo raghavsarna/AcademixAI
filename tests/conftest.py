@@ -5,6 +5,7 @@ and never call the real model: the `fake_llm` fixture stands in for it.
 """
 
 import os
+import shutil
 import tempfile
 
 _TMP = tempfile.mkdtemp(prefix="academixai-tests-")
@@ -29,6 +30,7 @@ UPLOAD_DIR = os.environ["UPLOAD_DIR"]
 def fresh_state():
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
+    shutil.rmtree(UPLOAD_DIR, ignore_errors=True)
     limiter.reset()
     yield
 

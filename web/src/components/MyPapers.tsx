@@ -6,23 +6,38 @@ import { useEffect, useState } from "react";
 import { api, ApiError } from "@/lib/client-api";
 import { formatTimestamp } from "@/lib/format";
 import type { MyPaper } from "@/lib/types";
+import { useUploadJobs } from "@/lib/use-upload-jobs";
 
 import { ListSkeleton } from "./Skeletons";
+import { UploadJobs } from "./UploadJobs";
 
 export function MyPapers() {
   const [papers, setPapers] = useState<MyPaper[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const uploads = useUploadJobs(true);
+  const unfinished = uploads.jobs?.filter((j) => j.status !== "ready") ?? [];
+  const finishedCount = uploads.jobs?.filter((j) => j.status === "ready").length ?? 0;
 
+  // Reload the list whenever another upload finishes
   useEffect(() => {
     api
       .myPapers()
       .then(setPapers)
       .catch((e) => setError(e instanceof ApiError ? e.message : "Couldn't load your papers. Try again."));
-  }, []);
+  }, [finishedCount]);
+
+  const inProgress = unfinished.length ? (
+    <section aria-labelledby="unfinished-title" className="mb-10 max-w-2xl">
+      <h2 id="unfinished-title" className="mb-4 text-xl font-bold">
+        Still being explained
+      </h2>
+      <UploadJobs jobs={unfinished} onRetry={uploads.retry} onDismiss={uploads.dismiss} />
+    </section>
+  ) : null;
 
   if (error) {
     return (
-      <p className="mt-8 font-semibold text-danger" role="alert">
+      <p className="font-semibold text-danger" role="alert">
         {error}
       </p>
     );
@@ -31,7 +46,9 @@ export function MyPapers() {
 
   if (!papers.length) {
     return (
-      <div className="mt-8 max-w-2xl border border-rule p-6">
+      <>
+      {inProgress}
+      <div className="max-w-2xl border border-rule p-6">
         <h2 className="text-xl font-bold">No papers yet</h2>
         <p className="mt-2 leading-relaxed text-ink-soft">
           Upload a PDF and it shows up here with what it changes and its three explanations, ready to come back to.
@@ -40,11 +57,14 @@ export function MyPapers() {
           Explain your first paper
         </Link>
       </div>
+      </>
     );
   }
 
   return (
-    <ul className="mt-8 border-b border-rule">
+    <>
+    {inProgress}
+    <ul className="border-b border-rule">
       {papers.map((p) => (
         <li key={p.id} className="grid gap-1 border-t border-rule py-5 sm:grid-cols-[1fr_auto] sm:gap-6">
           <div className="min-w-0">
@@ -62,5 +82,6 @@ export function MyPapers() {
         </li>
       ))}
     </ul>
+    </>
   );
 }

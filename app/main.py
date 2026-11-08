@@ -1,6 +1,8 @@
 """AcademixAI API. The website is the Next.js app in web/, which calls this API."""
 
 import logging
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,13 +13,23 @@ from app.config import settings
 from app.db import SessionLocal
 from app.llm import LLMError
 from app.routers import auth, editions, papers
+from app.services import jobs
 from app.services.analysis import AnalysisError
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 logger = logging.getLogger("academixai")
 
 
+@asynccontextmanager
+async def lifespan(_: FastAPI) -> AsyncIterator[None]:
+    interrupted = jobs.fail_interrupted()
+    if interrupted:
+        logger.warning("Marked %d unfinished upload jobs as interrupted", interrupted)
+    yield
+
+
 app = FastAPI(
+    lifespan=lifespan,
     title="AcademixAI API",
     description="What changed in AI research today, and every paper explained at your level.",
     version="0.2.0",

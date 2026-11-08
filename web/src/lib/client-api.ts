@@ -2,7 +2,7 @@
 
 // Browser-side calls to the API (proxied to FastAPI by the /api rewrite).
 
-import type { Depth, MyPaper, UploadResult, User } from "./types";
+import type { Depth, MyPaper, UploadJob, User } from "./types";
 
 const TOKEN_KEY = "academixai.token";
 
@@ -88,8 +88,11 @@ export const api = {
   upload: (file: File) => {
     const form = new FormData();
     form.append("file", file);
-    return request<UploadResult>("/api/papers", { method: "POST", body: form });
+    return request<UploadJob>("/api/papers", { method: "POST", body: form });
   },
+  uploadJobs: () => request<UploadJob[]>("/api/papers/jobs"),
+  retryUpload: (id: string) => request<UploadJob>(`/api/papers/jobs/${encodeURIComponent(id)}/retry`, { method: "POST" }),
+  dismissUpload: (id: string) => request<null>(`/api/papers/jobs/${encodeURIComponent(id)}`, { method: "DELETE" }),
   askPaper: (id: string, message: string, level: Depth) =>
     request<{ reply: string }>(`/api/papers/${encodeURIComponent(id)}/chat`, {
       method: "POST",

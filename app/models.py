@@ -83,6 +83,32 @@ class Upload(Base):
     paper: Mapped[Paper] = relationship(back_populates="uploads")
 
 
+class UploadJob(Base):
+    """One upload being explained. The analysis runs in the background; the job records how far it got."""
+
+    __tablename__ = "upload_jobs"
+
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=new_public_id)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
+    filename: Mapped[str] = mapped_column(String(255))
+    file_hash: Mapped[str] = mapped_column(String(64))
+    pdf_key: Mapped[str | None] = mapped_column(String(255))  # the stored PDF, kept so a failed job can be retried
+    # queued -> reading -> analysing -> ready, or failed (see services.jobs.ACTIVE)
+    status: Mapped[str] = mapped_column(String(16), default="queued")
+    error: Mapped[str | None] = mapped_column(String(300))
+    paper_id: Mapped[str | None] = mapped_column(ForeignKey("papers.id", ondelete="SET NULL"))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
+    )
+
+    paper: Mapped["Paper | None"] = relationship()
+
+    @property
+    def paper_title(self) -> str | None:
+        return self.paper.title if self.paper else None
+
+
 class Edition(Base):
     """One day's changelog of AI research: the papers that moved the field, ranked."""
 

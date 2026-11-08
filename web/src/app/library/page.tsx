@@ -12,9 +12,11 @@ export default function LibraryPage() {
       <p className="mt-4 max-w-[60ch] text-lg leading-relaxed text-ink-soft">
         Every paper you have explained. Only you see this list; a paper&rsquo;s page can be shared by its link.
       </p>
-      <AuthGate reason="Log in to see the papers you have explained." next="/library">
-        <MyPapers />
-      </AuthGate>
+      <div className="mt-8">
+        <AuthGate reason="Log in to see the papers you have explained." next="/library">
+          <MyPapers />
+        </AuthGate>
+      </div>
     </div>
   );
 }

@@ -78,4 +78,19 @@ export type EditionDetail = Omit<EditionSummary, "entry_count"> & {
 
 export type User = { id: number; email: string; username: string; created_at: string };
 
-export type UploadResult = { paper: PaperSummary; created: boolean; url: string };
+export type UploadJobStatus = "queued" | "reading" | "analysing" | "ready" | "failed";
+
+/** An upload being explained in the background. Poll it until it is ready or failed. */
+export type UploadJob = {
+  id: string;
+  filename: string;
+  status: UploadJobStatus;
+  error: string | null;
+  paper_id: string | null;
+  paper_title: string | null;
+  url: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export const ACTIVE_JOB: UploadJobStatus[] = ["queued", "reading", "analysing"];

@@ -3,7 +3,7 @@
 from datetime import UTC, date, datetime
 from typing import Annotated, Literal
 
-from pydantic import AfterValidator, BaseModel, ConfigDict, EmailStr, Field
+from pydantic import AfterValidator, BaseModel, ConfigDict, EmailStr, Field, computed_field
 
 
 def _assume_utc(value: datetime) -> datetime:
@@ -87,10 +87,22 @@ class PaperDetail(PaperCard):
     methodology: str | None
 
 
-class UploadResult(BaseModel):
-    paper: PaperSummary
-    created: bool  # False if the paper had already been analysed
-    url: str  # page to open for this paper
+class UploadJobOut(ORMModel):
+    """An upload being explained. Poll it until status is "ready" (then open url) or "failed"."""
+
+    id: str
+    filename: str
+    status: str  # queued, reading, analysing, ready or failed
+    error: str | None
+    paper_id: str | None
+    paper_title: str | None
+    created_at: UTCDateTime
+    updated_at: UTCDateTime
+
+    @computed_field
+    @property
+    def url(self) -> str | None:
+        return f"/papers/{self.paper_id}" if self.status == "ready" and self.paper_id else None
 
 
 # ---- Editions

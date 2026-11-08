@@ -8,12 +8,10 @@ from typing import Any
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
-from starlette.concurrency import run_in_threadpool
 
 from app import llm
 from app.config import settings
 from app.models import Paper, Upload, User
-from app.services import pdf
 from app.services.analysis import (
     CHANGE_FIELDS_SPEC,
     CHANGE_RULES,
@@ -160,30 +158,30 @@ def _enrich(paper: Paper, fields: dict[str, Any], text: str, file_hash: str) -> 
         paper.file_hash = file_hash
 
 
-async def ingest_pdf(db: Session, user: User, filename: str, data: bytes, storage: LocalStorage) -> IngestResult:
-    """Validate, analyse and store an uploaded PDF, reusing earlier analyses where possible."""
-    pdf.validate_pdf(data, settings.max_upload_mb * 1024 * 1024)
-    file_hash = pdf.sha256(data)
+def store_analysis(
+    db: Session,
+    user: User,
+    filename: str,
+    text: str,
+    file_hash: str,
+    pdf_key: str | None,
+    fields: dict[str, Any],
+    storage: LocalStorage,
+) -> IngestResult:
+    """Save an analysed upload as a paper linked to the user, reusing a paper that is already known.
 
-    # Same file uploaded before: reuse it without calling the model again
-    paper = db.scalar(select(Paper).where(Paper.file_hash == file_hash))
-    if paper is not None:
-        _link_upload(db, user, paper, filename, None)
-        db.commit()
-        return IngestResult(paper, created=False)
-
-    text = await run_in_threadpool(pdf.extract_text, data)
-    fields = await analyze_text(text)
-
+    pdf_key is the stored PDF. It is kept on a new paper, and deleted when an existing paper is reused.
+    """
     # Same paper (by DOI or arXiv id) already known, e.g. from a daily edition
     paper = _find_existing(db, fields)
     if paper is not None:
         _enrich(paper, fields, text, file_hash)
         _link_upload(db, user, paper, filename, None)
         db.commit()
+        if pdf_key:
+            storage.delete(pdf_key)
         return IngestResult(paper, created=False)
 
-    pdf_key = storage.save(data)
     paper = Paper(file_hash=file_hash, full_text=text, **fields)
     db.add(paper)
     try:
@@ -191,13 +189,23 @@ async def ingest_pdf(db: Session, user: User, filename: str, data: bytes, storag
         _link_upload(db, user, paper, filename, pdf_key)
         db.commit()
     except IntegrityError:
-        # Another request stored the same paper at the same moment
+        # Another upload stored the same paper at the same moment
         db.rollback()
-        storage.delete(pdf_key)
         paper = db.scalar(select(Paper).where(Paper.file_hash == file_hash)) or _find_existing(db, fields)
         if paper is None:
             raise
         _link_upload(db, user, paper, filename, None)
         db.commit()
+        if pdf_key:
+            storage.delete(pdf_key)
         return IngestResult(paper, created=False)
     return IngestResult(paper, created=True)
+
+
+def link_known_file(db: Session, user: User, filename: str, file_hash: str) -> Paper | None:
+    """The same file was explained before: link it to this user without calling the model again."""
+    paper = db.scalar(select(Paper).where(Paper.file_hash == file_hash))
+    if paper is not None:
+        _link_upload(db, user, paper, filename, None)
+        db.commit()
+    return paper

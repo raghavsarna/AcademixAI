@@ -8,11 +8,11 @@ import { useAuth } from "@/lib/auth";
 export function AuthGate({ children, reason, next }: { children: React.ReactNode; reason: string; next: string }) {
   const { status } = useAuth();
   if (status === "loading") {
-    return <div className="mt-8 h-56 max-w-2xl rounded-[3px] bg-panel motion-safe:animate-pulse" aria-busy="true" />;
+    return <div className="h-56 max-w-2xl rounded-[3px] bg-panel motion-safe:animate-pulse" aria-busy="true" />;
   }
   if (status === "signed-out") {
     return (
-      <div className="mt-8 max-w-2xl border border-rule p-6">
+      <div className="max-w-2xl border border-rule p-6">
         <p className="text-lg leading-relaxed">{reason}</p>
         <div className="mt-5 flex flex-wrap gap-3">
           <Link

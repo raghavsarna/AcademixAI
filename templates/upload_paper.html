@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>AcademixAI - Upload Research Paper</title>
-    <link rel="stylesheet" href="/homepage.css?v=1.2">
+    <link rel="stylesheet" href="/static/css/homepage.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <style>
         .upload-container {
@@ -239,6 +239,7 @@
             100% { transform: rotate(360deg); }
         }
     </style>
+    <script src="/static/js/safe.js"></script>
 </head>
 <body>
     <div class="background">
@@ -597,8 +598,8 @@
                                     setTimeout(() => {
                                         loadingOverlay.classList.remove('active');
                                         // Redirect to the paper view page if a redirect URL is provided
-                                        if (response.redirect_url) {
-                                            window.location.href = response.redirect_url;
+                                        if (response.url) {
+                                            window.location.href = response.url;
                                         } else {
                                             window.location.href = '/home';
                                         }
@@ -613,7 +614,7 @@
                                 let errorMessage = 'Failed to upload paper';
                                 try {
                                     const response = JSON.parse(xhr.responseText);
-                                    errorMessage = response.detail || errorMessage;
+                                    errorMessage = apiErrorMessage(xhr.status, response, errorMessage);
                                 } catch (e) {
                                     // Use default error message
                                 }
@@ -624,7 +625,7 @@
                     };
 
                     // Send request
-                    xhr.open('POST', '/api/upload', true);
+                    xhr.open('POST', '/api/papers', true);
                     xhr.setRequestHeader('Authorization', `${tokenType} ${token}`);
                     xhr.send(formData);
 

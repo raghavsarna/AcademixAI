@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AcademixAI - Home</title>
-    <link rel="stylesheet" href="/homepage.css">
+    <link rel="stylesheet" href="/static/css/homepage.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="/static/js/safe.js"></script>
 </head>
 <body>
     <div class="background">
@@ -243,7 +244,7 @@
         // Fetch papers and initialize display
         async function fetchAndDisplayPapers() {
             try {
-                const response = await fetch('/api/papers');
+                const response = await fetch('/api/digests?limit=100');
                 if (!response.ok) throw new Error('Failed to fetch papers');
                 allPapers = await response.json();
                 // Papers are already sorted in latest-first order from the API
@@ -270,19 +271,19 @@
 
             newPapers.forEach((paper) => {
                 const link = document.createElement('a');
-                link.href = `/content?summary_id=${paper.summary_id}`;
+                link.href = `/content?summary_id=${paper.id}`;
                 link.style.textDecoration = 'none';
                 link.style.color = 'inherit';
                 const paperCard = document.createElement('div');
                 paperCard.className = 'paper-card';
 
                 // Add a data attribute for the summary_id to help with debugging
-                paperCard.setAttribute('data-summary-id', paper.summary_id);
+                paperCard.setAttribute('data-summary-id', paper.id);
 
                 paperCard.innerHTML = `
-                    <img src="${paper.picture}" alt="Research Paper">
-                    <h2>${paper.title}</h2>
-                    <p>${paper.description}</p>
+                    <img src="${escapeHtml(paper.image_url || DEFAULT_IMAGE)}" alt="Research Paper">
+                    <h2>${escapeHtml(paper.title)}</h2>
+                    <p>${escapeHtml(paper.description)}</p>
                 `;
                 link.appendChild(paperCard);
                 papersContainer.appendChild(link);
@@ -306,7 +307,7 @@
 
             if (token && tokenType) {
                 try {
-                    const response = await fetch('/api/users/me', {
+                    const response = await fetch('/api/auth/me', {
                         headers: {
                             'Authorization': `${tokenType} ${token}`
                         }

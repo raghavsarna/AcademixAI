@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AcademixAI - Login</title>
-    <link rel="stylesheet" href="/login.css">
+    <link rel="stylesheet" href="/static/css/login.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="/static/js/safe.js"></script>
 </head>
 <body>
     <div class="background">
@@ -184,7 +185,7 @@
                 formData.append('username', username);
                 formData.append('password', password);
 
-                const response = await fetch('/api/token', {
+                const response = await fetch('/api/auth/token', {
                     method: 'POST',
                     body: formData
                 });
@@ -199,7 +200,7 @@
                     // Redirect to homepage
                     window.location.href = '/home';
                 } else {
-                    errorMessage.textContent = data.detail || 'Login failed';
+                    errorMessage.textContent = apiErrorMessage(response.status, data, 'Login failed');
                 }
             } catch (error) {
                 console.error('Error:', error);

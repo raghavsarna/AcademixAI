@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>AcademixAI - Research Paper</title>
-    <link rel="stylesheet" href="/content_page.css">
+    <link rel="stylesheet" href="/static/css/content_page.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <style>
         /* Chat typing indicator */
@@ -53,6 +53,7 @@
             }
         }
     </style>
+    <script src="/static/js/safe.js"></script>
 </head>
 <body>
     <div class="background">
@@ -93,36 +94,36 @@
     <div class="container">
         <div class="paper-content">
             <div class="paper-header">
-                <img id="paper-image" src="{{ paper.image_url }}" alt="Research Paper Header">
+                <img id="paper-image" src="/images/default_paper.jpg" alt="Research Paper Header">
                 <div class="podcast-icon">
                     <i class='bx bx-podcast' style="font-size: 24px;"></i>
                 </div>
             </div>
             <h1 id="paper-title" class="paper-title">{{ paper.title }}</h1>
             <div class="paper-metadata">
-                <p class="authors"><strong>Authors:</strong> {{ paper.authors }}</p>
-                <p class="source"><strong>Source:</strong> {{ paper.source }}</p>
+                <p class="authors"><strong>Authors:</strong> {{ paper.authors|join(', ') or 'Unknown' }}</p>
+                <p class="source"><strong>Source:</strong> {{ paper.source or 'Unknown' }}</p>
             </div>
             <div class="paper-content-scroll">
                 <div id="content-container" class="markdown-content">
                     <h2>Abstract</h2>
                     <div class="abstract-section" id="abstract-content">
-                        {{ paper.abstract }}
+                        {{ paper.abstract or 'No abstract available' }}
                     </div>
 
                     <h2>Summary</h2>
                     <div class="summary-section" id="summary-content">
-                        {{ paper.summary }}
+                        {{ paper.summary or 'No information available' }}
                     </div>
 
                     <h2>Main Findings</h2>
                     <div class="findings-section" id="findings-content">
-                        {{ paper.main_findings }}
+                        {{ paper.main_findings or 'No main findings available' }}
                     </div>
 
                     <h2>Methodology</h2>
                     <div class="methodology-section" id="methodology-content">
-                        {{ paper.methodology }}
+                        {{ paper.methodology or 'No methodology information available' }}
                     </div>
                 </div>
             </div>
@@ -138,7 +139,8 @@
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
     <script>
         // Direct check for token
         (function() {
@@ -170,11 +172,6 @@
                     // Get the content and decode HTML entities
                     let content = element.textContent.trim();
 
-                    // Create a temporary element to decode HTML entities
-                    const tempElement = document.createElement('div');
-                    tempElement.innerHTML = content;
-                    content = tempElement.textContent;
-
                     // Skip empty content or placeholder messages
                     if (content &&
                         content !== 'No abstract available' &&
@@ -197,7 +194,7 @@
 
                         // Parse the content as markdown
                         try {
-                            element.innerHTML = marked.parse(content);
+                            element.innerHTML = renderMarkdown(content);
 
                             // Add target="_blank" to all links to open in new tab
                             const links = element.querySelectorAll('a');
@@ -208,7 +205,7 @@
                         } catch (e) {
                             console.error('Error parsing markdown:', e);
                             // Fallback to plain text with basic formatting
-                            element.innerHTML = content
+                            element.innerHTML = escapeHtml(content)
                                 .replace(/\n\n/g, '<br><br>')
                                 .replace(/\n/g, '<br>');
                         }
@@ -336,7 +333,7 @@
 
         // Chat functionality
         let messages = [];
-        const paperDoi = "{{ paper.doi }}";
+        const paperId = {{ paper.id|tojson }};
 
         function sendMessage() {
             const input = document.getElementById('chat-input');
@@ -352,7 +349,7 @@
             const loadingId = showLoadingMessage();
 
             // Send to backend
-            fetch(`/api/chat/paper/${paperDoi}`, {
+            fetch(`/api/papers/${paperId}/chat`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -360,12 +357,14 @@
                 },
                 body: JSON.stringify({ message })
             })
-            .then(response => response.json())
-            .then(data => {
-                // Remove loading indicator
+            .then(async response => {
+                const data = await response.json().catch(() => ({}));
                 removeLoadingMessage(loadingId);
-                // Add bot response to chat
-                addMessage('bot', data.bot_message);
+                if (!response.ok) {
+                    addMessage('bot', apiErrorMessage(response.status, data, 'Sorry, there was an error processing your request.'));
+                    return;
+                }
+                addMessage('bot', data.reply);
             })
             .catch(error => {
                 // Remove loading indicator
@@ -391,7 +390,7 @@
                 processedText = processedText.replace(/([^*])(\*\s*\*)/g, '$1**');
 
                 try {
-                    textElement.innerHTML = marked.parse(processedText);
+                    textElement.innerHTML = renderMarkdown(processedText);
                 } catch (e) {
                     console.error('Error parsing markdown in chat:', e);
                     textElement.textContent = text;

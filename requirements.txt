@@ -7,6 +7,8 @@ python-multipart==0.0.33
 
 # Data / config
 SQLAlchemy==2.1.8
+alembic==1.20.1
+psycopg[binary]==3.3.8
 pydantic[email]==2.14.3
 email-validator==2.3.0
 pydantic-settings==2.16.2
@@ -19,4 +21,3 @@ PyJWT==2.15.1
 google-genai==3.0.0
 pymupdf==2.1
 arxiv==4.0.2
-requests==2.34.2

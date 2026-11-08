@@ -7,9 +7,10 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>AcademixAI - Paper Content</title>
-    <link rel="stylesheet" href="/content_page.css?v=1.2">
+    <link rel="stylesheet" href="/static/css/content_page.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
     <style>
         /* Chat typing indicator */
         .typing-indicator {
@@ -54,6 +55,7 @@
             }
         }
     </style>
+    <script src="/static/js/safe.js"></script>
 </head>
 <body>
     <div class="background">
@@ -148,11 +150,11 @@
             const summaryId = urlParams.get('summary_id');
             if (summaryId) {
                 try {
-                    const response = await fetch(`/api/paper/${summaryId}`);
+                    const response = await fetch(`/api/digests/${encodeURIComponent(summaryId)}`);
                     if (!response.ok) throw new Error('Failed to fetch paper');
                     const paper = await response.json();
                     document.getElementById('paper-title').textContent = paper.title;
-                    document.getElementById('paper-image').src = paper.picture;
+                    document.getElementById('paper-image').src = paper.image_url || DEFAULT_IMAGE;
 
                     // For content_page.html, we use the summary_id instead of DOI
                     // since the Newsletter model doesn't have a DOI field
@@ -177,7 +179,7 @@
 
                     // Parse the content as markdown
                     try {
-                        document.getElementById('content-container').innerHTML = marked.parse(content);
+                        document.getElementById('content-container').innerHTML = renderMarkdown(content);
 
                         // Add target="_blank" to all links to open in new tab
                         const links = document.getElementById('content-container').querySelectorAll('a');
@@ -188,7 +190,7 @@
                     } catch (e) {
                         console.error('Error parsing markdown:', e);
                         // Fallback to plain text with basic formatting
-                        document.getElementById('content-container').innerHTML = content
+                        document.getElementById('content-container').innerHTML = escapeHtml(content)
                             .replace(/\n\n/g, '<br><br>')
                             .replace(/\n/g, '<br>');
                     }
@@ -224,7 +226,7 @@
             }
 
             // Send to backend - use the summary_id endpoint for content_page.html
-            fetch(`/api/chat/${paperDoi}`, {
+            fetch(`/api/digests/${encodeURIComponent(paperDoi)}/chat`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -232,12 +234,14 @@
                 },
                 body: JSON.stringify({ message })
             })
-            .then(response => response.json())
-            .then(data => {
-                // Remove loading indicator
+            .then(async response => {
+                const data = await response.json().catch(() => ({}));
                 removeLoadingMessage(loadingId);
-                // Add bot response to chat
-                addMessage('bot', data.bot_message);
+                if (!response.ok) {
+                    addMessage('bot', apiErrorMessage(response.status, data, 'Sorry, there was an error processing your request.'));
+                    return;
+                }
+                addMessage('bot', data.reply);
             })
             .catch(error => {
                 // Remove loading indicator
@@ -263,7 +267,7 @@
                 processedText = processedText.replace(/([^*])(\*\s*\*)/g, '$1**');
 
                 try {
-                    textElement.innerHTML = marked.parse(processedText);
+                    textElement.innerHTML = renderMarkdown(processedText);
                 } catch (e) {
                     console.error('Error parsing markdown in chat:', e);
                     textElement.textContent = text;
@@ -449,7 +453,7 @@
 
             if (token && tokenType) {
                 try {
-                    const response = await fetch('/api/users/me', {
+                    const response = await fetch('/api/auth/me', {
                         headers: {
                             'Authorization': `${tokenType} ${token}`
                         }

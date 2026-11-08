@@ -7,9 +7,10 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>AcademixAI</title>
-    <link rel="stylesheet" href="/index.css?v=1.2">
+    <link rel="stylesheet" href="/static/css/index.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="/static/js/safe.js"></script>
 </head>
 <body>
     <div class="background">
@@ -259,7 +260,7 @@
         </footer>
     </div>
 
-    <script src="/static/app.js"></script>
+    <script src="/static/js/app.js"></script>
     <script>
         // Force reload of CSS file
         (function() {
@@ -269,7 +270,7 @@
                 var link = document.createElement('link');
                 link.rel = 'stylesheet';
                 link.type = 'text/css';
-                link.href = '/index.css?v=' + new Date().getTime(); // Add timestamp to prevent caching
+                link.href = '/static/css/index.css?v=' + new Date().getTime(); // Add timestamp to prevent caching
 
                 // Append it to the head
                 document.head.appendChild(link);
@@ -343,7 +344,7 @@
         // Function to fetch and display latest papers
         async function fetchAndDisplayLatestPapers() {
             try {
-                const response = await fetch('/api/latest-papers');
+                const response = await fetch('/api/digests?limit=3');
                 if (!response.ok) throw new Error('Failed to fetch latest papers');
                 const papers = await response.json();
 
@@ -367,12 +368,12 @@
 
                     researchItem.innerHTML = `
                         <div class="research-media">
-                            <img src="${paper.picture}" alt="${paper.title}">
+                            <img src="${escapeHtml(paper.image_url || DEFAULT_IMAGE)}" alt="${escapeHtml(paper.title)}">
                         </div>
                         <div class="research-details">
-                            <h1> ${paper.title}</h1>
-                            <p>${paper.description}</p>
-                            <a href="/content?summary_id=${paper.summary_id}">Read More <i class='bx bx-right-arrow-alt'></i></a>
+                            <h1>${escapeHtml(paper.title)}</h1>
+                            <p>${escapeHtml(paper.description)}</p>
+                            <a href="/content?summary_id=${paper.id}">Read More <i class='bx bx-right-arrow-alt'></i></a>
                         </div>
                     `;
 
@@ -525,7 +526,7 @@
 
             if (token && tokenType) {
                 try {
-                    const response = await fetch('/api/users/me', {
+                    const response = await fetch('/api/auth/me', {
                         headers: {
                             'Authorization': `${tokenType} ${token}`
                         }

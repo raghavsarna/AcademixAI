@@ -7,9 +7,10 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>AcademixAI - Your Profile</title>
-    <link rel="stylesheet" href="/profile.css">
+    <link rel="stylesheet" href="/static/css/profile.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="/static/js/safe.js"></script>
 </head>
 <body>
     <div class="background">
@@ -269,7 +270,7 @@
             }
 
             try {
-                const response = await fetch('/api/users/me', {
+                const response = await fetch('/api/auth/me', {
                     headers: {
                         'Authorization': `${tokenType} ${token}`
                     }
@@ -292,7 +293,7 @@
                     document.getElementById('update-username').value = userData.username;
 
                     // Load user papers
-                    fetch('/api/user/papers', {
+                    fetch('/api/papers', {
                         headers: {
                             'Authorization': `${tokenType} ${token}`
                         }
@@ -327,13 +328,13 @@
                                 // Create paper card HTML with improved design
                                 paperCard.innerHTML = `
                                     <div class="paper-image-container">
-                                        <img src="${paper.image_url || '/images/default_paper.jpg'}" alt="${paper.title}">
+                                        <img src="${DEFAULT_IMAGE}" alt="${escapeHtml(paper.title)}">
                                     </div>
                                     <div class="paper-content">
-                                        <h3 class="paper-title">${paper.title}</h3>
-                                        <p class="paper-authors">${paper.authors}</p>
-                                        <p class="paper-date">${paper.upload_date ? new Date(paper.upload_date).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric'}) : 'Date not available'}</p>
-                                        <a href="/paper/${paper.doi}" class="view-paper-btn">View Paper</a>
+                                        <h3 class="paper-title">${escapeHtml(paper.title)}</h3>
+                                        <p class="paper-authors">${escapeHtml((paper.authors || []).join(', '))}</p>
+                                        <p class="paper-date">${paper.uploaded_at ? new Date(paper.uploaded_at).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric'}) : 'Date not available'}</p>
+                                        <a href="/papers/${encodeURIComponent(paper.id)}" class="view-paper-btn">View Paper</a>
                                     </div>
                                 `;
 

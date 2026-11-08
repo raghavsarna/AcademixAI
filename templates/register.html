@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AcademixAI - Register</title>
-    <link rel="stylesheet" href="/login.css">
+    <link rel="stylesheet" href="/static/css/login.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="/static/js/safe.js"></script>
 </head>
 <body>
     <div class="background">
@@ -201,7 +202,7 @@
             }
             
             try {
-                const response = await fetch('/api/register', {
+                const response = await fetch('/api/auth/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -219,7 +220,7 @@
                     // Redirect to login page
                     window.location.href = '/login';
                 } else {
-                    errorMessage.textContent = data.detail || 'Registration failed';
+                    errorMessage.textContent = apiErrorMessage(response.status, data, 'Registration failed');
                 }
             } catch (error) {
                 console.error('Error:', error);

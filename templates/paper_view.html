@@ -166,7 +166,7 @@
         // Render markdown content
         document.addEventListener('DOMContentLoaded', function() {
             // Function to render markdown in an element
-            function renderMarkdown(elementId) {
+            function renderSection(elementId) {
                 const element = document.getElementById(elementId);
                 if (element) {
                     // Get the content and decode HTML entities
@@ -194,7 +194,7 @@
 
                         // Parse the content as markdown
                         try {
-                            element.innerHTML = renderMarkdown(content);
+                            element.innerHTML = window.renderMarkdown(content);
 
                             // Add target="_blank" to all links to open in new tab
                             const links = element.querySelectorAll('a');
@@ -214,10 +214,10 @@
             }
 
             // Render all markdown sections
-            renderMarkdown('abstract-content');
-            renderMarkdown('summary-content');
-            renderMarkdown('findings-content');
-            renderMarkdown('methodology-content');
+            renderSection('abstract-content');
+            renderSection('summary-content');
+            renderSection('findings-content');
+            renderSection('methodology-content');
 
             // Add welcome message to chat
             setTimeout(() => {
@@ -390,7 +390,7 @@
                 processedText = processedText.replace(/([^*])(\*\s*\*)/g, '$1**');
 
                 try {
-                    textElement.innerHTML = renderMarkdown(processedText);
+                    textElement.innerHTML = window.renderMarkdown(processedText);
                 } catch (e) {
                     console.error('Error parsing markdown in chat:', e);
                     textElement.textContent = text;

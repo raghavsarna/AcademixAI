@@ -179,7 +179,7 @@
 
                     // Parse the content as markdown
                     try {
-                        document.getElementById('content-container').innerHTML = renderMarkdown(content);
+                        document.getElementById('content-container').innerHTML = window.renderMarkdown(content);
 
                         // Add target="_blank" to all links to open in new tab
                         const links = document.getElementById('content-container').querySelectorAll('a');
@@ -267,7 +267,7 @@
                 processedText = processedText.replace(/([^*])(\*\s*\*)/g, '$1**');
 
                 try {
-                    textElement.innerHTML = renderMarkdown(processedText);
+                    textElement.innerHTML = window.renderMarkdown(processedText);
                 } catch (e) {
                     console.error('Error parsing markdown in chat:', e);
                     textElement.textContent = text;

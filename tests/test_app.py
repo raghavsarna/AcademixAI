@@ -33,3 +33,12 @@ def test_migrations_match_the_models(tmp_path):
         diff = compare_metadata(MigrationContext.configure(connection), Base.metadata)
     engine.dispose()
     assert diff == []
+
+
+def test_timestamps_are_returned_with_a_timezone(client):
+    client.post(
+        "/api/auth/register", json={"email": "t@example.com", "username": "tz_user", "password": "password-123"}
+    )
+    token = client.post("/api/auth/token", data={"username": "tz_user", "password": "password-123"}).json()
+    me = client.get("/api/auth/me", headers={"Authorization": f"Bearer {token['access_token']}"}).json()
+    assert me["created_at"].endswith(("Z", "+00:00"))

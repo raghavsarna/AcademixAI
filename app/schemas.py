@@ -1,8 +1,17 @@
 """Request and response models for the JSON API."""
 
-from datetime import datetime
+from datetime import UTC, datetime
+from typing import Annotated
 
-from pydantic import BaseModel, ConfigDict, EmailStr, Field
+from pydantic import AfterValidator, BaseModel, ConfigDict, EmailStr, Field
+
+
+def _assume_utc(value: datetime) -> datetime:
+    # SQLite returns timestamps without a timezone; they are stored in UTC
+    return value if value.tzinfo else value.replace(tzinfo=UTC)
+
+
+UTCDateTime = Annotated[datetime, AfterValidator(_assume_utc)]
 
 
 class ORMModel(BaseModel):
@@ -22,7 +31,7 @@ class UserOut(ORMModel):
     id: int
     email: EmailStr
     username: str
-    created_at: datetime
+    created_at: UTCDateTime
 
 
 class Token(BaseModel):
@@ -38,7 +47,7 @@ class DigestSummary(ORMModel):
     title: str
     description: str
     image_url: str | None
-    published_at: datetime
+    published_at: UTCDateTime
 
 
 class DigestDetail(DigestSummary):
@@ -54,11 +63,11 @@ class PaperSummary(ORMModel):
     authors: list[str]
     source: str | None
     doi: str | None
-    created_at: datetime
+    created_at: UTCDateTime
 
 
 class MyPaper(PaperSummary):
-    uploaded_at: datetime
+    uploaded_at: UTCDateTime
     filename: str
 
 

@@ -1,0 +1,32 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Local data (recreate with: python seed.py)
+db/*.db
+*.sqlite3
+uploads/*
+!uploads/.gitkeep
+
+# Generated at runtime
+images/papers/
+images/extracted/
+static/images/extracted/
+
+# Large media kept out of git
+videos/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

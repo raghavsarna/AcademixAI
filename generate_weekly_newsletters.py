@@ -90,7 +90,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Configure Gemini API
-genai.configure(api_key="AIzaSyAsH6fY-voLT1WP4PgZL0b2nA3gZqoz6WQ")
+genai.configure(api_key="REDACTED_GEMINI_API_KEY")
 
 def clear_all_newsletters():
     """

@@ -194,7 +194,7 @@ async def chat_with_paper(summary_id: int, message: ChatMessage, db: Session = D
         return {"bot_message": f"I'm sorry, I encountered an error while processing your question. Please try again."}
 
 # Configure Gemini API
-GEMINI_API_KEY = "AIzaSyAsH6fY-voLT1WP4PgZL0b2nA3gZqoz6WQ"
+GEMINI_API_KEY = "REDACTED_GEMINI_API_KEY"
 genai.configure(api_key=GEMINI_API_KEY)
 
 @app.post("/api/chat/paper/{doi}")

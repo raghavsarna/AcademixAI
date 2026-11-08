@@ -27,7 +27,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Configure Gemini API
-GEMINI_API_KEY = "AIzaSyAsH6fY-voLT1WP4PgZL0b2nA3gZqoz6WQ"
+GEMINI_API_KEY = "REDACTED_GEMINI_API_KEY"
 genai.configure(api_key=GEMINI_API_KEY)
 
 def fetch_arxiv_papers(max_results: int = 200) -> List[arxiv.Result]:

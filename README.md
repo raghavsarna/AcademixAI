@@ -85,7 +85,7 @@ python -m scripts.generate_edition --days 5    # backfill the last five weekdays
 ## Tests and checks
 
 ```bash
-pytest                                         # API:  tests, fake model, no key needed
+pytest                                         # API: 68 tests, fake model, no key needed
 ruff check app scripts tests migrations/env.py
 cd web && pnpm exec eslint src && pnpm exec tsc --noEmit && pnpm build
 ```

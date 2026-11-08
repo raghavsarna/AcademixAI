@@ -25,7 +25,8 @@ def extract_text(data: bytes) -> str:
         with pymupdf.open(stream=data, filetype="pdf") as doc:
             if doc.needs_pass:
                 raise InvalidPDF("Password-protected PDFs aren't supported.")
-            text = "\n".join(page.get_text() for page in doc)
+            # Pages are separated by a form feed, so passages can cite the page they come from
+            text = "\f".join(page.get_text().replace("\f", "\n") for page in doc)
     except InvalidPDF:
         raise
     except Exception as e:

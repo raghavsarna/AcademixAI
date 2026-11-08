@@ -42,6 +42,7 @@ export function PaperReader({ paper }: { paper: PaperDetail }) {
         title="Ask about this paper"
         depth={depth}
         ask={(message, level) => api.askPaper(paper.id, message, level)}
+        stream={(message, level, handlers) => api.streamPaperAnswer(paper.id, message, level, handlers)}
         suggestions={["What problem does it solve?", "What are the limitations?", "How could I use this?"]}
         returnTo={`/papers/${paper.id}`}
       />

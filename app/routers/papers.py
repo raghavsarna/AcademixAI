@@ -1,6 +1,7 @@
 from typing import Annotated
 
 from fastapi import APIRouter, BackgroundTasks, Depends, File, HTTPException, Response, UploadFile, status
+from fastapi.responses import StreamingResponse
 from sqlalchemy import select
 from starlette.concurrency import run_in_threadpool
 
@@ -136,5 +137,22 @@ def delete_paper(
 
 @router.post("/{paper_id}/chat", response_model=ChatResponse, dependencies=[Depends(chat_limit)])
 async def chat_about_paper(paper_id: str, body: ChatRequest, db: DbSession, _: CurrentUser) -> ChatResponse:
+    """Ask about a paper. The answer comes from its full text and cites the passages it used."""
     paper = get_paper_or_404(db, paper_id)
-    return ChatResponse(reply=await chat.answer(chat.paper_context(paper), body.message, body.level))
+    reply, sources = await chat.answer_about_paper(db, paper, body.message, body.level)
+    return ChatResponse(reply=reply, sources=[s.as_dict() for s in sources])
+
+
+@router.post("/{paper_id}/chat/stream", dependencies=[Depends(chat_limit)])
+async def stream_chat_about_paper(paper_id: str, body: ChatRequest, db: DbSession, _: CurrentUser) -> StreamingResponse:
+    """The same answer as server-sent events, so it can be shown as it is written.
+
+    Events: status (the paper is being read for the first time), sources (the passages that may be
+    cited), delta (a piece of the answer), done, or error.
+    """
+    get_paper_or_404(db, paper_id)
+    return StreamingResponse(
+        chat.stream_answer_about_paper(paper_id, body.message, body.level),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )

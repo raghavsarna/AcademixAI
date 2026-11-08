@@ -341,3 +341,50 @@
 .livery-y {
   background: linear-gradient(180deg, var(--livery));
 }
+
+/* Chat citations: [2] in an answer is a small link to the passage of the paper it comes from */
+.citation {
+  font-size: 0.75em;
+  font-weight: 700;
+  line-height: 0;
+  vertical-align: super;
+  padding: 0 0.1em;
+  color: var(--color-link);
+  text-decoration: none;
+}
+.citation:hover {
+  text-decoration: underline;
+}
+.citation-chip {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 0.3rem;
+  border-radius: 0.625rem;
+  background: var(--color-signal);
+  color: var(--color-ink);
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The end of an answer that is still being written */
+.stream-caret {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  background: var(--color-ink);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .stream-caret {
+    animation: caret-blink 1s steps(2, start) infinite;
+  }
+}
+@keyframes caret-blink {
+  to {
+    visibility: hidden;
+  }
+}

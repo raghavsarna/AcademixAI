@@ -148,5 +148,15 @@ class ChatRequest(BaseModel):
     level: Depth = "student"
 
 
+class ChatSource(BaseModel):
+    """A passage of the paper an answer cites as [number]."""
+
+    number: int
+    section: str | None
+    page: int | None
+    text: str
+
+
 class ChatResponse(BaseModel):
     reply: str
+    sources: list[ChatSource] = []

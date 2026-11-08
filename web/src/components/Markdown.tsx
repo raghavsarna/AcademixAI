@@ -17,11 +17,17 @@ export function Markdown({ children, className = "prose-column" }: { children: s
         rehypePlugins={[rehypeKatex]}
         components={{
           h1: ({ children }) => <h2>{children}</h2>,
-          a: ({ href, children }) => (
-            <a href={href} target="_blank" rel="noopener noreferrer">
-              {children}
-            </a>
-          ),
+          a: ({ href, children }) =>
+            // A citation in a chat answer opens the cited passage below it, on this page
+            href?.startsWith("#cite-") ? (
+              <a href={href} className="citation" data-cite>
+                {children}
+              </a>
+            ) : (
+              <a href={href} target="_blank" rel="noopener noreferrer">
+                {children}
+              </a>
+            ),
         }}
       >
         {children}

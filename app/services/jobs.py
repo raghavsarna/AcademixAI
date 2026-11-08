@@ -18,7 +18,7 @@ from app.config import settings
 from app.db import SessionLocal
 from app.llm import LLMError
 from app.models import UploadJob, User
-from app.services import pdf
+from app.services import pdf, retrieval
 from app.services.analysis import AnalysisError
 from app.services.papers import analyze_text, link_known_file, store_analysis
 from app.storage import LocalStorage
@@ -83,6 +83,12 @@ async def run_job(job_id: str, storage: LocalStorage) -> None:
                 job.pdf_key = None  # the PDF was not needed: an existing paper was reused
             job.paper_id = result.paper.id
             _set_status(db, job, "ready")
+            # Prepare the paper for chat now, so the reader's first question is quick. Not fatal:
+            # chat builds the index itself on the first question if this fails.
+            try:
+                await retrieval.ensure_index(db, result.paper)
+            except Exception:
+                logger.exception("Job %s: indexing for chat failed", job_id)
         except Exception as e:
             db.rollback()
             if isinstance(e, LLMError):

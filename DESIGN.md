@@ -300,7 +300,7 @@ A segmented tablist (Plain, Student, Expert) with a sliding pill: 4px-padded tra
 Suggested questions are fully round, white, 1px strong-rule border, label type; hover border turns ink.
 
 ### Chat Panel
-A signage band ("Ask about this paper") over a hairline-bordered body. Reader messages are black 4px bubbles with white text (46ch); replies are white bordered bubbles set in the reading column. Signed-out readers see a short reason and primary/secondary account buttons in place of the form.
+A signage band ("Ask about this paper") over a hairline-bordered body. Reader messages are black 4px bubbles with white text (46ch); replies are white bordered bubbles set in the reading column. Signed-out readers see a short reason and primary/secondary account buttons in place of the form. On a paper, replies stream in with a blinking ink caret (static under reduced motion). Citations are small superscript link-blue numbers; each opens its passage in a "From the paper" list under the reply: a signal-yellow number chip, the section and page, and the passage set as a quotation with a 4px signal rule. Only cited passages are listed.
 
 ### Navigation
 The masthead is a black band holding the wordmark (two lines meeting at a capsule), three links in 0.9375rem semibold band-soft type, and account actions on the right. The active link is white with a 3px signal underline 10px below. On phones the links wrap to a horizontally scrolling full-width row. A skip link appears on focus in signal yellow.

@@ -85,7 +85,7 @@ def test_chat_about_an_edition_at_a_chosen_depth(client, editions, fake_llm):
     headers = auth_headers(client)
     fake_llm.default = "Agents got faster."
     response = client.post(url, json={"message": "What moved?", "level": "plain"}, headers=headers)
-    assert response.json() == {"reply": "Agents got faster."}
+    assert response.json() == {"reply": "Agents got faster.", "sources": []}
     prompt = fake_llm.calls[0]["prompt"]
     assert AUDIENCE["plain"] in prompt
     assert "Paper 50 changes thing 50." in prompt

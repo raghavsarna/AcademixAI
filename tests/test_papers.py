@@ -250,8 +250,13 @@ def test_chat_about_a_paper(client, fake_llm):
 
     assert client.post(f"/api/papers/{paper_id}/chat", json={"message": "How?"}).status_code == 401
     response = client.post(f"/api/papers/{paper_id}/chat", json={"message": "How?"}, headers=headers)
-    assert response.json() == {"reply": "It uses self-attention."}
-    assert "Self-attention only." in fake_llm.calls[-1]["prompt"]
+    assert response.json()["reply"] == "It uses self-attention."
+    # Answered from the paper's own text, which the reply can cite by number
+    [source] = response.json()["sources"]
+    assert source["number"] == 1
+    assert source["page"] == 1
+    assert "We propose the Transformer" in source["text"]
+    assert "[1] (Opening, page 1)" in fake_llm.calls[-1]["prompt"]
     assert client.post("/api/papers/nope/chat", json={"message": "How?"}, headers=headers).status_code == 404
 
 

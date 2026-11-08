@@ -94,3 +94,8 @@ export type UploadJob = {
 };
 
 export const ACTIVE_JOB: UploadJobStatus[] = ["queued", "reading", "analysing"];
+
+/** A passage of the paper that an answer cites as [number]. */
+export type ChatSource = { number: number; section: string | null; page: number | null; text: string };
+
+export type ChatAnswer = { reply: string; sources: ChatSource[] };

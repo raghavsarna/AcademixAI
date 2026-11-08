@@ -2,7 +2,7 @@
 
 // Browser-side calls to the API (proxied to FastAPI by the /api rewrite).
 
-import type { Depth, MyPaper, UploadJob, User } from "./types";
+import type { ChatAnswer, ChatSource, Depth, MyPaper, UploadJob, User } from "./types";
 
 const TOKEN_KEY = "academixai.token";
 
@@ -74,6 +74,56 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   return body as T;
 }
 
+/** What a streamed answer reports as it arrives. */
+export type StreamHandlers = {
+  onStatus?: (detail: string) => void;
+  onSources?: (sources: ChatSource[]) => void;
+  onText: (text: string) => void;
+};
+
+/**
+ * Ask about a paper and receive the answer as it is written (server-sent events). Resolves when the
+ * answer is complete; rejects with an ApiError if the request is refused or the answer fails part-way.
+ */
+async function streamPaperAnswer(id: string, message: string, level: Depth, handlers: StreamHandlers): Promise<void> {
+  const headers = new Headers({ "Content-Type": "application/json", Accept: "text/event-stream" });
+  const token = getToken();
+  if (token) headers.set("Authorization", `Bearer ${token}`);
+  const response = await fetch(`/api/papers/${encodeURIComponent(id)}/chat/stream`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ message, level }),
+  });
+  if (!response.ok || !response.body) {
+    const body = await response.json().catch(() => null);
+    if (response.status === 401 && token) setToken(null);
+    throw new ApiError(response.status, messageFrom(response.status, body));
+  }
+
+  const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
+  let buffer = "";
+  let finished = false;
+  while (!finished) {
+    const { value, done } = await reader.read();
+    if (done) break;
+    buffer += value;
+    let boundary = buffer.indexOf("\n\n");
+    while (boundary !== -1) {
+      const block = buffer.slice(0, boundary);
+      buffer = buffer.slice(boundary + 2);
+      boundary = buffer.indexOf("\n\n");
+      const name = /^event: (.*)$/m.exec(block)?.[1];
+      const data = JSON.parse(/^data: (.*)$/m.exec(block)?.[1] ?? "null");
+      if (name === "status") handlers.onStatus?.(data.detail);
+      else if (name === "sources") handlers.onSources?.(data);
+      else if (name === "delta") handlers.onText(data.text);
+      else if (name === "error") throw new ApiError(502, data.detail);
+      else if (name === "done") finished = true;
+    }
+  }
+  if (!finished) throw new ApiError(502, "The answer was cut off. Try asking again.");
+}
+
 export const api = {
   login: (login: string, password: string) =>
     request<{ access_token: string }>("/api/auth/token", {
@@ -94,13 +144,14 @@ export const api = {
   uploadJobs: () => request<UploadJob[]>("/api/papers/jobs"),
   retryUpload: (id: string) => request<UploadJob>(`/api/papers/jobs/${encodeURIComponent(id)}/retry`, { method: "POST" }),
   dismissUpload: (id: string) => request<null>(`/api/papers/jobs/${encodeURIComponent(id)}`, { method: "DELETE" }),
+  streamPaperAnswer,
   askPaper: (id: string, message: string, level: Depth) =>
-    request<{ reply: string }>(`/api/papers/${encodeURIComponent(id)}/chat`, {
+    request<ChatAnswer>(`/api/papers/${encodeURIComponent(id)}/chat`, {
       method: "POST",
       body: JSON.stringify({ message, level }),
     }),
   askEdition: (date: string, message: string, level: Depth) =>
-    request<{ reply: string }>(`/api/editions/${encodeURIComponent(date)}/chat`, {
+    request<ChatAnswer>(`/api/editions/${encodeURIComponent(date)}/chat`, {
       method: "POST",
       body: JSON.stringify({ message, level }),
     }),

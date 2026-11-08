@@ -64,6 +64,9 @@ class Paper(Base):
 
     uploads: Mapped[list["Upload"]] = relationship(back_populates="paper", cascade="all, delete-orphan")
     entries: Mapped[list["EditionEntry"]] = relationship(back_populates="paper", cascade="all, delete-orphan")
+    chunks: Mapped[list["PaperChunk"]] = relationship(
+        back_populates="paper", cascade="all, delete-orphan", order_by="PaperChunk.position"
+    )
 
 
 class Upload(Base):
@@ -81,6 +84,26 @@ class Upload(Base):
 
     user: Mapped[User] = relationship(back_populates="uploads")
     paper: Mapped[Paper] = relationship(back_populates="uploads")
+
+
+class PaperChunk(Base):
+    """A passage of a paper's full text, kept for retrieval-based chat.
+
+    The embedding is stored as a JSON list of floats. A paper has a few hundred chunks at most,
+    so they are ranked in Python per question and no vector index is needed.
+    """
+
+    __tablename__ = "paper_chunks"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    paper_id: Mapped[str] = mapped_column(ForeignKey("papers.id", ondelete="CASCADE"), index=True)
+    position: Mapped[int] = mapped_column(Integer)  # order in the paper
+    section: Mapped[str | None] = mapped_column(String(120))
+    page: Mapped[int | None] = mapped_column(Integer)  # 1-based page the passage starts on
+    text: Mapped[str] = mapped_column(Text)
+    embedding: Mapped[list[float] | None] = deferred(mapped_column(JSON))
+
+    paper: Mapped["Paper"] = relationship(back_populates="chunks")
 
 
 class UploadJob(Base):

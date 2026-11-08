@@ -23,6 +23,9 @@ class Settings(BaseSettings):
     # Used automatically when the main model hits its rate limit.
     # Gemma is free of charge on the Gemini API. Set to "" to disable.
     gemini_fallback_model: str = "gemma-4-26b-a4b-it"
+    # Embeds chunks of each paper for retrieval-based chat. Free on the Gemini API.
+    gemini_embedding_model: str = "gemini-embedding-001"
+    embedding_dimensions: int = 768
 
     # Database: SQLite locally, Postgres in production
     # (e.g. postgresql://user:pass@host/db)
@@ -35,6 +38,7 @@ class Settings(BaseSettings):
     upload_dir: str = "uploads"
     max_upload_mb: int = 20
     max_pdf_chars: int = 150_000  # text sent to the model per paper
+    max_arxiv_pdf_mb: int = 30  # full text fetched from arXiv when a reader first asks about a paper
 
     # Rate limits (per user, or per IP address for login and sign-up)
     chat_requests_per_minute: int = 10

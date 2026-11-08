@@ -2,6 +2,7 @@
 
 import asyncio
 import logging
+from collections.abc import AsyncIterator
 
 from google import genai
 from google.genai import errors, types
@@ -73,3 +74,57 @@ async def generate(prompt: str, model: str | None = None, json_output: bool = Fa
         raise
     except Exception as e:
         raise LLMError(f"{model} failed: {e}") from e
+
+
+async def generate_stream(prompt: str, model: str | None = None) -> AsyncIterator[str]:
+    """Stream the model's reply as it is written.
+
+    Opening the stream falls back like generate() does: a rate-limited or overloaded model
+    hands over to the fallback model before any text has been sent. An error part-way through
+    raises LLMError.
+    """
+    model = model or settings.gemini_model
+
+    async def open_stream(name: str):
+        return await get_client().aio.models.generate_content_stream(model=name, contents=prompt)
+
+    try:
+        try:
+            stream = await open_stream(model)
+        except errors.APIError as e:
+            fallback = settings.gemini_fallback_model
+            if e.code not in FALLBACK_CODES or not fallback or fallback == model:
+                raise
+            logger.warning("%s answered %s, streaming from %s instead", model, e.code, fallback)
+            model = fallback
+            stream = await open_stream(fallback)
+        async for chunk in stream:
+            if chunk.text:
+                yield chunk.text
+    except LLMError:
+        raise
+    except Exception as e:
+        raise LLMError(f"{model} failed: {e}") from e
+
+
+EMBED_BATCH = 100  # the most texts the embedding endpoint takes in one call
+
+
+async def embed(texts: list[str], task: str) -> list[list[float]]:
+    """Embed texts for retrieval. task is "RETRIEVAL_DOCUMENT" for chunks or "RETRIEVAL_QUERY" for a question."""
+    config = types.EmbedContentConfig(task_type=task, output_dimensionality=settings.embedding_dimensions)
+    vectors: list[list[float]] = []
+    try:
+        for start in range(0, len(texts), EMBED_BATCH):
+            batch = texts[start : start + EMBED_BATCH]
+            response = await get_client().aio.models.embed_content(
+                model=settings.gemini_embedding_model, contents=batch, config=config
+            )
+            vectors += [list(e.values or []) for e in response.embeddings or []]
+    except LLMError:
+        raise
+    except Exception as e:
+        raise LLMError(f"Embedding failed: {e}") from e
+    if len(vectors) != len(texts):
+        raise LLMError(f"Embedding returned {len(vectors)} vectors for {len(texts)} texts")
+    return vectors

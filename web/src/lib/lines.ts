@@ -67,6 +67,14 @@ export function stationName(title: string, max = 34): string {
 
 const TRAILING = new Set(["a", "an", "and", "as", "at", "by", "for", "from", "in", "into", "of", "on", "or", "the", "to", "using", "via", "with", "without"]);
 
+/**
+ * What a paper is called on the map: its authored station name, or, for papers analysed
+ * before names existed, the opening of its title.
+ */
+export function paperStationName(paper: { short_name: string | null; title: string }): string {
+  return paper.short_name ?? stationName(paper.title, 24);
+}
+
 /** Wrap a station name onto at most two lines of roughly `width` characters. */
 export function wrapName(name: string, width = 18): string[] {
   if (name.length <= width) return [name];

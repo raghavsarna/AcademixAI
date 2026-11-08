@@ -92,12 +92,14 @@ def test_normalize_arxiv_id(value, doi, expected):
 def test_normalize_change_fields():
     fields = normalize_change_fields(
         {
+            "short_name": " SwarmEvolve. ",
             "what_changed": "A new optimiser \u2014 twice as fast.",
             "change_type": "New Method",
             "builds_on": [{"work": "Adam", "relation": "extends"}, {"work": "SGD", "relation": "beats"}, "Lion", {}],
             "explanations": {"plain": "Simple.", "student": ["A", "B"], "expert": None, "genius": "x"},
         }
     )
+    assert fields["short_name"] == "SwarmEvolve"
     assert fields["what_changed"] == "A new optimiser, twice as fast."
     assert fields["change_type"] == "new-method"
     assert fields["builds_on"] == [
@@ -107,6 +109,7 @@ def test_normalize_change_fields():
     ]
     assert fields["explanations"] == {"plain": "Simple.", "student": "- A\n- B"}
     assert normalize_change_fields({"change_type": "vibes"})["change_type"] is None
+    assert normalize_change_fields({"short_name": "A framework that converts papers into worlds"})["short_name"] is None
 
 
 def test_rate_limiter_window(monkeypatch):

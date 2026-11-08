@@ -21,7 +21,15 @@ CHANGE_TYPES = {
 
 RELATIONS = ("extends", "challenges", "compares-with", "applies", "replaces")
 
-CHANGE_FIELDS_SPEC = f"""  "what_changed": "one or two sentences: what this paper claims is new compared with earlier
+SHORT_NAME_MAX = 28
+
+SHORT_NAME_SPEC = f"""a station name for this paper on a metro map: 1 to 3 words, at most {SHORT_NAME_MAX}
+    characters. Use the paper's own name for its method, model, benchmark or dataset when it has one
+    (for example "SwarmEvolve"). Otherwise write a short noun phrase for the contribution that reads as a
+    complete name (for example "Lie symmetry discovery"), never the first words of the title cut off."""
+
+CHANGE_FIELDS_SPEC = f"""  "short_name": "{SHORT_NAME_SPEC}",
+  "what_changed": "one or two sentences: what this paper claims is new compared with earlier
     work. Be concrete: name the method, finding or number. Only what the text states.",
   "change_type": one of {json.dumps(list(CHANGE_TYPES))},
   "why_it_matters": "one or two sentences on who should care and why",
@@ -92,6 +100,17 @@ def strip_em_dashes(text: str | None) -> str | None:
     return re.sub(r"\s*—\s*", ", ", text)
 
 
+def normalize_short_name(value: Any) -> str | None:
+    """A usable station name, or None when the reply is missing, too long or a sentence."""
+    name = as_text(value)
+    if not name:
+        return None
+    name = name.strip(" .\"'")
+    if not name or len(name) > SHORT_NAME_MAX or len(name.split()) > 4:
+        return None
+    return name
+
+
 def normalize_change_fields(data: dict[str, Any]) -> dict[str, Any]:
     """Validate the what-changed, builds-on and explanation fields of a model reply."""
     change_type = as_text(data.get("change_type"))
@@ -115,6 +134,7 @@ def normalize_change_fields(data: dict[str, Any]) -> dict[str, Any]:
             explanations[depth] = text
 
     return {
+        "short_name": normalize_short_name(data.get("short_name")),
         "what_changed": strip_em_dashes(as_text(data.get("what_changed"))),
         "change_type": change_type if change_type in CHANGE_TYPES else None,
         "why_it_matters": strip_em_dashes(as_text(data.get("why_it_matters"))),

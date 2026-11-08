@@ -65,6 +65,7 @@ class PaperCard(PaperSummary):
     arxiv_id: str | None
     source_url: str | None
     categories: list[str]
+    short_name: str | None
     change_type: str | None
     what_changed: str | None
     why_it_matters: str | None

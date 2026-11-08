@@ -14,6 +14,9 @@ _client: genai.Client | None = None
 
 RETRY_DELAY_SECONDS = 2.0
 
+# Rate limited or overloaded: worth trying the fallback model
+FALLBACK_CODES = (429, 503)
+
 
 class LLMError(Exception):
     """The model could not produce an answer (not configured, rate limited or failing)."""
@@ -51,7 +54,7 @@ async def generate(prompt: str, model: str | None = None, json_output: bool = Fa
 
     json_output=True asks the model to reply with a JSON document.
     Server errors and dropped connections are retried once. If the model is rate limited
-    (HTTP 429), the request moves to the fallback model. Raises LLMError if no answer
+    (HTTP 429) or overloaded (HTTP 503), the request moves to the fallback model. Raises LLMError if no answer
     could be produced.
     """
     model = model or settings.gemini_model
@@ -59,8 +62,8 @@ async def generate(prompt: str, model: str | None = None, json_output: bool = Fa
         return await _call_with_retry(model, prompt, json_output)
     except errors.APIError as e:
         fallback = settings.gemini_fallback_model
-        if e.code == 429 and fallback and fallback != model:
-            logger.warning("%s is rate limited, falling back to %s", model, fallback)
+        if e.code in FALLBACK_CODES and fallback and fallback != model:
+            logger.warning("%s answered %s, falling back to %s", model, e.code, fallback)
             try:
                 return await _call_with_retry(fallback, prompt, json_output)
             except Exception as fallback_error:

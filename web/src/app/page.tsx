@@ -15,29 +15,31 @@ const DEMO_PAPER_ID = "8d8b360c517f55a1b37e57f5240020eb";
 
 function HeroIntro() {
   return (
-    <>
+    <div className="grid gap-x-12 gap-y-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-end">
       <h1 className="max-w-[17ch] text-[2.75rem] font-extrabold leading-[0.98] tracking-[-0.035em] sm:text-[3.5rem] xl:text-[3.875rem]">
         See what changed in AI research today.
       </h1>
-      <p className="mt-4 max-w-[60ch] text-lg leading-relaxed">
-        Each day we read the new arXiv papers in AI, machine learning, language and vision, pick the ones that move
-        the field, and draw them on one map. Open any paper and read it Plain, Student or Expert.
-      </p>
-      <div className="mt-6 flex flex-wrap gap-3">
-        <Link
-          href="/today"
-          className="rounded-[4px] bg-band px-6 py-3.5 text-lg font-bold text-white no-underline transition-colors duration-150 hover:bg-ink"
-        >
-          Ride today&rsquo;s changes
-        </Link>
-        <Link
-          href="/explain"
-          className="rounded-[4px] border-2 border-band px-6 py-3.5 text-lg font-bold text-ink no-underline transition-colors duration-150 hover:bg-panel"
-        >
-          Explain a paper
-        </Link>
+      <div>
+        <p className="max-w-[60ch] text-lg leading-relaxed">
+          Each day we read the new arXiv papers in AI, machine learning, language and vision, pick the ones that move
+          the field, and draw them on one map. Open any paper and read it Plain, Student or Expert.
+        </p>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <Link
+            href="/today"
+            className="rounded-[4px] bg-band px-6 py-3.5 text-lg font-bold text-white no-underline transition-colors duration-150 hover:bg-ink"
+          >
+            Ride today&rsquo;s changes
+          </Link>
+          <Link
+            href="/explain"
+            className="rounded-[4px] border-2 border-band px-6 py-3.5 text-lg font-bold text-ink no-underline transition-colors duration-150 hover:bg-panel"
+          >
+            Explain a paper
+          </Link>
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -122,7 +124,6 @@ async function HeroMap() {
   const date = formatEditionDate(edition.edition_date);
   return (
     <EditionMap
-      variant="hero"
       entries={edition.entries}
       editionLabel={`the edition of ${date}`}
       intro={<HeroIntro />}

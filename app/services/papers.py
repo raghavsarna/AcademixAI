@@ -144,7 +144,15 @@ def _enrich(paper: Paper, fields: dict[str, Any], text: str, file_hash: str) -> 
     """A known paper analysed from its abstract gains the full-text analysis from an upload."""
     if paper.main_findings:
         return
-    for key in ("main_findings", "methodology", "explanations", "what_changed", "why_it_matters", "builds_on"):
+    for key in (
+        "main_findings",
+        "methodology",
+        "explanations",
+        "short_name",
+        "what_changed",
+        "why_it_matters",
+        "builds_on",
+    ):
         if fields.get(key):
             setattr(paper, key, fields[key])
     paper.full_text = text

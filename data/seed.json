@@ -25,6 +25,7 @@
         "cs.AI",
         "cs.NE"
       ],
+      "short_name": "SwarmEvolve",
       "what_changed": "The authors introduce SwarmEvolve, a framework where AI agents perform evolutionary search by reasoning directly in latent space and sharing KV caches rather than generating textual chains of thought. This approach achieves higher scores on 21 mathematical and scientific computing problems while reducing search time to 3 to 8 minutes compared to 60 minutes for existing state-of-the-art frameworks.",
       "change_type": "new-method",
       "why_it_matters": "Researchers and practitioners looking to optimize scientific code can use this method to drastically reduce computational costs and latency in evolutionary searches without sacrificing solution quality.",
@@ -68,6 +69,7 @@
         "cs.CL",
         "cs.LG"
       ],
+      "short_name": "Scientist World",
       "what_changed": "The authors introduce Scientist World, a framework that converts research papers into executable environments where AI-Scientists can perform research, alongside a dataset of 1,000 verified environments and 6,400 hours of research traces.",
       "change_type": "new-method",
       "why_it_matters": "It provides a standardized, runnable playground to evaluate and train autonomous AI agents in scientific research tasks, moving beyond static literature to active experimentation.",
@@ -114,6 +116,7 @@
         "cs.CV",
         "cs.LG"
       ],
+      "short_name": "Social Humanoid",
       "what_changed": "The authors introduce Social Humanoid, a hierarchical framework for socially responsive whole-body motion on a 29-DoF Unitree G1 robot, trained using a novel two-phase adaptive retargeting procedure that converts human-human interaction data into 260 hours of human-humanoid interaction sequences.",
       "change_type": "new-method",
       "why_it_matters": "Researchers and robotics engineers should care because this work enables humanoid robots to move in sync with humans, moving beyond solitary navigation toward fluid physical collaboration.",
@@ -154,6 +157,7 @@
       "categories": [
         "cs.AI"
       ],
+      "short_name": "BabyTheorist",
       "what_changed": "The authors introduce BabyTheorist, a benchmark that requires models to learn reusable theories from continuous visual observations without explicit program labels or task identity, testing the ability to infer hidden compositional programs from transitions alone.",
       "change_type": "benchmark",
       "why_it_matters": "It targets a gap in current AI research, specifically moving beyond static few-shot puzzles to test if machines can genuinely understand the underlying rules of a world through observation alone, a prerequisite for human-like reasoning.",
@@ -198,6 +202,7 @@
         "cs.RO",
         "cs.AI"
       ],
+      "short_name": "VLA-Tug",
       "what_changed": "The authors introduce VLA-Tug, a lightweight latent probe designed for real-time failure prediction and classification in Vision-Language-Action models, achieving up to 30% higher early detection and 44% higher top-3 failure classification accuracy on unseen tasks compared to baselines.",
       "change_type": "new-method",
       "why_it_matters": "Engineers and researchers deploying embodied AI in real-world environments need reliable, efficient safety monitors to prevent damage and enable corrective actions when models encounter unexpected situations.",
@@ -239,6 +244,7 @@
         "math.GR",
         "math.NA"
       ],
+      "short_name": "Lie symmetry discovery",
       "what_changed": "The authors introduce a data-driven framework for discovering intrinsic Lie point symmetries directly from differential equation data, avoiding the need for symbolic equations. The method uses an operator-theoretic approach on jet-space data, employing prolongation and sequential subspace restrictions to identify generators.",
       "change_type": "new-method",
       "why_it_matters": "This approach enables scientists to uncover hidden geometric structures in physical systems even when the underlying symbolic equations are unknown, facilitating better model reduction and scientific machine learning.",
@@ -278,6 +284,7 @@
         "stat.ML",
         "cs.LG"
       ],
+      "short_name": "Nonlinear iSSMs",
       "what_changed": "The authors extend interventional state-space models (iSSMs) to support nonlinear latent dynamics and general injective emission functions, proving that these models remain identifiable up to permutation, scaling, and shift.",
       "change_type": "new-method",
       "why_it_matters": "Researchers studying neural circuits can now reliably uncover hidden brain states and dynamics using nonlinear models, which previously were often unidentifiable without specific linear constraints.",
@@ -320,6 +327,7 @@
       "categories": [
         "cs.LG"
       ],
+      "short_name": "Muir",
       "what_changed": "Muir introduces a linear attention mechanism that uses sensitivity-allocated low-rank gate projections and matched-filter readouts to improve state updates. It replaces standard gate parameterization with a method that accounts for the imbalance between write sensitivity and erasure sensitivity in the model state.",
       "change_type": "new-method",
       "why_it_matters": "Researchers and engineers building large language models will find Muir valuable because it achieves better perplexity and recall than Transformer and Gated DeltaNet models while enabling massive sequence length extrapolation without performance drift.",
@@ -366,6 +374,7 @@
       "categories": [
         "cs.CL"
       ],
+      "short_name": "SpecCTMC",
       "what_changed": "SpecCTMC is a new training-free speculative sampler that reduces sequential model evaluations for diffusion language models by using previous model predictions for parallel token updates, while using an acceptance-and-correction mechanism to remain mathematically exact.",
       "change_type": "new-method",
       "why_it_matters": "It allows for faster text generation in diffusion-based language models without sacrificing the quality or the exactness of the output distribution, which is a major bottleneck for these models.",
@@ -409,6 +418,7 @@
       "categories": [
         "cs.LG"
       ],
+      "short_name": "VINE",
       "what_changed": "The authors introduce VINE, a non-parametric mutual information estimator that uses simplified D-vine copulas to decompose the joint density into a product of pair copulas.",
       "change_type": "new-method",
       "why_it_matters": "Researchers and practitioners dealing with low- to medium-dimensional data can achieve competitive mutual information estimation accuracy with significantly lower computational costs compared to current neural network-based approaches.",
@@ -476,6 +486,7 @@
         "cs.AI",
         "cs.CL"
       ],
+      "short_name": "Safin-1.5",
       "what_changed": "Safin-1.5 introduces a safety-native architecture featuring persistent safety states and hazardous-knowledge disentanglement, alongside a recursive safety improvement loop and a formal reasoning inference-time harness.",
       "change_type": "new-method",
       "why_it_matters": "It offers a path to build AI systems that can improve their own safety capabilities recursively without degrading performance, addressing a critical bottleneck in the long-term safety of advanced AI models.",
@@ -520,6 +531,7 @@
       "categories": [
         "cs.LG"
       ],
+      "short_name": "Unified training",
       "what_changed": "The authors introduce a 'unified training' framework that replaces the traditional staged pipeline (pretraining, SFT, and RL) with a single likelihood-based algorithm. They achieve this by deriving RL objectives as maximum-likelihood fitting to target distributions generated by the model.",
       "change_type": "new-method",
       "why_it_matters": "Researchers and practitioners should care because this method simplifies the complex, multi-stage training pipelines for large models into a single, cohesive workflow, potentially leading to more efficient training and better model performance.",
@@ -560,6 +572,7 @@
         "cs.AI",
         "cs.HC"
       ],
+      "short_name": "EnvOS",
       "what_changed": "The authors introduce EnvOS, a framework that audits computer-use agents by certifying that dynamic task environments work correctly and that grading logic is robust to mid-task updates.",
       "change_type": "new-method",
       "why_it_matters": "As agents move from static benchmarks to real-world software, their ability to handle shifting information is critical. Researchers and developers need this framework to ensure agent failures are due to the agent's reasoning rather than flawed testing environments.",
@@ -606,6 +619,7 @@
         "cs.CV",
         "stat.ML"
       ],
+      "short_name": "Platonic JEPAs",
       "what_changed": "The authors prove a Platonic Representation Theorem for Joint-Embedding Predictive Architectures (JEPAs) and demonstrate that JEPAs achieve better cross-modal alignment than next-token prediction models using 42 times fewer training samples.",
       "change_type": "new-method",
       "why_it_matters": "This research provides a theoretical foundation for how AI models can converge on a shared understanding of the world, suggesting that smarter training objectives, rather than just massive scale, are key to building efficient, unified AI systems.",
@@ -652,6 +666,7 @@
       "categories": [
         "cs.CV"
       ],
+      "short_name": "GATS",
       "what_changed": "The authors introduce Geometry-Aware Token Selection (GATS), a method that uses LiDAR and radar data to pre-select relevant image patches before vision processing, reducing FLOPs by up to 18x.",
       "change_type": "new-method",
       "why_it_matters": "It demonstrates that discarding irrelevant visual data allows autonomous driving models to plan more accurately while using significantly less computational power.",
@@ -691,6 +706,7 @@
         "cs.LG",
         "cs.RO"
       ],
+      "short_name": "Coupled Guidance",
       "what_changed": "The authors introduce Coupled Guidance, a flow-matching-specific guidance mechanism that preserves the coupling structure during training. Unlike existing methods that naively translate diffusion guidance to flow matching, this approach improves stability and sample quality.",
       "change_type": "new-method",
       "why_it_matters": "Researchers and practitioners working with flow-matching models can now achieve more stable and accurate control over generation tasks, such as robotic motion planning and image synthesis, without adding computational overhead.",
@@ -736,6 +752,7 @@
         "cs.CC",
         "cs.CR"
       ],
+      "short_name": "RIPs",
       "what_changed": "The paper introduces Rewindable Interactive Proofs (RIPs), a new model for verifying powerful AI systems where a verifier can save and restore the prover's state. This approach achieves efficient verification for certain oracle-aided computations without assuming a truthful prover and without relying on cryptography.",
       "change_type": "new-method",
       "why_it_matters": "It provides a more efficient way for humans or weak systems to verify complex AI outputs, which is a core challenge in AI safety and alignment.",
@@ -777,6 +794,7 @@
         "cs.HC",
         "cs.LG"
       ],
+      "short_name": "Behavioral drift modeling",
       "what_changed": "The authors introduce a two-level authentication system that combines TCN-based fixed-text verification with a 4-model ensemble for continuous free-text monitoring to address behavioral drift. It uses population-based training to adapt to typing changes over time and features an automated feedback loop that triggers re-authentication if anomalies are detected.",
       "change_type": "new-method",
       "why_it_matters": "This system provides a more robust security layer for applications requiring continuous verification, such as remote work or sensitive data access, by accounting for how human typing habits naturally change over time.",
@@ -814,6 +832,7 @@
         "cs.AI",
         "math.OC"
       ],
+      "short_name": "PB-AMD",
       "what_changed": "The authors introduce Privacy-Budget Adjoint Mirror Descent (PB-AMD), a method that treats privacy budget allocation as an open-loop control problem, deriving an exact-budget simplex formulation for optimal noise scheduling.",
       "change_type": "new-method",
       "why_it_matters": "Researchers and practitioners working with Differentially Private SGD can use this framework to optimize how they spend their limited privacy budget over training iterations, leading to better utility than uniform allocation.",
@@ -863,6 +882,7 @@
         "cs.LG",
         "physics.comp-ph"
       ],
+      "short_name": "SwinUNETR-V2",
       "what_changed": "The paper introduces SwinUNETR-V2 and NeXtUNETR architectures to predict electron densities, achieving state-of-the-art normalized mean absolute errors of 0.075% and 0.046% on the QM9 dataset, respectively.",
       "change_type": "new-method",
       "why_it_matters": "By accurately predicting electron densities, these models bypass expensive iterative self-consistent calculations, significantly accelerating simulations of electronic structures, forces, and molecular dynamics for practitioners in computational chemistry.",
@@ -907,6 +927,7 @@
       "categories": [
         "cs.AI"
       ],
+      "short_name": "NURESA",
       "what_changed": "The authors introduce NURESA (Neural Unit with Retentive Self-Adaptive Architecture), a neural layer that stores persistent memories within units rather than relying solely on synaptic weights. This allows for zero-shot transfer of learned capabilities between model instances without retraining.",
       "change_type": "new-method",
       "why_it_matters": "This approach offers a way to move learned knowledge between different AI models efficiently, which could solve problems like catastrophic forgetting and the need for expensive, repetitive training cycles.",
@@ -951,6 +972,7 @@
       "categories": [
         "cs.LG"
       ],
+      "short_name": "DIFFNAS",
       "what_changed": "DIFFNAS is a new predictor-free NAS framework that uses a discrete graph diffusion model guided by training-free metrics like MeCo and SWAP instead of learned performance predictors.",
       "change_type": "new-method",
       "why_it_matters": "It significantly lowers the computational cost of designing deep neural networks, making automated architecture search more accessible by removing the need for training expensive predictor models.",
@@ -1000,6 +1022,7 @@
       "categories": [
         "cs.AI"
       ],
+      "short_name": "Latent Sparse Attention",
       "what_changed": "The authors introduce Latent Sparse Attention (LSA), which hierarchically clusters keys in a latent space to allow queries to score clusters rather than individual keys, bypassing the quadratic cost of full attention.",
       "change_type": "new-method",
       "why_it_matters": "Researchers and developers dealing with contexts exceeding 1 million tokens will benefit from LSA's significant speedups in prefill and decoding phases while maintaining accuracy comparable to full attention.",
@@ -1046,6 +1069,7 @@
         "cs.RO",
         "stat.ML"
       ],
+      "short_name": "CausalWAM",
       "what_changed": "The authors introduce CausalWAM (CWAM), a method that adds a sparse routing path to pre-existing World Action Models to decouple action-relevant latent variables from nuisance variables. This ensures that actions are generated solely from variables that causally influence those actions, rather than the entire observed scene.",
       "change_type": "new-method",
       "why_it_matters": "This is crucial for researchers and practitioners in robotics and AI who need models that act reliably. By filtering out irrelevant environmental noise, robots can make more efficient and robust decisions during closed-loop execution.",
@@ -1089,6 +1113,7 @@
         "cs.AI",
         "cs.RO"
       ],
+      "short_name": "Sensorium",
       "what_changed": "Sensorium is a new open-source Python library designed to handle the recording, processing, and curation of multimodal surgical data using ROS and ROS2 middleware.",
       "change_type": "tool",
       "why_it_matters": "It lowers the barrier for researchers to collect and organize complex surgical data, which is essential for training robots in high-stakes medical environments.",
@@ -1138,6 +1163,7 @@
         "stat.ML",
         "cs.LG"
       ],
+      "short_name": "WASABI",
       "what_changed": "The authors introduce WASABI, a method that uses diffusion models to sample from Boltzmann distributions by minimizing KL divergence via Wasserstein gradient flows without requiring intractable density gradients. It demonstrates a 3.3x reduction in energy evaluations on the alanine dipeptide benchmark compared to state-of-the-art baselines.",
       "change_type": "new-method",
       "why_it_matters": "Researchers in physics and chemistry who rely on energy-based sampling can now generate high-quality samples more efficiently, significantly reducing the computational cost of expensive energy function evaluations.",
@@ -1182,6 +1208,7 @@
         "cs.AI",
         "stat.ML"
       ],
+      "short_name": "Taylor-corrected Newton",
       "what_changed": "The authors introduce a Taylor-corrected lazy Newton method that achieves a near-optimal complexity of O(n + n^(5/7) * ε^(-2/7)) for convex finite-sum optimization, improving upon the previous O(n + n^(6/7) * ε^(-2/7)) bound under the assumption of individual smoothness.",
       "change_type": "new-method",
       "why_it_matters": "This result demonstrates that individual smoothness allows for faster optimization than previously thought, providing a tighter mathematical limit and a more efficient algorithm for practitioners solving large-scale finite-sum optimization problems.",
@@ -1229,6 +1256,7 @@
         "cs.LG",
         "cs.AI"
       ],
+      "short_name": "Backpropagation-free study",
       "what_changed": "The authors perform the first systematic evaluation of backpropagation-free learning rules (DFA, DRTP, and NoProp) on 1D convolutional architectures using 112 UCR time series datasets. They introduce an analysis framework to relate performance gaps to dataset properties and test convolutional feature learning using global average pooling.",
       "change_type": "analysis",
       "why_it_matters": "Researchers and practitioners working on resource-constrained hardware or long time-series tasks can use these findings to understand how alternative training rules compare to traditional backpropagation in efficiency and accuracy.",
@@ -1282,6 +1310,7 @@
       "categories": [
         "cs.LG"
       ],
+      "short_name": "Multiscale FFT Accounting",
       "what_changed": "The authors introduce a 'multiscale FFT' algorithm that improves the computational complexity of privacy loss accounting for random allocation sampling from O(α⁻²) to O(α⁻¹log(1/α)). They also implement mean-preserving connect-the-dots projection to reduce rounding errors from O(α) to O(α²/log(t)).",
       "change_type": "new-method",
       "why_it_matters": "Researchers and practitioners using Differential Privacy (DP) in training models (like DP-SGD) can now calculate privacy budgets significantly faster and with higher precision, making large-scale private machine learning more computationally feasible.",
@@ -1335,6 +1364,7 @@
         "cs.LG",
         "math.OC"
       ],
+      "short_name": "PRISM",
       "what_changed": "The authors introduce Proximal Refinement on Implicit Smooth Manifolds (PRISM), a method for Riemannian optimization on manifolds defined only by feasible samples rather than explicit geometric primitives like tangent spaces or retractions.",
       "change_type": "new-method",
       "why_it_matters": "PRISM allows for efficient optimization in complex engineering and scientific systems where the underlying manifold is unknown and can only be accessed through data, bypassing the need for explicit geometric modeling.",
@@ -1370,6 +1400,7 @@
       "categories": [
         "cs.LG"
       ],
+      "short_name": "Follow the Features",
       "what_changed": "The authors introduce Follow the Features (FtF), a data-selection method that uses sparse autoencoder (SAE) feature activation statistics to rank and select training samples, including a resampling step to ensure diversity.",
       "change_type": "new-method",
       "why_it_matters": "This research provides a way to train high-performing LLMs on significantly smaller, curated subsets of data, which reduces computational costs and data management overhead.",
@@ -1417,6 +1448,7 @@
       "categories": [
         "cs.LG"
       ],
+      "short_name": "Functional Autoencoder",
       "what_changed": "The authors introduce a functional autoencoder that decouples representation learning from operator learning, creating a universal, task-agnostic latent space for neural operators. This space is pre-trained via self-supervision on analytic functions and remains frozen, allowing for significantly faster training and inference through cached embeddings.",
       "change_type": "new-method",
       "why_it_matters": "Researchers and engineers working on scientific computing and physical simulations should care because this method drastically reduces the computational cost of training neural operators while achieving state-of-the-art accuracy across diverse physical domains.",
@@ -1456,6 +1488,7 @@
         "stat.ML",
         "cs.LG"
       ],
+      "short_name": "Extremal Token Modeling",
       "what_changed": "The authors introduce an 'extremal token representation' that converts multivariate extreme events into categorical sequences, which are then modeled by a decoder-only transformer. This allows the system to generate future sequences of extreme event occurrences by learning history-dependent kernels via simulation-based pretraining.",
       "change_type": "new-method",
       "why_it_matters": "This approach helps researchers and analysts predict the sequence of extreme events in complex systems, such as financial market crashes or natural disasters, where understanding the timing and identity of the next dominant event is critical.",
@@ -1492,6 +1525,7 @@
         "cs.CL",
         "cs.LG"
       ],
+      "short_name": "In-Context Learning Circuit",
       "what_changed": "The authors identify a specific neural circuit consisting of key-value memory heads and gating mechanisms that enables few-shot sentence classification in 3-4B parameter transformers. They demonstrate that these models perform in-context learning by storing demonstration labels as keys and retrieving them during the query phase through a gated associative lookup mechanism.",
       "change_type": "analysis",
       "why_it_matters": "This research provides a concrete, mechanistic explanation for how transformers perform tasks without parameter updates. It helps practitioners understand the internal logic of language models and provides a blueprint for how learning behavior emerges from architectural components.",
@@ -1529,6 +1563,7 @@
         "cs.LG",
         "econ.TH"
       ],
+      "short_name": "Neural Networks and Games",
       "what_changed": "The paper establishes an exact mathematical equivalence between symmetric binary Hopfield neural networks and binary-action games that admit a quadratic potential.",
       "change_type": "analysis",
       "why_it_matters": "This connection allows researchers to translate tools and insights between neuroscience and economics, specifically linking memory retrieval in neural networks to equilibrium selection in game theory.",
@@ -1572,6 +1607,7 @@
       "categories": [
         "cs.LG"
       ],
+      "short_name": "Parallel Reconsideration",
       "what_changed": "The authors introduce Parallel Reconsideration, a method that allows a speculative drafter to use additional, parallel forward passes to refine uncertain tokens before the target model checks them.",
       "change_type": "new-method",
       "why_it_matters": "It improves the inference efficiency of large language models by increasing the number of tokens accepted per speculative draft, resulting in faster text generation.",
@@ -1613,6 +1649,7 @@
         "cs.AI",
         "cs.SE"
       ],
+      "short_name": "ViBench 2.0",
       "what_changed": "ViBench 2.0 introduces a long-horizon benchmark for full-stack software development, evaluating agents on 17 web products requiring 241 consecutive feature requests rather than single-task completion.",
       "change_type": "benchmark",
       "why_it_matters": "It exposes a reliability gap where AI agents may pass individual test cases but fail to deliver functional software, providing a more realistic metric for real-world engineering platforms.",
@@ -1653,6 +1690,7 @@
         "cs.AI",
         "cs.LG"
       ],
+      "short_name": "PEARL",
       "what_changed": "The authors introduce Prefix-Expanded Adversarial Reinforcement Learning (PEARL), a GRPO-based method that improves the durability of suppressing undesirable model behaviors by training on rollouts from cached intermediate misalignment states.",
       "change_type": "new-method",
       "why_it_matters": "Researchers and developers focused on AI safety should care because this method prevents undesirable model behaviors from re-emerging after further fine-tuning, which is a common failure point for current unlearning techniques.",
@@ -1698,6 +1736,7 @@
       "categories": [
         "cs.AI"
       ],
+      "short_name": "Hybrid Spark",
       "what_changed": "The authors introduce Hybrid Spark, a framework that concurrently runs both model-based and model-free (n-gram) drafters. By using calibrated acceptance estimates for n-grams, it enables adaptive verification to select the optimal draft per request, improving throughput without requiring separate deployments.",
       "change_type": "new-method",
       "why_it_matters": "Practitioners can now use a single deployment to serve diverse workloads like code editing and chat efficiently, as the system dynamically chooses the best acceleration strategy for each request.",
@@ -1744,6 +1783,7 @@
         "cs.GR",
         "cs.LG"
       ],
+      "short_name": "GaussianRenderFormer",
       "what_changed": "The authors introduce GaussianRenderFormer, a transformer-based renderer that generates images from 3D Gaussian Splats without using a traditional explicit rasterizer. The method represents Gaussians as tokens in an encoder and uses a view-dependent decoder to project camera rays into pixels.",
       "change_type": "new-method",
       "why_it_matters": "This research challenges the necessity of traditional rasterization pipelines in 3D graphics, offering a path toward fully learned neural rendering systems that could potentially bypass manual projection math.",
@@ -1782,6 +1822,7 @@
         "cs.AI",
         "cs.CV"
       ],
+      "short_name": "BrainBind",
       "what_changed": "BrainBind is a framework that maps synchronized EEG and fMRI data into frozen long-form video embedding spaces to serve as a shared visual-semantic reference. It introduces a systematic evaluation on the CineBrain dataset to compare retrieval profiles across different configurations like Omni and Joint-Dual.",
       "change_type": "new-method",
       "why_it_matters": "This research provides a new way to align high-resolution brain data with complex, continuous human experiences, which helps scientists better understand how the brain processes long, narrative-based visual inputs.",
@@ -1820,6 +1861,7 @@
         "cs.CL",
         "cs.LG"
       ],
+      "short_name": "RecSA",
       "what_changed": "The authors introduce RecSA (Recursive Sparse Attention), a method that organizes the KV cache into a tree structure to achieve logarithmic selection cost. By using a shared pooler to summarize subtrees, it enables context extrapolation up to 2 million tokens while maintaining relative position stability.",
       "change_type": "new-method",
       "why_it_matters": "Researchers and practitioners dealing with massive context windows will benefit from the reduced computational overhead and improved accuracy on long-range tasks like RULER, which previously suffered from performance degradation at extreme lengths.",
@@ -1871,6 +1913,7 @@
         "cs.AI",
         "cs.LG"
       ],
+      "short_name": "Multi-step SWE",
       "what_changed": "The authors introduce Multi-step SWE, a benchmark consisting of 69 long-horizon software engineering tasks where each task requires 5-15 dependent steps built sequentially upon the agent's previous code.",
       "change_type": "benchmark",
       "why_it_matters": "It challenges current coding agents by testing their ability to maintain consistency and handle accumulated technical debt over extended development sessions, which reflects real-world programming workflows better than single-turn evaluations.",
@@ -1914,6 +1957,7 @@
       "categories": [
         "cs.AI"
       ],
+      "short_name": "Collaborative Intelligence",
       "what_changed": "The authors introduce the Collaborative Intelligence Benchmark, which evaluates AI agents on 240 tasks across 8 dimensions of teamwork. It specifically isolates collaborative performance from individual competency by ensuring models are only scored on tasks they are already capable of solving solo.",
       "change_type": "benchmark",
       "why_it_matters": "As AI models transition from solitary tools to collaborative teammates, this benchmark provides a standardized way to measure their ability to work effectively with humans and other AI, revealing that high capability does not equate to effective collaboration.",
@@ -1957,6 +2001,7 @@
       "categories": [
         "cs.CL"
       ],
+      "short_name": "Dory1.0-4B",
       "what_changed": "Dory1.0-4B introduces a looped, latent-recurrent architecture based on normalized Transformer (nGPT) blocks that allows a single 4B-parameter checkpoint to utilize variable inference compute budgets through a shared recurrent block. It uses a difficulty-aware curriculum for training and achieves superior performance compared to larger models like Qwen3.5-9B and Gemma 4 12B while optimizing token efficiency.",
       "change_type": "new-method",
       "why_it_matters": "Researchers and practitioners looking to balance inference compute with model performance will benefit from this elastic depth approach. It offers a way to scale performance on complex tasks like coding and agentic workflows without needing separate models for different compute constraints.",
@@ -2017,6 +2062,7 @@
         "cs.CL",
         "cs.AI"
       ],
+      "short_name": "SLATE",
       "what_changed": "SLATE is a new large-scale benchmark containing approximately 1,000 APIs in an e-commerce domain designed to evaluate long-horizon tool selection, utilizing a deterministic simulator and an objective, end-to-end task-success metric.",
       "change_type": "benchmark",
       "why_it_matters": "It addresses the limitation of current benchmarks that only test small toolsets or rely on subjective grading, providing a realistic, reproducible environment for testing how well AI agents can execute complex, multi-step enterprise workflows.",
@@ -2053,6 +2099,7 @@
         "cs.LG",
         "cond-mat.soft"
       ],
+      "short_name": "vfNN",
       "what_changed": "The authors introduce Variational Functional Neural Networks (vfNN), a method that solves physics problems by optimizing integral-based continuum functionals rather than solving differential equations directly.",
       "change_type": "new-method",
       "why_it_matters": "It offers an alternative to traditional physics-informed neural networks (PINNs) by avoiding the complexity of higher-order derivative loss functions and ad-hoc weighting parameters.",
@@ -2120,6 +2167,7 @@
         "cs.AI",
         "q-bio.BM"
       ],
+      "short_name": "ProteoCraft",
       "what_changed": "ProteoCraft is a new tree-based search framework for protein design that uses approximate structural gradients from diffusion-based models to guide sequence exploration and a coarse-to-fine verification process to validate candidates.",
       "change_type": "new-method",
       "why_it_matters": "It offers a more efficient way to design proteins for specific biological interactions, demonstrated by high success rates in laboratory experiments for complex targets like PD-L1.",
@@ -2170,6 +2218,7 @@
         "cs.AI",
         "cs.CL"
       ],
+      "short_name": "Library of Layers",
       "what_changed": "The authors introduce Library of Layers (LoL), an architecture that dynamically reorders transformer layers during inference rather than executing them in a fixed, predefined sequence.",
       "change_type": "new-method",
       "why_it_matters": "LoL enables models to adaptively select computational paths based on specific inputs, offering potential improvements in parameter efficiency, controllability, and reasoning capabilities.",
@@ -2220,6 +2269,7 @@
       "categories": [
         "cs.LG"
       ],
+      "short_name": "AA-MP",
       "what_changed": "The authors introduce Architecture-Aware Mixed Precision (AA-MP), a training strategy for geometry-aware neural operators that assigns different numerical precisions (FP32 vs BF16) based on replica roles within a replica-exchange framework.",
       "change_type": "new-method",
       "why_it_matters": "Researchers and engineers working on large-scale scientific simulations can use this to significantly reduce memory consumption and training time without sacrificing model accuracy or the quality of uncertainty estimates.",
@@ -2267,6 +2317,7 @@
         "cs.CL",
         "cs.AI"
       ],
+      "short_name": "FDE Evaluation",
       "what_changed": "The authors introduce a framework to evaluate LLM agents as forward-deployed engineers (FDEs) that perform requirement discovery and post-training execution in enterprise text-to-SQL tasks. They demonstrate that while top models can discover over 80% of requirements, only 25% of agent executions successfully meet all production acceptance criteria.",
       "change_type": "analysis",
       "why_it_matters": "This research is critical for enterprises considering AI for automated software engineering, as it highlights that high performance on traditional benchmarks does not guarantee production readiness and identifies specific gaps in current agent capabilities.",
@@ -2307,6 +2358,7 @@
         "cs.AI",
         "cs.LG"
       ],
+      "short_name": "PianoBench",
       "what_changed": "The authors introduce PianoBench, a benchmark for evaluating musical perception and reasoning using 20,000 hours of interleaved audio-transcript data. They demonstrate that open-weight models struggle with audio perception (max 52.8% accuracy) compared to text-based reasoning (up to 93.2% accuracy) and show that instruction tuning on music datasets improves model performance.",
       "change_type": "benchmark",
       "why_it_matters": "Researchers and developers in multimodal AI can use this to identify why current models struggle with audio-based musical reasoning compared to text-based inputs, helping refine future model training.",
@@ -2352,6 +2404,7 @@
         "cs.CV",
         "cs.AI"
       ],
+      "short_name": "MonoLaDN",
       "what_changed": "MonoLaDN introduces a language-guided denoising framework that distills geometric reasoning from a frozen VLM into a monocular 3D detector. The method uses VLM-generated object descriptions to train the detector to reconstruct reasoning, allowing the final model to retain geometric priors without the inference cost of a VLM.",
       "change_type": "new-method",
       "why_it_matters": "This approach enables efficient 3D perception by injecting rich semantic and geometric knowledge from heavy models into lightweight detectors, providing better accuracy for self-driving applications without slowing down inference.",
@@ -2390,6 +2443,7 @@
         "cs.MA",
         "econ.TH"
       ],
+      "short_name": "Proper Equilibrium Solver",
       "what_changed": "The paper introduces a deterministic polynomial-time algorithm to compute exact extensive-form proper equilibria in two-player zero-sum games with perfect recall. It achieves this by using a scaled doubly stochastic representation of action probabilities within a sequence-form polytope and solving a parametric linear system to ensure exactness.",
       "change_type": "new-method",
       "why_it_matters": "This result solves a long-standing complexity challenge in game theory, offering a way to compute refined equilibria, which are more robust than standard Nash equilibria, efficiently for games where realization probabilities may approach zero.",
@@ -2425,6 +2479,7 @@
       "categories": [
         "cs.LG"
       ],
+      "short_name": "Equivalence Compression",
       "what_changed": "The paper introduces a method to compress neural network checkpoints by searching for parameterizations within equivalence classes that minimize storage size. By utilizing exact gauge transformations and functional perturbations, it achieves up to 23.4% reduction in Zstandard-compressed checkpoint sizes for models like SmolLM2 and Qwen3.",
       "change_type": "new-method",
       "why_it_matters": "Practitioners managing large language model checkpoints can significantly reduce storage and bandwidth costs without needing to redesign existing compression codecs like gzip or Zstandard.",
@@ -2551,6 +2606,7 @@
         "cs.LG",
         "cs.RO"
       ],
+      "short_name": "Cosmos Simulation",
       "what_changed": "The authors introduce a framework that adapts Cosmos world foundation models to provide real-time, interactive simulation by processing action-based visual feedback and external physical state inputs.",
       "change_type": "new-method",
       "why_it_matters": "Researchers and robotics engineers can use this platform to create interactive training environments for embodied AI, bridging the gap between static generative models and active physical simulation.",
@@ -2594,6 +2650,7 @@
         "cs.IT",
         "cs.LG"
       ],
+      "short_name": "Goal Revelation",
       "what_changed": "The paper introduces the concept of goal revelation and defines a mathematical chain of inequalities relating information-theoretic empowerment, goal revelation, and capability-based power. It demonstrates that these metrics are not interchangeable and proposes a satisfaction floor based on interaction logs to monitor user power.",
       "change_type": "analysis",
       "why_it_matters": "Researchers and developers building AI assistants need this framework to understand how AI power impacts human autonomy. It provides a formal way to ensure AI systems do not inadvertently reduce human agency, highlighting why simple metrics like information flow are insufficient.",
@@ -2644,6 +2701,7 @@
         "cs.SE",
         "cs.AI"
       ],
+      "short_name": "SeVerus",
       "what_changed": "The authors introduce SEVERUS, a framework that generates context-aware, gamified verification benchmarks by systematically removing proof dependencies from existing verified Rust projects to create levels of increasing difficulty.",
       "change_type": "benchmark",
       "why_it_matters": "It forces AI coding agents to prove programs from scratch rather than relying on provided auxiliary lemmas, providing a more realistic and rigorous test for verification capabilities.",
@@ -2685,6 +2743,7 @@
       "categories": [
         "cs.LG"
       ],
+      "short_name": "Central Flow Analysis",
       "what_changed": "The authors introduce a central flow analysis to demonstrate that curvature corrections at the edge of stability cause a finite-dimensional drift that breaks established gradient flow conservation laws.",
       "change_type": "analysis",
       "why_it_matters": "Researchers and deep learning theorists should care because this explains why neural networks behave differently during training when learning rates are large, potentially impacting our understanding of model stability.",
@@ -2730,6 +2789,7 @@
         "econ.GN",
         "cs.AI"
       ],
+      "short_name": "Project Glasswing",
       "what_changed": "This paper analyzes the launch of Project Glasswing, finding that access to the Claude Mythos Preview AI model caused participating firms to more than double their vulnerability disclosures and identify 150 percent more high-impact flaws compared to firms without access.",
       "change_type": "analysis",
       "why_it_matters": "Policy makers and cybersecurity professionals should care because this provides evidence that frontier AI can significantly enhance defensive capabilities without creating a net increase in successful cyber attacks, while highlighting potential geopolitical security asymmetries.",
@@ -2770,6 +2830,7 @@
       "arxiv_id": "1706.03762",
       "source_url": "https://arxiv.org/abs/1706.03762",
       "categories": [],
+      "short_name": "Transformer",
       "what_changed": "The paper introduces the Transformer architecture, which replaces all recurrent and convolutional layers with multi-head self-attention mechanisms to allow for greater parallelization during training.",
       "change_type": "new-method",
       "why_it_matters": "The Transformer enables faster training for large-scale language models and sets a new state-of-the-art for translation quality, forming the architectural foundation for modern large language models.",
@@ -2820,6 +2881,7 @@
       "arxiv_id": "1810.04805",
       "source_url": "https://arxiv.org/abs/1810.04805",
       "categories": [],
+      "short_name": "BERT",
       "what_changed": "The paper introduces BERT, a language representation model that uses a masked language model (MLM) objective to enable deep bidirectional pre-training, unlike previous unidirectional models. It also incorporates a next sentence prediction (NSP) task to improve performance on tasks involving sentence relationships.",
       "change_type": "new-method",
       "why_it_matters": "It establishes a new state-of-the-art for a wide range of natural language processing tasks by allowing models to effectively use context from both directions, significantly reducing the need for heavily-engineered task-specific architectures.",
@@ -2868,6 +2930,7 @@
       "arxiv_id": null,
       "source_url": null,
       "categories": [],
+      "short_name": "AlexNet",
       "what_changed": "The authors introduced a large, deep convolutional neural network architecture (AlexNet) that utilized ReLU nonlinearities, overlapping pooling, and dropout to significantly outperform prior machine learning approaches on the ImageNet challenge.",
       "change_type": "new-method",
       "why_it_matters": "This paper demonstrated that deep convolutional neural networks, when scaled up with high-performance GPU computing and effective regularization, could achieve breakthrough performance on large-scale visual recognition tasks, sparking the modern deep learning revolution.",

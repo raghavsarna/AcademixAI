@@ -36,6 +36,7 @@ export type PaperCard = PaperSummary & {
   arxiv_id: string | null;
   source_url: string | null;
   categories: string[];
+  short_name: string | null;
   change_type: string | null;
   what_changed: string | null;
   why_it_matters: string | null;

@@ -3,7 +3,7 @@
 // Where possible one line bends at 45 degrees to run alongside the other through the
 // station; when there is no room, the two stations are joined by an out-of-station link.
 
-import { LINE_ORDER, type LineId, linesForPaper, stationName } from "./lines";
+import { LINE_ORDER, type LineId, linesForPaper } from "./lines";
 
 export const W = 1400;
 const TERMINAL = 26; // line ends
@@ -64,7 +64,7 @@ function orderLines(used: LineId[], pairs: [LineId, LineId][]): LineId[] {
   return best;
 }
 
-export function layoutMetro<T>(items: T[], categoriesOf: (item: T) => string[], titleOf: (item: T) => string): MetroLayout<T> {
+export function layoutMetro<T>(items: T[], categoriesOf: (item: T) => string[], nameOf: (item: T) => string): MetroLayout<T> {
   const servedBy = items.map((item) => linesForPaper(categoriesOf(item)).slice(0, 2));
   const used = [...new Set(servedBy.flat())];
   const pairs = servedBy.filter((l) => l.length === 2) as [LineId, LineId][];
@@ -87,7 +87,7 @@ export function layoutMetro<T>(items: T[], categoriesOf: (item: T) => string[], 
   const stations: MetroStation<T>[] = items.map((item, i) => {
     const own = servedBy[i];
     const x = xs[i];
-    const name = [stationName(titleOf(item), 24)];
+    const name = [nameOf(item)];
     if (own.length === 1) {
       const y = trackY[own[0]];
       return { item, index: i, lines: own, x, dots: [y], kind: "single", label: name, labelAbove: true, top: y, bottom: y };

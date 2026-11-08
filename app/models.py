@@ -46,6 +46,8 @@ class Paper(Base):
     arxiv_id: Mapped[str | None] = mapped_column(String(32), unique=True, index=True)
     source_url: Mapped[str | None] = mapped_column(String(500))
     categories: Mapped[list[str]] = mapped_column(JSON, default=list)
+    # A station name for the metro map: the paper's own name for its method, or a short noun phrase
+    short_name: Mapped[str | None] = mapped_column(String(40))
     # What the paper claims is new, and the kind of change (see services.analysis.CHANGE_TYPES)
     what_changed: Mapped[str | None] = mapped_column(Text)
     change_type: Mapped[str | None] = mapped_column(String(32))

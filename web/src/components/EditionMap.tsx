@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { type ReactNode, useMemo, useState } from "react";
 
-import { LINES, type LineId } from "@/lib/lines";
+import { LINES, type LineId, paperStationName } from "@/lib/lines";
 import { layoutMetro, type MetroLayout, type MetroStation, W } from "@/lib/metro-layout";
 import { CHANGE_TYPE_LABELS, type PaperCard } from "@/lib/types";
 
@@ -12,17 +12,18 @@ import { LineBullet, LineBullets } from "./LineBullet";
 type Entry = { rank: number; paper: PaperCard };
 type Station = MetroStation<Entry>;
 
-/** The day's papers as a metro map, with a station board for the open station. */
+/**
+ * The day's papers as a metro map. Under it, a station board for the open station, with a
+ * notch on its top edge that points up at that station.
+ */
 export function EditionMap({
   entries,
   editionLabel,
-  variant,
   intro,
   band,
 }: {
   entries: Entry[];
   editionLabel: string;
-  variant: "hero" | "page";
   intro?: ReactNode;
   band?: ReactNode;
 }) {
@@ -31,7 +32,7 @@ export function EditionMap({
       layoutMetro(
         entries,
         (e) => e.paper.categories,
-        (e) => e.paper.title,
+        (e) => paperStationName(e.paper),
       ),
     [entries],
   );
@@ -39,38 +40,21 @@ export function EditionMap({
   const current = map.stations[selected] ?? map.stations[0];
   if (!current) return null;
 
-  const board = <StationBoard station={current} total={map.stations.length} />;
-  const diagram = <Diagram map={map} selected={selected} onSelect={setSelected} label={editionLabel} />;
-
-  if (variant === "hero") {
-    return (
-      <div>
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1.3fr)_minmax(20rem,1fr)] lg:items-end">
-          <div>{intro}</div>
-          <div className="hidden md:block">{board}</div>
-        </div>
-        {band ? <div className="mt-6">{band}</div> : null}
-        <div className="mt-3 hidden md:block">{diagram}</div>
-        <Legend lines={map.lines} />
-        <StripMap stations={map.stations} label={editionLabel} />
-      </div>
-    );
-  }
-
-  const pct = (current.x / W) * 100;
   return (
     <div>
+      {intro ? <div className="mb-8">{intro}</div> : null}
       {band}
-      <div className="mt-5 hidden md:block">{diagram}</div>
+      <div className="mt-4 hidden md:block">
+        <Diagram map={map} selected={selected} onSelect={setSelected} label={editionLabel} />
+      </div>
       <Legend lines={map.lines} />
-      {/* The board hangs under the open station */}
-      <div className="relative mt-5 hidden md:block">
-        <div
-          className="relative w-[26rem] max-w-full transition-[left] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)]"
-          style={{ left: `clamp(0px, calc(${pct}% - 13rem), calc(100% - 26rem))` }}
-        >
-          {board}
-        </div>
+      <div className="relative mt-6 hidden md:block">
+        <span
+          aria-hidden
+          className="absolute -top-[13px] size-0 border-x-[10px] border-b-[10px] border-x-transparent border-b-band transition-[left] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)]"
+          style={{ left: `calc(${(current.x / W) * 100}% - 10px)` }}
+        />
+        <StationBoard station={current} total={map.stations.length} />
       </div>
       <StripMap stations={map.stations} label={editionLabel} />
     </div>
@@ -204,17 +188,22 @@ function StationBoard({ station, total }: { station: Station; total: number }) {
     station.lines.map((l) => LINES[l].name).join(" + "),
   ].filter(Boolean);
   return (
-    <aside aria-live="polite" className="border-t-[6px] border-band bg-panel p-5">
-      <div className="flex items-center justify-between gap-3">
-        <LineBullets lines={station.lines} size="md" />
-        <span className="tabular text-sm font-semibold text-ink-soft">
-          Station {station.item.rank} of {total}
-        </span>
+    <aside
+      aria-live="polite"
+      className="grid gap-x-10 gap-y-3 border-t-[6px] border-band bg-panel p-5 sm:p-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)_auto] lg:items-start"
+    >
+      <div>
+        <div className="flex items-center gap-3">
+          <LineBullets lines={station.lines} size="md" />
+          <span className="tabular text-sm font-semibold text-ink-soft">
+            Station {station.item.rank} of {total}
+          </span>
+        </div>
+        <h2 className="mt-3 text-xl font-bold leading-snug">{paper.title}</h2>
+        <p className="mt-1 text-sm font-semibold text-ink-soft">{meta.join(" · ")}</p>
       </div>
-      <h2 className="mt-4 text-xl font-bold leading-snug">{paper.title}</h2>
-      <p className="mt-1 text-sm font-semibold text-ink-soft">{meta.join(" · ")}</p>
-      <p className="mt-3 line-clamp-4 leading-relaxed">{paper.what_changed}</p>
-      <Link href={`/papers/${paper.id}`} className="mt-4 inline-block font-semibold text-link underline">
+      <p className="line-clamp-4 max-w-[60ch] leading-relaxed lg:pt-1">{paper.what_changed}</p>
+      <Link href={`/papers/${paper.id}`} className="font-semibold whitespace-nowrap text-link underline lg:pt-1">
         Read it at your level
       </Link>
     </aside>

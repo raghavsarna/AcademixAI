@@ -35,7 +35,7 @@ async function Paper({ params }: { params: PageProps<"/papers/[id]">["params"] }
 
   return (
     <div className="mx-auto max-w-[88rem] px-5 pt-10 sm:px-8 sm:pt-14">
-      <div className="grid gap-12 lg:grid-cols-[minmax(0,40rem)_18rem] lg:gap-16">
+      <div className="grid gap-12 lg:grid-cols-[minmax(0,40rem)_18rem] lg:justify-center lg:gap-16">
         <article className="min-w-0">
           <header>
             <h1 className="text-[2rem] font-extrabold leading-[1.08] tracking-[-0.03em] sm:text-[2.75rem]">

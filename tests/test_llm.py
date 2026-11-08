@@ -8,25 +8,34 @@ from app.config import settings
 
 
 def api_error(code: int) -> errors.APIError:
-    return errors.ClientError(code, {"error": {"code": code, "message": "error"}})
+    error = errors.ClientError if code < 500 else errors.ServerError
+    return error(code, {"error": {"code": code, "message": "error"}})
 
 
 def run(coro):
     return asyncio.run(coro)
 
 
-def test_falls_back_to_the_free_model_when_rate_limited(monkeypatch):
+@pytest.mark.parametrize("code", [429, 503])
+def test_falls_back_to_the_free_model_when_rate_limited_or_overloaded(monkeypatch, code):
     calls = []
 
     async def fake_call(model, prompt, json_output):
         calls.append(model)
         if model == settings.gemini_model:
-            raise api_error(429)
+            raise api_error(code)
         return f"answer from {model}"
+
+    async def no_sleep(_):
+        pass
+
+    monkeypatch.setattr(llm.asyncio, "sleep", no_sleep)
 
     monkeypatch.setattr(llm, "_call", fake_call)
     assert run(llm.generate("hi")) == f"answer from {settings.gemini_fallback_model}"
-    assert calls == [settings.gemini_model, settings.gemini_fallback_model]
+    # A 503 is retried once on the same model before falling back
+    expected = [settings.gemini_model] * (2 if code >= 500 else 1) + [settings.gemini_fallback_model]
+    assert calls == expected
 
 
 def test_other_errors_raise_llm_error_without_fallback(monkeypatch):

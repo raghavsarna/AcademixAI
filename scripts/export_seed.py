@@ -17,7 +17,7 @@ from scripts.seed import SEED_FILE
 
 PAPER_FIELDS = (
     "id", "doi", "title", "authors", "source", "publication_date", "keywords", "abstract", "origin",
-    "arxiv_id", "source_url", "categories", "what_changed", "change_type", "why_it_matters", "builds_on",
+    "arxiv_id", "source_url", "categories", "short_name", "what_changed", "change_type", "why_it_matters", "builds_on",
     "explanations", "main_findings", "methodology",
 )  # fmt: skip
 

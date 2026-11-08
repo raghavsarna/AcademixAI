@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 
 import { formatEditionDate, numberFormat } from "@/lib/format";
-import { linesForPaper } from "@/lib/lines";
+import { linesForPaper, paperStationName } from "@/lib/lines";
 import type { EditionDetail } from "@/lib/types";
 
 import { EditionChat } from "./EditionChat";
@@ -42,7 +42,6 @@ export function EditionView({ edition, path }: { edition: EditionDetail; path: s
 
       <section aria-labelledby="map-title">
         <EditionMap
-          variant="page"
           entries={edition.entries}
           editionLabel={`the edition of ${date}`}
           band={
@@ -87,7 +86,7 @@ export function EditionView({ edition, path }: { edition: EditionDetail; path: s
             <StationRail
               stations={edition.entries.map((e) => ({
                 rank: e.rank,
-                title: e.paper.title,
+                name: paperStationName(e.paper),
                 lines: linesForPaper(e.paper.categories).slice(0, 2),
               }))}
             />

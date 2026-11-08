@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 
-import { LINES, type LineId, stationName } from "@/lib/lines";
+import { LINES, type LineId } from "@/lib/lines";
 
-type RailStation = { rank: number; title: string; lines: LineId[] };
+type RailStation = { rank: number; name: string; lines: LineId[] };
 
 /**
  * A sticky strip map beside the list of changes: every station in order, coloured by line,
@@ -53,7 +53,7 @@ export function StationRail({ stations }: { stations: RailStation[] }) {
                 aria-current={active ? "location" : undefined}
                 className={`signage block pb-3 text-[0.9375rem] leading-snug no-underline ${active ? "font-bold text-ink" : "font-semibold text-ink-soft hover:text-ink"}`}
               >
-                {stationName(s.title)}
+                {s.name}
               </a>
             </li>
           );

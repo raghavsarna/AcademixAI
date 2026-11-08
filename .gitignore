@@ -26,3 +26,6 @@ videos/
 Thumbs.db
 .vscode/
 .idea/
+
+# Working files of the Impeccable design tool (DESIGN.md is the design reference)
+.impeccable/

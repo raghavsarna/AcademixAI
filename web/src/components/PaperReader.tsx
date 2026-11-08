@@ -7,6 +7,7 @@ import { useDepth } from "@/lib/use-depth";
 import { ChatPanel } from "./ChatPanel";
 import { DepthSwitch } from "./DepthSwitch";
 import { Markdown } from "./Markdown";
+import { SignBand } from "./SignBand";
 
 const AUDIENCE: Record<Depth, string> = {
   plain: "For anyone: no jargon, one everyday comparison.",
@@ -22,21 +23,16 @@ export function PaperReader({ paper }: { paper: PaperDetail }) {
   return (
     <div className="grid gap-10">
       <section aria-labelledby="explanation-title">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <h2 id="explanation-title" className="text-2xl font-bold">
-              Explained at your level
-            </h2>
-            <p className="mt-1 text-ink-soft">{AUDIENCE[depth]}</p>
-          </div>
-          <DepthSwitch value={depth} onChange={setDepth} controls="explanation" />
-        </div>
+        <SignBand title="Explained at your level" id="explanation-title">
+          <DepthSwitch value={depth} onChange={setDepth} controls="explanation" tone="dark" />
+        </SignBand>
+        <p className="mt-4 font-semibold text-ink-soft">{AUDIENCE[depth]}</p>
         <div
           id="explanation"
           role="tabpanel"
           aria-label={`${DEPTH_LABELS[depth]} explanation`}
           key={depth}
-          className="depth-settle mt-6"
+          className="depth-settle mt-4"
         >
           <Markdown>{text}</Markdown>
         </div>

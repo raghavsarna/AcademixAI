@@ -4,11 +4,19 @@ import { formatEditionDate, numberFormat } from "@/lib/format";
 import type { EditionSummary } from "@/lib/types";
 
 /** Editions set as a timetable: date, the day's biggest change, and the counts. */
-export function EditionTimetable({ editions, caption }: { editions: EditionSummary[]; caption: string }) {
+export function EditionTimetable({
+  editions,
+  caption,
+  header = "band",
+}: {
+  editions: EditionSummary[];
+  caption: string;
+  header?: "band" | "plain";
+}) {
   return (
     <>
       {/* Phones: one stacked row per edition */}
-      <ul className="border-t-[6px] border-band sm:hidden" aria-label={caption}>
+      <ul className={`sm:hidden ${header === "band" ? "border-t-[6px] border-band" : ""}`} aria-label={caption}>
         {editions.map((e) => (
           <li key={e.id} className="border-b border-rule py-4">
             <time dateTime={e.edition_date} className="text-sm font-semibold text-ink-soft">
@@ -26,7 +34,7 @@ export function EditionTimetable({ editions, caption }: { editions: EditionSumma
       <table className="hidden w-full border-collapse text-left sm:table">
         <caption className="sr-only">{caption}</caption>
         <thead>
-          <tr className="bg-band text-sm text-white">
+          <tr className={header === "band" ? "bg-band text-sm text-white" : "border-b-2 border-band text-sm"}>
             <th scope="col" className="px-4 py-3 font-bold">
               Date
             </th>

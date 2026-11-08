@@ -10,11 +10,13 @@ export function DepthSwitch({
   onChange,
   label = "Reading depth",
   controls,
+  tone = "light",
 }: {
   value: Depth;
   onChange: (depth: Depth) => void;
   label?: string;
   controls?: string;
+  tone?: "light" | "dark";
 }) {
   const bar = useRef<HTMLDivElement>(null);
   const pill = useRef<HTMLSpanElement>(null);
@@ -62,7 +64,7 @@ export function DepthSwitch({
   };
 
   return (
-    <div ref={bar} className="t-tabs depth-switch" role="tablist" aria-label={label} onKeyDown={onKeyDown}>
+    <div ref={bar} className={`t-tabs depth-switch ${tone === "dark" ? "depth-switch--dark" : ""}`} role="tablist" aria-label={label} onKeyDown={onKeyDown}>
       <span ref={pill} className="t-tabs-pill" aria-hidden="true" />
       {DEPTHS.map((depth) => (
         <button

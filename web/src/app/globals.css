@@ -296,3 +296,21 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Depth switch set inside a black signage band */
+.depth-switch--dark.t-tabs {
+  background: #2a2c31;
+  border-color: #2a2c31;
+}
+.depth-switch--dark .t-tab {
+  color: var(--color-band-soft);
+}
+.depth-switch--dark .t-tab:not([aria-selected="true"]):hover {
+  color: #ffffff;
+}
+.depth-switch--dark .t-tab[aria-selected="true"] {
+  color: var(--color-ink);
+}
+.depth-switch--dark .t-tabs-pill {
+  background: #ffffff;
+}

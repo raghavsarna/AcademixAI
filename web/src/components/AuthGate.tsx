@@ -12,7 +12,7 @@ export function AuthGate({ children, reason, next }: { children: React.ReactNode
   }
   if (status === "signed-out") {
     return (
-      <div className="mt-8 max-w-2xl border-t-[6px] border-band bg-panel p-6">
+      <div className="mt-8 max-w-2xl border border-rule p-6">
         <p className="text-lg leading-relaxed">{reason}</p>
         <div className="mt-5 flex flex-wrap gap-3">
           <Link

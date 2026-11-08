@@ -5,6 +5,7 @@ import { DepthDemo } from "@/components/DepthDemo";
 import { EditionMap } from "@/components/EditionMap";
 import { EditionTimetable } from "@/components/EditionTimetable";
 import { PipelineStrip } from "@/components/PipelineStrip";
+import { SignBand } from "@/components/SignBand";
 import { getLatestEdition, getPaper, listEditions } from "@/lib/api";
 import { formatEditionDate, numberFormat } from "@/lib/format";
 import { linesForPaper } from "@/lib/lines";
@@ -12,75 +13,80 @@ import { linesForPaper } from "@/lib/lines";
 // The paper that introduced the Transformer: a sample most readers have heard of.
 const DEMO_PAPER_ID = "8d8b360c517f55a1b37e57f5240020eb";
 
+function HeroIntro() {
+  return (
+    <>
+      <h1 className="max-w-[17ch] text-[2.75rem] font-extrabold leading-[0.98] tracking-[-0.035em] sm:text-[3.5rem] xl:text-[3.875rem]">
+        See what changed in AI research today.
+      </h1>
+      <p className="mt-4 max-w-[60ch] text-lg leading-relaxed">
+        Each day we read the new arXiv papers in AI, machine learning, language and vision, pick the ones that move
+        the field, and draw them on one map. Open any paper and read it Plain, Student or Expert.
+      </p>
+      <div className="mt-6 flex flex-wrap gap-3">
+        <Link
+          href="/today"
+          className="rounded-[4px] bg-band px-6 py-3.5 text-lg font-bold text-white no-underline transition-colors duration-150 hover:bg-ink"
+        >
+          Ride today&rsquo;s changes
+        </Link>
+        <Link
+          href="/explain"
+          className="rounded-[4px] border-2 border-band px-6 py-3.5 text-lg font-bold text-ink no-underline transition-colors duration-150 hover:bg-panel"
+        >
+          Explain a paper
+        </Link>
+      </div>
+    </>
+  );
+}
+
 export default function Home() {
   return (
     <>
       <section className="mx-auto max-w-[88rem] px-5 pb-16 pt-8 sm:px-8 sm:pt-10">
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(19rem,1fr)] lg:items-end">
-          <div>
-            <h1 className="max-w-[17ch] text-[2.75rem] font-extrabold leading-[0.98] tracking-[-0.035em] sm:text-[3.75rem] xl:text-[4.25rem]">
-              See what changed in AI research today.
-            </h1>
-            <p className="mt-5 max-w-[62ch] text-lg leading-relaxed">
-              Each day we read the new arXiv papers in AI, machine learning, language and vision, pick the ones that
-              move the field, and draw them on one map. Open any paper and read it Plain, Student or Expert.
-            </p>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <Link
-                href="/today"
-                className="rounded-[4px] bg-band px-6 py-3.5 text-lg font-bold text-white no-underline transition-colors duration-150 hover:bg-ink"
-              >
-                Ride today&rsquo;s changes
-              </Link>
-              <Link
-                href="/explain"
-                className="rounded-[4px] border-2 border-band px-6 py-3.5 text-lg font-bold text-ink no-underline transition-colors duration-150 hover:bg-panel"
-              >
-                Explain a paper
-              </Link>
-            </div>
-          </div>
-          <Suspense fallback={<div className="h-40 bg-panel" />}>
-            <LatestBulletin />
-          </Suspense>
-        </div>
-        <div className="mt-10">
-          <Suspense fallback={<div className="h-80 bg-panel motion-safe:animate-pulse" />}>
-            <LatestMap />
-          </Suspense>
-        </div>
+        <Suspense
+          fallback={
+            <>
+              <HeroIntro />
+              <div className="mt-8 h-[30rem] rounded-[3px] bg-panel motion-safe:animate-pulse" aria-busy="true" />
+            </>
+          }
+        >
+          <HeroMap />
+        </Suspense>
       </section>
 
-      <section className="border-y border-rule bg-ground">
-        <div className="mx-auto max-w-[88rem] px-5 py-20 sm:px-8">
+      <section className="mx-auto max-w-[88rem] px-5 pb-20 sm:px-8" aria-labelledby="readers-title">
+        <SignBand title="One paper, three readers" id="readers-title">
+          <p className="text-band-soft">Try it on the paper that introduced the Transformer.</p>
+        </SignBand>
+        <div className="mt-8">
           <Suspense fallback={<div className="h-96 bg-panel" />}>
             <Demo />
           </Suspense>
         </div>
       </section>
 
-      <section className="mx-auto max-w-[88rem] px-5 py-20 sm:px-8">
-        <h2 className="text-[2rem] font-extrabold leading-[1.08] tracking-[-0.03em] sm:text-[2.5rem]">
-          How each edition is made
-        </h2>
-        <p className="mt-4 max-w-[60ch] text-lg leading-relaxed text-ink-soft">
+      <section className="mx-auto max-w-[88rem] px-5 pb-20 sm:px-8" aria-labelledby="made-title">
+        <SignBand title="How each edition is made" id="made-title" />
+        <p className="mt-6 max-w-[60ch] text-lg leading-relaxed text-ink-soft">
           No newsletter roundup of everything published. A changelog of what moved, built the same way every day.
         </p>
-        <div className="mt-12">
+        <div className="mt-10">
           <Suspense fallback={<div className="h-32 bg-panel" />}>
             <Pipeline />
           </Suspense>
         </div>
       </section>
 
-      <section className="mx-auto max-w-[88rem] px-5 pb-8 sm:px-8">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <h2 className="text-[2rem] font-extrabold leading-[1.08] tracking-[-0.03em] sm:text-[2.5rem]">Recent editions</h2>
-          <Link href="/editions" className="font-semibold text-link underline">
+      <section className="mx-auto max-w-[88rem] px-5 pb-8 sm:px-8" aria-labelledby="recent-title">
+        <SignBand title="Recent editions" id="recent-title">
+          <Link href="/editions" className="font-semibold text-white underline decoration-signal decoration-2">
             All editions
           </Link>
-        </div>
-        <div className="mt-8">
+        </SignBand>
+        <div className="mt-2">
           <Suspense fallback={<div className="h-64 bg-panel" />}>
             <Recent />
           </Suspense>
@@ -110,30 +116,31 @@ export default function Home() {
   );
 }
 
-async function LatestBulletin() {
+async function HeroMap() {
   const edition = await getLatestEdition();
-  if (!edition) return null;
+  if (!edition) return <HeroIntro />;
+  const date = formatEditionDate(edition.edition_date);
   return (
-    <div className="border-t-[6px] border-band bg-panel p-5">
-      <h2 className="text-sm font-bold">
-        Latest edition, <time dateTime={edition.edition_date}>{formatEditionDate(edition.edition_date)}</time>
-      </h2>
-      <p className="mt-2 text-xl font-bold leading-snug">
-        <Link href="/today" className="text-ink no-underline hover:underline">
-          {edition.headline}
-        </Link>
-      </p>
-      <p className="tabular mt-2 text-sm text-ink-soft">
-        {edition.entries.length} changes from {numberFormat.format(edition.papers_scanned)} new papers
-      </p>
-    </div>
+    <EditionMap
+      variant="hero"
+      entries={edition.entries}
+      editionLabel={`the edition of ${date}`}
+      intro={<HeroIntro />}
+      band={
+        <SignBand title={<time dateTime={edition.edition_date}>{date}</time>}>
+          <p className="max-w-[70ch] text-band-soft">
+            <Link href="/today" className="font-semibold text-white no-underline hover:underline">
+              {edition.headline}
+            </Link>
+            <span className="tabular">
+              {" "}
+              · {edition.entries.length} changes from {numberFormat.format(edition.papers_scanned)} new papers
+            </span>
+          </p>
+        </SignBand>
+      }
+    />
   );
-}
-
-async function LatestMap() {
-  const edition = await getLatestEdition();
-  if (!edition) return null;
-  return <EditionMap entries={edition.entries} editionLabel={`the edition of ${formatEditionDate(edition.edition_date)}`} />;
 }
 
 async function Demo() {
@@ -145,17 +152,11 @@ async function Demo() {
 async function Pipeline() {
   const edition = await getLatestEdition();
   const lines = edition ? new Set(edition.entries.flatMap((e) => linesForPaper(e.paper.categories).slice(0, 2))).size : 5;
-  return (
-    <PipelineStrip
-      scanned={edition?.papers_scanned ?? 0}
-      changes={edition?.entries.length ?? 10}
-      lines={lines}
-    />
-  );
+  return <PipelineStrip scanned={edition?.papers_scanned ?? 0} changes={edition?.entries.length ?? 10} lines={lines} />;
 }
 
 async function Recent() {
   const editions = await listEditions(5);
-  if (!editions.length) return <p className="text-lg">The first edition appears after the daily run.</p>;
-  return <EditionTimetable editions={editions} caption="The five most recent editions" />;
+  if (!editions.length) return <p className="mt-6 text-lg">The first edition appears after the daily run.</p>;
+  return <EditionTimetable editions={editions} caption="The five most recent editions" header="plain" />;
 }

@@ -78,7 +78,7 @@ export function UploadForm() {
           choose(e.dataTransfer.files[0]);
         }}
         className={`flex cursor-pointer flex-col items-center gap-3 rounded-[6px] border-[2.5px] border-dashed px-6 py-12 text-center transition-colors duration-150 ${
-          dragging ? "border-link bg-[#e8f0fc]" : "border-rule-strong bg-panel hover:border-ink"
+          dragging ? "border-link bg-[#e8f0fc]" : "border-rule-strong bg-ground hover:border-ink hover:bg-panel"
         } ${busy ? "pointer-events-none opacity-60" : ""}`}
       >
         <Upload className="size-8" aria-hidden strokeWidth={2} />

@@ -17,7 +17,11 @@ export function StationEntry({ rank, paper }: { rank: number; paper: PaperCard }
   ].filter(Boolean);
 
   return (
-    <article className="grid grid-cols-[3rem_1fr] gap-x-4 border-t border-rule py-8 sm:grid-cols-[4.5rem_1fr] sm:gap-x-6">
+    <article
+      id={`station-${rank}`}
+      data-rank={rank}
+      className="grid scroll-mt-6 grid-cols-[3rem_1fr] gap-x-4 border-b border-rule py-8 sm:grid-cols-[4.5rem_1fr] sm:gap-x-6"
+    >
       <div className="flex flex-col items-start gap-3">
         <span className="tabular text-3xl font-extrabold leading-none text-ink-soft sm:text-4xl" aria-label={`Number ${rank}`}>
           {rank}

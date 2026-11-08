@@ -31,7 +31,7 @@ export function MyPapers() {
 
   if (!papers.length) {
     return (
-      <div className="mt-8 max-w-2xl border-t-[6px] border-band bg-panel p-6">
+      <div className="mt-8 max-w-2xl border border-rule p-6">
         <h2 className="text-xl font-bold">No papers yet</h2>
         <p className="mt-2 leading-relaxed text-ink-soft">
           Upload a PDF and it shows up here with what it changes and its three explanations, ready to come back to.

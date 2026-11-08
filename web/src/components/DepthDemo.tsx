@@ -20,11 +20,9 @@ export function DepthDemo({ paper }: { paper: PaperDetail }) {
   return (
     <div className="grid gap-8 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-14">
       <div>
-        <h2 className="text-[2rem] font-extrabold leading-[1.08] tracking-[-0.03em] sm:text-[2.5rem]">
-          One paper, three readers.
-        </h2>
-        <p className="mt-4 text-lg leading-relaxed text-ink-soft">
-          Every paper is written up three times. Switch the depth and the same idea is rewritten {READER[depth]}.
+        <p className="text-lg leading-relaxed">
+          Every paper is written up three times. Switch the depth and the same idea is rewritten{" "}
+          <strong>{READER[depth]}</strong>.
         </p>
         <div className="mt-6">
           <DepthSwitch value={depth} onChange={setDepth} label="Try a depth" controls="demo-explanation" />
@@ -33,11 +31,9 @@ export function DepthDemo({ paper }: { paper: PaperDetail }) {
           Open the full page for this paper
         </Link>
       </div>
-      <div className="border-t-[6px] border-band bg-panel p-5 sm:p-8">
-        <p className="text-sm font-bold">
-          {paper.title}
-          <span className="font-semibold text-ink-soft"> · {DEPTH_LABELS[depth]}</span>
-        </p>
+      <div className="border border-rule p-5 sm:p-8">
+        <h3 className="text-xl font-bold leading-snug">{paper.title}</h3>
+        <p className="mt-1 text-sm font-semibold text-ink-soft">{DEPTH_LABELS[depth]} explanation</p>
         <div id="demo-explanation" role="tabpanel" aria-label={`${DEPTH_LABELS[depth]} explanation`} key={depth} className="depth-settle mt-4">
           <Markdown>{paper.explanations[depth] ?? ""}</Markdown>
         </div>

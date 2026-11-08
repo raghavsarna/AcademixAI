@@ -47,16 +47,35 @@ export function linesForPaper(categories: string[]): LineId[] {
   return ids.length ? ids : ["other"];
 }
 
-/** A short station name: the paper's own name before a colon, or its first words. */
-export function stationName(title: string, max = 26): string {
+/**
+ * A station name: the paper's own name before a colon, or its opening words up to `max`
+ * characters, cut at a word boundary. Never an ellipsis: a sign shows a whole name.
+ */
+export function stationName(title: string, max = 34): string {
   const named = title.split(/:\s/)[0].trim();
-  if (named.length <= max && named.length < title.length) return named;
-  if (title.length <= max) return title;
-  const words = title.split(/\s+/);
+  if (named.length <= max) return named;
   let name = "";
-  for (const word of words) {
-    if ((name + " " + word).trim().length > max - 1) break;
+  for (const word of named.split(/\s+/)) {
+    if ((name + " " + word).trim().length > max) break;
     name = (name + " " + word).trim();
   }
-  return `${name}…`;
+  // A sign never ends on a joining word ("Failure Prediction and")
+  const words = name.replace(/[,;:\-–]+$/, "").split(/\s+/);
+  while (words.length > 1 && TRAILING.has(words[words.length - 1].toLowerCase())) words.pop();
+  return words.join(" ") || named.slice(0, max);
+}
+
+const TRAILING = new Set(["a", "an", "and", "as", "at", "by", "for", "from", "in", "into", "of", "on", "or", "the", "to", "using", "via", "with", "without"]);
+
+/** Wrap a station name onto at most two lines of roughly `width` characters. */
+export function wrapName(name: string, width = 18): string[] {
+  if (name.length <= width) return [name];
+  const words = name.split(/\s+/);
+  let first = "";
+  for (const word of words) {
+    if ((first + " " + word).trim().length > width && first) break;
+    first = (first + " " + word).trim();
+  }
+  const rest = name.slice(first.length).trim();
+  return rest ? [first, rest] : [first];
 }

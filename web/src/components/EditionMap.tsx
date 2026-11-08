@@ -1,196 +1,268 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { type ReactNode, useMemo, useState } from "react";
 
-import { LINE_ORDER, LINES, type LineId, linesForPaper, stationName } from "@/lib/lines";
+import { LINES, type LineId } from "@/lib/lines";
+import { layoutMetro, type MetroLayout, type MetroStation, W } from "@/lib/metro-layout";
 import { CHANGE_TYPE_LABELS, type PaperCard } from "@/lib/types";
 
-import { LineBullets } from "./LineBullet";
+import { LineBullet, LineBullets } from "./LineBullet";
 
 type Entry = { rank: number; paper: PaperCard };
+type Station = MetroStation<Entry>;
 
-const W = 1000;
-const LEFT = 172;
-const RIGHT = 28;
-const TOP = 40;
-const GAP = 62;
+/** The day's papers as a metro map, with a station board for the open station. */
+export function EditionMap({
+  entries,
+  editionLabel,
+  variant,
+  intro,
+  band,
+}: {
+  entries: Entry[];
+  editionLabel: string;
+  variant: "hero" | "page";
+  intro?: ReactNode;
+  band?: ReactNode;
+}) {
+  const map = useMemo(
+    () =>
+      layoutMetro(
+        entries,
+        (e) => e.paper.categories,
+        (e) => e.paper.title,
+      ),
+    [entries],
+  );
+  const [selected, setSelected] = useState(0);
+  const current = map.stations[selected] ?? map.stations[0];
+  if (!current) return null;
 
-type Station = {
-  entry: Entry;
-  lines: LineId[];
-  x: number;
-  ys: number[];
-  y: number;
-  yTo: number;
-  name: string;
-  labelAbove: boolean;
-};
+  const board = <StationBoard station={current} total={map.stations.length} />;
+  const diagram = <Diagram map={map} selected={selected} onSelect={setSelected} label={editionLabel} />;
 
-function layout(entries: Entry[]) {
-  const used = new Set<LineId>();
-  for (const e of entries) linesForPaper(e.paper.categories).slice(0, 2).forEach((l) => used.add(l));
-  const lines = LINE_ORDER.filter((l) => used.has(l));
-  const y = (line: LineId) => TOP + lines.indexOf(line) * GAP;
-  const step = (W - LEFT - RIGHT) / Math.max(entries.length, 1);
-  const stations: Station[] = entries.map((entry, i) => {
-    const own = linesForPaper(entry.paper.categories).slice(0, 2);
-    const ys = own.map(y);
-    return {
-      entry,
-      lines: own,
-      x: LEFT + step * (i + 0.5),
-      ys,
-      y: Math.min(...ys),
-      yTo: Math.max(...ys),
-      name: stationName(entry.paper.title, 20),
-      labelAbove: i % 2 === 0,
-    };
-  });
-  const height = TOP + (lines.length - 1) * GAP + 40;
-  return { lines, y, stations, height };
+  if (variant === "hero") {
+    return (
+      <div>
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1.3fr)_minmax(20rem,1fr)] lg:items-end">
+          <div>{intro}</div>
+          <div className="hidden md:block">{board}</div>
+        </div>
+        {band ? <div className="mt-6">{band}</div> : null}
+        <div className="mt-3 hidden md:block">{diagram}</div>
+        <Legend lines={map.lines} />
+        <StripMap stations={map.stations} label={editionLabel} />
+      </div>
+    );
+  }
+
+  const pct = (current.x / W) * 100;
+  return (
+    <div>
+      {band}
+      <div className="mt-5 hidden md:block">{diagram}</div>
+      <Legend lines={map.lines} />
+      {/* The board hangs under the open station */}
+      <div className="relative mt-5 hidden md:block">
+        <div
+          className="relative w-[26rem] max-w-full transition-[left] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)]"
+          style={{ left: `clamp(0px, calc(${pct}% - 13rem), calc(100% - 26rem))` }}
+        >
+          {board}
+        </div>
+      </div>
+      <StripMap stations={map.stations} label={editionLabel} />
+    </div>
+  );
 }
 
-export function EditionMap({ entries, editionLabel }: { entries: Entry[]; editionLabel: string }) {
-  const { lines, y, stations, height } = useMemo(() => layout(entries), [entries]);
-  const [selected, setSelected] = useState(0);
-  const current = stations[selected] ?? stations[0];
-
-  if (!stations.length) return null;
-
+function Diagram({
+  map,
+  selected,
+  onSelect,
+  label,
+}: {
+  map: MetroLayout<Entry>;
+  selected: number;
+  onSelect: (i: number) => void;
+  label: string;
+}) {
   return (
-    <div className="grid gap-6 lg:grid-cols-[minmax(0,2.1fr)_minmax(19rem,1fr)] lg:items-start">
-      {/* Diagram: wide screens */}
-      <figure className="hidden md:block">
-        <svg
-          viewBox={`0 0 ${W} ${height}`}
-          className="w-full overflow-visible"
-          role="group"
-          aria-label={`Line diagram of ${editionLabel}: ${stations.length} papers on ${lines.length} research lines`}
+    <figure>
+      <svg
+        viewBox={`0 0 ${W} ${map.height}`}
+        className="w-full overflow-visible"
+        role="group"
+        aria-label={`Metro map of ${label}: ${map.stations.length} papers on ${map.lines.length} research lines`}
+      >
+        {map.lines.map((line, i) => (
+          <path
+            key={line}
+            d={map.paths[line]}
+            fill="none"
+            stroke={LINES[line].color}
+            strokeWidth={13}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            pathLength={1}
+            className="draw-line"
+            style={{ ["--len" as string]: "1", ["--delay" as string]: `${i * 90}ms` }}
+          />
+        ))}
+
+        {map.lines.map((line) => (
+          <g key={line} aria-hidden>
+            <circle cx={26} cy={map.trackY[line]} r={17} fill={LINES[line].color} />
+            <text x={26} y={map.trackY[line] + 6} textAnchor="middle" className="text-[17px] font-bold" fill={LINES[line].text}>
+              {LINES[line].bullet}
+            </text>
+          </g>
+        ))}
+
+        {map.stations.map((s, i) => (
+          <StationMark key={s.item.paper.id} station={s} active={i === selected} onSelect={() => onSelect(i)} />
+        ))}
+      </svg>
+    </figure>
+  );
+}
+
+function StationMark({ station: s, active, onSelect }: { station: Station; active: boolean; onSelect: () => void }) {
+  const span = s.bottom - s.top;
+  const labelY = s.labelAbove ? s.top - 24 : s.bottom + 34;
+  return (
+    <a
+      href={`/papers/${s.item.paper.id}`}
+      aria-label={`${s.item.rank}. ${s.item.paper.title}`}
+      onMouseEnter={onSelect}
+      onFocus={onSelect}
+      className="group outline-none"
+    >
+      <g className="open-station" style={{ ["--delay" as string]: `${500 + s.index * 70}ms` }}>
+        <rect x={s.x - 30} y={s.top - 34} width={60} height={span + 68} fill="transparent" />
+        {active ? (
+          <rect
+            x={s.x - 19}
+            y={s.top - 19}
+            width={38}
+            height={span + 38}
+            rx={19}
+            fill="none"
+            stroke="var(--color-signal)"
+            strokeWidth={6}
+          />
+        ) : null}
+        {s.kind === "joined" ? (
+          // Interchange: a white capsule across the two lines running side by side
+          <rect
+            x={s.x - 12}
+            y={s.top - 12}
+            width={24}
+            height={span + 24}
+            rx={12}
+            fill="#fff"
+            stroke="var(--color-ink)"
+            strokeWidth={4}
+          />
+        ) : s.kind === "linked" ? (
+          // Out-of-station interchange: two stations joined by a thin link
+          <>
+            <path d={`M ${s.x} ${s.top} V ${s.bottom}`} stroke="var(--color-ink)" strokeWidth={3} />
+            {s.dots.map((y) => (
+              <circle key={y} cx={s.x} cy={y} r={10} fill="#fff" stroke="var(--color-ink)" strokeWidth={4} />
+            ))}
+          </>
+        ) : (
+          <circle cx={s.x} cy={s.top} r={10} fill="#fff" stroke="var(--color-ink)" strokeWidth={4} />
+        )}
+        <text
+          x={s.x}
+          y={labelY}
+          textAnchor="middle"
+          paintOrder="stroke"
+          stroke="#fff"
+          strokeWidth={6}
+          strokeLinejoin="round"
+          className={`signage text-[16px] font-bold ${active ? "fill-ink" : "fill-[#2b2d31]"} group-focus-visible:underline`}
         >
-          {lines.map((line, i) => {
-            const len = W - RIGHT - (LEFT - 18);
-            return (
-              <g key={line}>
-                <text x={0} y={y(line) + 5} className="signage fill-ink text-[16px] font-bold">
-                  {LINES[line].name}
-                </text>
-                <path
-                  d={`M ${LEFT - 18} ${y(line)} H ${W - RIGHT}`}
-                  stroke={LINES[line].color}
-                  strokeWidth={10}
-                  strokeLinecap="round"
-                  className="draw-line"
-                  style={{ ["--len" as string]: `${len}`, ["--delay" as string]: `${i * 90}ms` }}
-                />
-              </g>
-            );
-          })}
+          {s.label.map((line, i) => (
+            <tspan key={i} x={s.x} dy={i === 0 ? 0 : 17}>
+              {line}
+            </tspan>
+          ))}
+        </text>
+      </g>
+    </a>
+  );
+}
 
-          {stations.map((s, i) => {
-            const active = i === selected;
-            const interchange = s.lines.length > 1;
-            const href = `/papers/${s.entry.paper.id}`;
-            return (
-              <a
-                key={s.entry.paper.id}
-                href={href}
-                aria-label={`${s.entry.rank}. ${s.entry.paper.title}`}
-                onMouseEnter={() => setSelected(i)}
-                onFocus={() => setSelected(i)}
-                className="group outline-none"
-              >
-                <g className="open-station" style={{ ["--delay" as string]: `${450 + i * 70}ms` }}>
-                  <rect x={s.x - 26} y={s.y - 30} width={52} height={s.yTo - s.y + 60} fill="transparent" />
-                  {active ? (
-                    <rect
-                      x={s.x - 16}
-                      y={s.y - 16}
-                      width={32}
-                      height={s.yTo - s.y + 32}
-                      rx={16}
-                      fill="none"
-                      stroke="var(--color-signal)"
-                      strokeWidth={5}
-                    />
-                  ) : null}
-                  {interchange ? (
-                    // Transfer link: a cased connector that passes over the lines between, as on a metro map
-                    <>
-                      <path d={`M ${s.x} ${s.y} V ${s.yTo}`} stroke="#fff" strokeWidth={11} strokeLinecap="round" />
-                      <path d={`M ${s.x} ${s.y} V ${s.yTo}`} stroke="var(--color-ink)" strokeWidth={3.5} />
-                    </>
-                  ) : null}
-                  {s.ys.map((cy) => (
-                    <circle key={cy} cx={s.x} cy={cy} r={8.5} fill="#fff" stroke="var(--color-ink)" strokeWidth={3.5} />
-                  ))}
-                  <text
-                    x={s.x}
-                    y={s.labelAbove ? s.y - 19 : s.yTo + 30}
-                    textAnchor="middle"
-                    paintOrder="stroke"
-                    stroke="#fff"
-                    strokeWidth={5}
-                    strokeLinejoin="round"
-                    className={`signage text-[15px] ${active ? "fill-ink font-bold" : "fill-ink-soft font-semibold"} group-focus-visible:underline`}
-                  >
-                    {s.name}
-                  </text>
-                </g>
-              </a>
-            );
-          })}
-        </svg>
-        <figcaption className="mt-2 text-sm text-ink-soft">
-          Most significant first, left to right. Linked stations are interchanges: papers that sit on two lines.
-        </figcaption>
-      </figure>
+function StationBoard({ station, total }: { station: Station; total: number }) {
+  const paper = station.item.paper;
+  const meta = [
+    paper.change_type ? CHANGE_TYPE_LABELS[paper.change_type] : null,
+    station.lines.map((l) => LINES[l].name).join(" + "),
+  ].filter(Boolean);
+  return (
+    <aside aria-live="polite" className="border-t-[6px] border-band bg-panel p-5">
+      <div className="flex items-center justify-between gap-3">
+        <LineBullets lines={station.lines} size="md" />
+        <span className="tabular text-sm font-semibold text-ink-soft">
+          Station {station.item.rank} of {total}
+        </span>
+      </div>
+      <h2 className="mt-4 text-xl font-bold leading-snug">{paper.title}</h2>
+      <p className="mt-1 text-sm font-semibold text-ink-soft">{meta.join(" · ")}</p>
+      <p className="mt-3 line-clamp-4 leading-relaxed">{paper.what_changed}</p>
+      <Link href={`/papers/${paper.id}`} className="mt-4 inline-block font-semibold text-link underline">
+        Read it at your level
+      </Link>
+    </aside>
+  );
+}
 
-      {/* Station board for the focused station */}
-      <aside aria-live="polite" className="hidden border-t-[6px] border-band bg-panel p-5 md:block">
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-          <LineBullets lines={current.lines} size="md" />
-          {current.entry.paper.change_type ? (
-            <span className="text-sm font-bold">{CHANGE_TYPE_LABELS[current.entry.paper.change_type]}</span>
-          ) : null}
-          <span className="tabular ml-auto text-sm font-semibold text-ink-soft">
-            {current.entry.rank} of {stations.length}
-          </span>
-        </div>
-        <h2 className="mt-4 text-xl font-bold leading-snug">{current.entry.paper.title}</h2>
-        <p className="mt-3 leading-relaxed">{current.entry.paper.what_changed}</p>
-        <Link
-          href={`/papers/${current.entry.paper.id}`}
-          className="mt-4 inline-flex items-center gap-1 font-semibold text-link underline"
-        >
-          Read it at your level
-        </Link>
-      </aside>
-
-      {/* Vertical strip map: phones */}
-      <ol className="md:hidden" aria-label={`Stations in ${editionLabel}`}>
-        {stations.map((s, i) => {
-          const line = LINES[s.lines[0]];
-          const last = i === stations.length - 1;
-          return (
-            <li key={s.entry.paper.id} className="grid grid-cols-[2.25rem_1fr] gap-3">
-              <div className="relative flex justify-center" aria-hidden>
-                <span className="absolute inset-y-0 w-2.5" style={{ background: line.color, bottom: last ? "50%" : 0 }} />
-                <span
-                  className={`relative mt-1.5 w-5 border-[3px] border-ink bg-white ${s.lines.length > 1 ? "h-8 rounded-[10px]" : "h-5 rounded-full"}`}
-                />
-              </div>
-              <div className="pb-6">
-                <LineBullets lines={s.lines} />
-                <Link href={`/papers/${s.entry.paper.id}`} className="mt-1 block font-bold leading-snug text-ink no-underline">
-                  {s.entry.paper.title}
-                </Link>
-                <p className="mt-1 line-clamp-3 text-[0.9375rem] leading-relaxed text-ink-soft">{s.entry.paper.what_changed}</p>
-              </div>
-            </li>
-          );
-        })}
-      </ol>
+function Legend({ lines }: { lines: LineId[] }) {
+  return (
+    <div className="mt-4 hidden flex-wrap items-center gap-x-6 gap-y-2 md:flex">
+      <ul className="flex flex-wrap gap-x-5 gap-y-2" aria-label="Lines on this map">
+        {lines.map((line) => (
+          <li key={line}>
+            <LineBullet line={line} size="sm" label />
+          </li>
+        ))}
+      </ul>
+      <p className="text-sm text-ink-soft">
+        Most significant first, left to right. A white capsule is an interchange: a paper on two lines.
+      </p>
     </div>
+  );
+}
+
+/** Phones: a vertical strip map, one station per paper. */
+function StripMap({ stations, label }: { stations: Station[]; label: string }) {
+  return (
+    <ol className="mt-6 md:hidden" aria-label={`Stations in ${label}`}>
+      {stations.map((s, i) => {
+        const line = LINES[s.lines[0]];
+        const last = i === stations.length - 1;
+        return (
+          <li key={s.item.paper.id} className="grid grid-cols-[2.25rem_1fr] gap-3">
+            <div className="relative flex justify-center" aria-hidden>
+              <span className="absolute inset-y-0 w-2.5" style={{ background: line.color, bottom: last ? "50%" : 0 }} />
+              <span
+                className={`relative mt-1.5 w-5 border-[3px] border-ink bg-white ${s.lines.length > 1 ? "h-8 rounded-[10px]" : "h-5 rounded-full"}`}
+              />
+            </div>
+            <div className="pb-6">
+              <LineBullets lines={s.lines} />
+              <Link href={`/papers/${s.item.paper.id}`} className="mt-1 block font-bold leading-snug text-ink no-underline">
+                {s.item.paper.title}
+              </Link>
+              <p className="mt-1 line-clamp-3 text-[0.9375rem] leading-relaxed text-ink-soft">{s.item.paper.what_changed}</p>
+            </div>
+          </li>
+        );
+      })}
+    </ol>
   );
 }

@@ -35,21 +35,21 @@ async function Paper({ params }: { params: PageProps<"/papers/[id]">["params"] }
 
   return (
     <div className="mx-auto max-w-[88rem] px-5 pt-10 sm:px-8 sm:pt-14">
-      <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_20rem]">
+      <div className="grid gap-12 lg:grid-cols-[minmax(0,40rem)_18rem] lg:gap-16">
         <article className="min-w-0">
-          <header className="max-w-4xl">
+          <header>
             <h1 className="text-[2rem] font-extrabold leading-[1.08] tracking-[-0.03em] sm:text-[2.75rem]">
               {paper.title}
             </h1>
             {paper.authors.length ? (
-              <p className="mt-4 max-w-[60ch] leading-relaxed text-ink-soft">
+              <p className="mt-4 leading-relaxed text-ink-soft">
                 {paper.authors.slice(0, 8).join(", ")}
                 {paper.authors.length > 8 ? ` and ${paper.authors.length - 8} more` : ""}
               </p>
             ) : null}
           </header>
 
-          <section aria-labelledby="changed-title" className="mt-8 max-w-[60ch] border-t-[6px] border-band bg-panel p-5 sm:p-6">
+          <section aria-labelledby="changed-title" className="mt-8 border-t-[6px] border-band bg-panel p-5 sm:p-6">
             <h2 id="changed-title" className="text-lg font-bold">
               What changed
             </h2>
@@ -59,7 +59,7 @@ async function Paper({ params }: { params: PageProps<"/papers/[id]">["params"] }
           </section>
 
           <div className="mt-14">
-            <Suspense fallback={<div className="h-96 max-w-[60ch] bg-panel" />}>
+            <Suspense fallback={<div className="h-96 bg-panel" />}>
               <PaperReader paper={paper} />
             </Suspense>
           </div>
@@ -68,7 +68,7 @@ async function Paper({ params }: { params: PageProps<"/papers/[id]">["params"] }
         </article>
 
         <aside aria-label="About this paper" className="lg:pt-2">
-          <div className="grid gap-6 border-t-[6px] border-band pt-5 lg:sticky lg:top-6">
+          <div className="grid gap-6 border-t border-rule-strong pt-5 lg:sticky lg:top-6">
             {lines.length ? (
               <div>
                 <h2 className="text-sm font-bold">Lines</h2>
@@ -135,7 +135,7 @@ function MoreDetail({ paper }: { paper: PaperDetail }) {
         </section>
       ))}
       {paper.abstract ? (
-        <details className="group max-w-[60ch] border-t border-rule pt-4">
+        <details className="group border-t border-rule pt-4">
           <summary className="cursor-pointer text-lg font-bold">The paper&rsquo;s own abstract</summary>
           <div className="mt-4">
             <Markdown>{paper.abstract}</Markdown>

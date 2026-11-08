@@ -1,6 +1,5 @@
-"""Pages, health check and migrations."""
+"""Root, health check, OpenAPI and migrations."""
 
-import pytest
 from alembic.autogenerate import compare_metadata
 from alembic.migration import MigrationContext
 from sqlalchemy import create_engine
@@ -9,11 +8,8 @@ from app.db import Base
 from scripts.migrate import upgrade_to_head
 
 
-@pytest.mark.parametrize("path", ["/", "/home", "/content", "/login", "/register", "/profile", "/upload"])
-def test_pages_render(client, path):
-    response = client.get(path)
-    assert response.status_code == 200
-    assert "/static/js/safe.js" in response.text
+def test_root_points_to_the_docs(client):
+    assert client.get("/").json()["docs"] == "/docs"
 
 
 def test_health(client):

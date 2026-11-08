@@ -1,24 +1,21 @@
-"""AcademixAI web app: JSON API plus the current server-rendered pages."""
+"""AcademixAI API. The website is the Next.js app in web/, which calls this API."""
 
 import logging
-from pathlib import Path
 
 from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
 
 from app.config import settings
 from app.db import SessionLocal
 from app.llm import LLMError
-from app.routers import auth, editions, pages, papers
+from app.routers import auth, editions, papers
 from app.services.analysis import AnalysisError
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 logger = logging.getLogger("academixai")
 
-ROOT = Path(__file__).resolve().parent.parent
 
 app = FastAPI(
     title="AcademixAI API",
@@ -34,13 +31,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount("/static", StaticFiles(directory=ROOT / "static"), name="static")
-app.mount("/images", StaticFiles(directory=ROOT / "images"), name="images")
 
 app.include_router(auth.router)
 app.include_router(editions.router)
 app.include_router(papers.router)
-app.include_router(pages.router)
+
+
+@app.get("/", include_in_schema=False)
+def root() -> dict[str, str]:
+    return {"name": "AcademixAI API", "docs": "/docs", "health": "/api/health"}
 
 
 @app.get("/api/health", tags=["meta"])

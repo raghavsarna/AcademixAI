@@ -101,7 +101,7 @@ def test_my_papers_only_lists_own_uploads(client, fake_llm):
     assert client.get("/api/papers").status_code == 401
 
 
-def test_paper_detail_and_page(client, fake_llm):
+def test_paper_detail(client, fake_llm):
     fake_llm.replies.append(json.dumps({**ANALYSIS, "title": "Attention <script>alert(1)</script>"}))
     paper_id = upload(client, auth_headers(client), make_pdf()).json()["paper"]["id"]
 
@@ -111,10 +111,7 @@ def test_paper_detail_and_page(client, fake_llm):
     assert set(detail.json()["explanations"]) == {"plain", "student", "expert"}
     assert "full_text" not in detail.json()
 
-    page = client.get(f"/papers/{paper_id}")
-    assert page.status_code == 200
-    assert "<script>alert(1)</script>" not in page.text
-    assert "Attention &lt;script&gt;" in page.text
+    assert detail.json()["title"] == "Attention <script>alert(1)</script>"  # stored as text; the web app escapes it
 
     assert client.get("/api/papers/does-not-exist").status_code == 404
 

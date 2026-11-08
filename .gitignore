@@ -18,11 +18,6 @@ db/*.db
 uploads/*
 !uploads/.gitkeep
 
-# Generated at runtime
-images/papers/
-images/extracted/
-static/images/extracted/
-
 # Large media kept out of git
 videos/
 

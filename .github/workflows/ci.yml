@@ -45,6 +45,29 @@ jobs:
       - name: Run tests
         run: pytest
 
+  web:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: web/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: web/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - name: Lint
+        run: pnpm exec eslint src
+      - name: Type check
+        run: pnpm exec next typegen && pnpm exec tsc --noEmit
+      - name: Build (no API needed; data streams at request time)
+        run: pnpm build
+
   test-postgres:
     runs-on: ubuntu-latest
     services:

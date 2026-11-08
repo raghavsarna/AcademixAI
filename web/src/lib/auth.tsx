@@ -1,8 +1,8 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, useSyncExternalStore } from "react";
 
-import { api, getToken, setToken } from "./client-api";
+import { api, getToken, setToken, subscribeToken } from "./client-api";
 import type { User } from "./types";
 
 type AuthState = {
@@ -16,29 +16,31 @@ type AuthState = {
 const AuthContext = createContext<AuthState | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [status, setStatus] = useState<AuthState["status"]>("loading");
+  // The token lives in localStorage: an external store, unknown during server rendering.
+  const token = useSyncExternalStore(subscribeToken, getToken, () => undefined);
+  const [account, setAccount] = useState<{ token: string; user: User | null } | null>(null);
 
   useEffect(() => {
-    if (!getToken()) {
-      setStatus("signed-out");
-      return;
-    }
+    if (!token || account?.token === token) return;
+    let cancelled = false;
     api
       .me()
-      .then((me) => {
-        setUser(me);
-        setStatus("signed-in");
-      })
-      .catch(() => setStatus("signed-out"));
-  }, []);
+      .then((user) => !cancelled && setAccount({ token, user }))
+      .catch(() => !cancelled && setAccount({ token, user: null }));
+    return () => {
+      cancelled = true;
+    };
+  }, [token, account?.token]);
+
+  const user = token && account?.token === token ? account.user : null;
+  const status: AuthState["status"] =
+    token === undefined || (token && account?.token !== token) ? "loading" : user ? "signed-in" : "signed-out";
 
   const login = useCallback(async (login: string, password: string) => {
     const { access_token } = await api.login(login, password);
     setToken(access_token);
     const me = await api.me();
-    setUser(me);
-    setStatus("signed-in");
+    setAccount({ token: access_token, user: me });
   }, []);
 
   const register = useCallback(
@@ -51,8 +53,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = useCallback(() => {
     setToken(null);
-    setUser(null);
-    setStatus("signed-out");
+    setAccount(null);
   }, []);
 
   const value = useMemo(() => ({ user, status, login, register, logout }), [user, status, login, register, logout]);

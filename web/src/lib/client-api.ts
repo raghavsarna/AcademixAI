@@ -14,6 +14,8 @@ export function getToken(): string | null {
   }
 }
 
+const TOKEN_EVENT = "academixai:token";
+
 export function setToken(token: string | null): void {
   try {
     if (token) window.localStorage.setItem(TOKEN_KEY, token);
@@ -21,6 +23,17 @@ export function setToken(token: string | null): void {
   } catch {
     // Storage can be unavailable (private mode); the session then lasts for this page only.
   }
+  window.dispatchEvent(new Event(TOKEN_EVENT));
+}
+
+/** Subscribe to token changes in this tab and in other tabs (for useSyncExternalStore). */
+export function subscribeToken(callback: () => void): () => void {
+  window.addEventListener(TOKEN_EVENT, callback);
+  window.addEventListener("storage", callback);
+  return () => {
+    window.removeEventListener(TOKEN_EVENT, callback);
+    window.removeEventListener("storage", callback);
+  };
 }
 
 export class ApiError extends Error {

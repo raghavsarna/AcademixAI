@@ -1,26 +1,284 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+  AcademixAI: the field of AI as a metro system.
+  White signage ground, near-black ink, black signage bands, and line colours with fixed meanings.
+*/
+
+@theme {
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+
+  --color-ground: #ffffff;
+  --color-panel: #f2f3f4;
+  --color-rule: #d8dadd;
+  --color-rule-strong: #9a9ea5;
+  --color-ink: #141518;
+  --color-ink-soft: #575b62;
+  --color-band: #16171a;
+  --color-band-soft: #b9bcc1;
+  --color-signal: #ffd23f;
+  --color-link: #0a5bd1;
+  --color-danger: #b4232a;
+
+  /* Research lines. Text on each: white, except agents and signal (ink). */
+  --color-line-language: #d42a2f;
+  --color-line-vision: #0a5bd1;
+  --color-line-learning: #00804a;
+  --color-line-agents: #f47a2a;
+  --color-line-robotics: #7d3bb0;
+  --color-line-other: #7f6244;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  html {
+    background: var(--color-ground);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "kern", "liga";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    scrollbar-color: var(--color-rule-strong) var(--color-panel);
+    caret-color: var(--color-link);
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    min-height: 100dvh;
+    background: var(--color-ground);
+  }
+
+  ::selection {
+    background: var(--color-signal);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-link);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  a {
+    text-underline-offset: 0.22em;
+    text-decoration-thickness: 1.5px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  time,
+  .tabular {
+    font-variant-numeric: tabular-nums;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* Condensed signage setting for station names and line labels */
+  .signage {
+    font-stretch: 78%;
+    letter-spacing: 0.01em;
+  }
+
+  /* The reading column: calm, real measure */
+  .prose-column {
+    max-width: 68ch;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+  .prose-column > * + * {
+    margin-top: 0.9em;
+  }
+  .prose-column h2,
+  .prose-column h3 {
+    font-weight: 700;
+    line-height: 1.25;
+    margin-top: 1.6em;
+  }
+  .prose-column h2 {
+    font-size: 1.25rem;
+  }
+  .prose-column h3 {
+    font-size: 1.0625rem;
+  }
+  .prose-column ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  .prose-column ul > li {
+    position: relative;
+    padding-left: 1.25em;
+  }
+  .prose-column ul > li + li {
+    margin-top: 0.4em;
+  }
+  .prose-column ul > li::before {
+    content: "";
+    position: absolute;
+    left: 0.15em;
+    top: 0.62em;
+    width: 0.5em;
+    height: 0.5em;
+    border-radius: 999px;
+    border: 2px solid currentColor;
+    background: var(--color-ground);
+  }
+  .prose-column ol {
+    list-style: decimal;
+    padding-left: 1.4em;
+  }
+  .prose-column strong {
+    font-weight: 700;
+  }
+  .prose-column a {
+    color: var(--color-link);
+    text-decoration: underline;
+  }
+  .prose-column code {
+    font-size: 0.92em;
+    background: var(--color-panel);
+    padding: 0.08em 0.3em;
+    border-radius: 3px;
+  }
+  .prose-column blockquote {
+    border-left: 1px solid var(--color-rule-strong);
+    padding-left: 1em;
+    color: var(--color-ink-soft);
+  }
+}
+
+/* The line diagram draws once; content is visible by default and only animates when motion is welcome. */
+@media (prefers-reduced-motion: no-preference) {
+  .draw-line {
+    stroke-dasharray: var(--len) var(--len);
+    stroke-dashoffset: var(--len);
+    animation: draw-line 1100ms var(--ease-out-expo) forwards;
+    animation-delay: var(--delay, 0ms);
+  }
+  .open-station {
+    animation: open-station 520ms var(--ease-out-expo) both;
+    animation-delay: var(--delay, 0ms);
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  @keyframes draw-line {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes open-station {
+    from {
+      opacity: 0;
+      transform: scale(0.4);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+/* ---- transitions.dev: Tabs sliding (16-tabs-sliding.md), tuned to the signage world ---- */
+:root {
+  --tabs-dur: 250ms;
+  --tabs-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --tabs-text-muted: #575b62;
+  --tabs-text-active: #ffffff;
+  --tabs-bar-bg: #f2f3f4;
+  --tabs-pill-bg: #16171a;
+}
+
+.t-tabs {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px;
+  border-radius: 48px;
+  background: var(--tabs-bar-bg);
+}
+.t-tab {
+  position: relative;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  height: 30px;
+  padding: 4px 12px;
+  color: var(--tabs-text-muted);
+  cursor: pointer;
+  border-radius: 48px;
+  z-index: 1;
+  transition: color var(--tabs-dur) var(--tabs-ease);
+}
+.t-tab:not([aria-selected="true"]):hover,
+.t-tab[aria-selected="true"] {
+  color: var(--tabs-text-active);
+}
+
+.t-tabs-pill {
+  position: absolute;
+  top: 3px;
+  left: 0;
+  height: 30px;
+  width: 0;
+  background: var(--tabs-pill-bg);
+  border-radius: 48px;
+  transform: translateX(0);
+  transition:
+    transform var(--tabs-dur) var(--tabs-ease),
+    width     var(--tabs-dur) var(--tabs-ease);
+  will-change: transform, width;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-tabs-pill, .t-tab { transition: none !important; }
+}
+
+/* World overrides: a signage band instead of a soft pill */
+.depth-switch.t-tabs {
+  border-radius: 6px;
+  border: 1px solid var(--color-rule);
+  padding: 4px;
+}
+.depth-switch .t-tab {
+  height: 40px;
+  padding: 0 18px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.9375rem;
+}
+.depth-switch .t-tab:not([aria-selected="true"]):hover {
+  color: var(--color-ink);
+}
+.depth-switch .t-tabs-pill {
+  top: 4px;
+  height: 40px;
+  border-radius: 4px;
+}
+
+/* Explanation text settles in when the depth changes */
+@media (prefers-reduced-motion: no-preference) {
+  .depth-settle {
+    animation: depth-settle 400ms var(--ease-smooth-out) both;
+  }
+  @keyframes depth-settle {
+    from {
+      opacity: 0.25;
+      filter: blur(2px);
+    }
+    to {
+      opacity: 1;
+      filter: blur(0);
+    }
+  }
 }

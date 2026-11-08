@@ -31,9 +31,9 @@ export function StationEntry({ rank, paper }: { rank: number; paper: PaperCard }
           </Link>
         </h3>
         <p className="mt-1.5 text-sm font-semibold text-ink-soft">{meta.join(" · ")}</p>
-        <p className="mt-4 max-w-[68ch] text-[1.0625rem] font-medium leading-relaxed">{paper.what_changed}</p>
+        <p className="mt-4 max-w-[60ch] text-[1.0625rem] font-medium leading-relaxed">{paper.what_changed}</p>
         {paper.why_it_matters ? (
-          <p className="mt-2 max-w-[68ch] leading-relaxed text-ink-soft">{paper.why_it_matters}</p>
+          <p className="mt-2 max-w-[60ch] leading-relaxed text-ink-soft">{paper.why_it_matters}</p>
         ) : null}
         <Transfers items={paper.builds_on} />
         <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 font-semibold">

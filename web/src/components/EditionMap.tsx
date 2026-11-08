@@ -157,7 +157,7 @@ export function EditionMap({ entries, editionLabel }: { entries: Entry[]; editio
             {current.entry.rank} of {stations.length}
           </span>
         </div>
-        <h3 className="mt-4 text-xl font-bold leading-snug">{current.entry.paper.title}</h3>
+        <h2 className="mt-4 text-xl font-bold leading-snug">{current.entry.paper.title}</h2>
         <p className="mt-3 leading-relaxed">{current.entry.paper.what_changed}</p>
         <Link
           href={`/papers/${current.entry.paper.id}`}

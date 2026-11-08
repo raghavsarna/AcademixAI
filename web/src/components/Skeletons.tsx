@@ -8,7 +8,7 @@ export function EditionSkeleton() {
       <Block className="h-14 max-w-3xl" />
       <Block className="mt-3 h-14 max-w-xl" />
       <Block className="mt-6 h-5 max-w-md" />
-      <Block className="mt-6 h-20 max-w-[68ch]" />
+      <Block className="mt-6 h-20 max-w-[60ch]" />
       <div className="mt-12 grid gap-6 lg:grid-cols-[2.1fr_1fr]">
         <Block className="h-80" />
         <Block className="h-80" />
@@ -23,8 +23,8 @@ export function PaperSkeleton() {
       <Block className="h-6 w-40" />
       <Block className="mt-5 h-12 max-w-3xl" />
       <Block className="mt-3 h-12 max-w-2xl" />
-      <Block className="mt-8 h-32 max-w-[68ch]" />
-      <Block className="mt-10 h-72 max-w-[68ch]" />
+      <Block className="mt-8 h-32 max-w-[60ch]" />
+      <Block className="mt-10 h-72 max-w-[60ch]" />
     </div>
   );
 }

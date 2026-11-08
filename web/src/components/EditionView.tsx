@@ -33,7 +33,7 @@ export function EditionView({ edition, path }: { edition: EditionDetail; path: s
               · {edition.entries.length} changes from {numberFormat.format(edition.papers_scanned)} new papers · {lineCount(edition)} lines
             </span>
           </p>
-          <p className="mt-5 max-w-[68ch] text-lg leading-relaxed">{edition.overview}</p>
+          <p className="mt-5 max-w-[60ch] text-lg leading-relaxed">{edition.overview}</p>
         </div>
         <EditionNav previous={edition.previous_date} next={edition.next_date} />
       </header>
@@ -51,8 +51,8 @@ export function EditionView({ edition, path }: { edition: EditionDetail; path: s
             {edition.themes.map((theme) => (
               <div key={theme.name} className="border-t-[3px] border-band pt-4">
                 <dt className="text-lg font-bold">{theme.name}</dt>
-                <dd className="mt-1.5 leading-relaxed text-ink-soft">{theme.summary}</dd>
-                <dd className="mt-2 text-sm font-semibold">
+                <dd className="mt-1.5 max-w-[60ch] leading-relaxed text-ink-soft">{theme.summary}</dd>
+                <dd className="mt-2 max-w-[60ch] text-sm font-semibold">
                   {theme.papers
                     .map((id) => titles.get(id))
                     .filter(Boolean)

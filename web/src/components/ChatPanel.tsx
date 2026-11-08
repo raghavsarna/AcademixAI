@@ -93,7 +93,7 @@ export function ChatPanel({
                   {m.role === "you" ? (
                     <p className="max-w-[46ch] rounded-[4px] bg-band px-4 py-2.5 text-white">{m.text}</p>
                   ) : (
-                    <div className="max-w-[68ch] rounded-[4px] border border-rule bg-ground px-4 py-3">
+                    <div className="max-w-[60ch] rounded-[4px] border border-rule bg-ground px-4 py-3">
                       <Markdown className="prose-column text-base">{m.text}</Markdown>
                     </div>
                   )}

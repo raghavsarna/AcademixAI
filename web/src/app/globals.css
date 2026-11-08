@@ -71,7 +71,9 @@
     text-wrap: balance;
   }
 
-  p {
+  p,
+  li,
+  dd {
     text-wrap: pretty;
   }
 
@@ -90,7 +92,7 @@
 
   /* The reading column: calm, real measure */
   .prose-column {
-    max-width: 68ch;
+    max-width: 60ch;
     font-size: 1.0625rem;
     line-height: 1.65;
   }
@@ -269,7 +271,7 @@
 /* Explanation text settles in when the depth changes */
 @media (prefers-reduced-motion: no-preference) {
   .depth-settle {
-    animation: depth-settle 400ms var(--ease-smooth-out) both;
+    animation: depth-settle 250ms var(--ease-smooth-out) both;
   }
   @keyframes depth-settle {
     from {
@@ -280,5 +282,17 @@
       opacity: 1;
       filter: blur(0);
     }
+  }
+}
+
+/* Readers who ask for less motion get none: state changes still happen, instantly. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

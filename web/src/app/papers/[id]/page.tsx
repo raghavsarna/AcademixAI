@@ -42,14 +42,14 @@ async function Paper({ params }: { params: PageProps<"/papers/[id]">["params"] }
               {paper.title}
             </h1>
             {paper.authors.length ? (
-              <p className="mt-4 max-w-[68ch] leading-relaxed text-ink-soft">
+              <p className="mt-4 max-w-[60ch] leading-relaxed text-ink-soft">
                 {paper.authors.slice(0, 8).join(", ")}
                 {paper.authors.length > 8 ? ` and ${paper.authors.length - 8} more` : ""}
               </p>
             ) : null}
           </header>
 
-          <section aria-labelledby="changed-title" className="mt-8 max-w-[68ch] border-t-[6px] border-band bg-panel p-5 sm:p-6">
+          <section aria-labelledby="changed-title" className="mt-8 max-w-[60ch] border-t-[6px] border-band bg-panel p-5 sm:p-6">
             <h2 id="changed-title" className="text-lg font-bold">
               What changed
             </h2>
@@ -59,7 +59,7 @@ async function Paper({ params }: { params: PageProps<"/papers/[id]">["params"] }
           </section>
 
           <div className="mt-14">
-            <Suspense fallback={<div className="h-96 max-w-[68ch] bg-panel" />}>
+            <Suspense fallback={<div className="h-96 max-w-[60ch] bg-panel" />}>
               <PaperReader paper={paper} />
             </Suspense>
           </div>
@@ -135,7 +135,7 @@ function MoreDetail({ paper }: { paper: PaperDetail }) {
         </section>
       ))}
       {paper.abstract ? (
-        <details className="group max-w-[68ch] border-t border-rule pt-4">
+        <details className="group max-w-[60ch] border-t border-rule pt-4">
           <summary className="cursor-pointer text-lg font-bold">The paper&rsquo;s own abstract</summary>
           <div className="mt-4">
             <Markdown>{paper.abstract}</Markdown>

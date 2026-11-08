@@ -6,8 +6,24 @@ import type { EditionSummary } from "@/lib/types";
 /** Editions set as a timetable: date, the day's biggest change, and the counts. */
 export function EditionTimetable({ editions, caption }: { editions: EditionSummary[]; caption: string }) {
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full min-w-[40rem] border-collapse text-left">
+    <>
+      {/* Phones: one stacked row per edition */}
+      <ul className="border-t-[6px] border-band sm:hidden" aria-label={caption}>
+        {editions.map((e) => (
+          <li key={e.id} className="border-b border-rule py-4">
+            <time dateTime={e.edition_date} className="text-sm font-semibold text-ink-soft">
+              {formatEditionDate(e.edition_date)}
+            </time>
+            <Link href={`/editions/${e.edition_date}`} className="mt-1 block font-bold leading-snug text-ink no-underline">
+              {e.headline}
+            </Link>
+            <p className="tabular mt-1 text-sm text-ink-soft">
+              {e.entry_count} changes from {numberFormat.format(e.papers_scanned)} papers
+            </p>
+          </li>
+        ))}
+      </ul>
+      <table className="hidden w-full border-collapse text-left sm:table">
         <caption className="sr-only">{caption}</caption>
         <thead>
           <tr className="bg-band text-sm text-white">
@@ -44,6 +60,6 @@ export function EditionTimetable({ editions, caption }: { editions: EditionSumma
           ))}
         </tbody>
       </table>
-    </div>
+    </>
   );
 }

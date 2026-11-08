@@ -11,6 +11,9 @@ colors:
   band: "#16171a"
   band-soft: "#b9bcc1"
   signal: "#ffd23f"
+  depth-plain: "#fff1b8"
+  depth-student: "#ffd23f"
+  depth-expert: "#16171a"
   link: "#0a5bd1"
   danger: "#b4232a"
   line-language: "#d42a2f"
@@ -191,12 +194,18 @@ The canonical track order is Language, Vision, Learning, Agents, Robotics, Other
 - **Ink** (ink): body text, station ring and capsule strokes, transfer-sign borders, hover state of black buttons.
 - **Soft Ink** (ink-soft): meta lines, secondary paragraphs, rank numerals, placeholders, unselected depth tabs.
 - **Band Soft** (band-soft): secondary text and inactive navigation on black bands.
-- **Danger Red** (danger): error messages (role alert) and invalid input borders only.
+- **Danger Red** (danger): error messages (role alert), invalid input borders and the edge of a failed upload card.
+
+### Reading depth
+Depth runs light to dark: the deeper the reading, the darker the sign. **Plain** is pale yellow (`depth-plain`), **Student** is signal yellow (`depth-student`), **Expert** is black (`depth-expert`, white type). These fill the header of each depth card in "One paper, three readers" and the depth chips; they never colour a line, a button or a link.
+
+### The livery
+All six line colours in their fixed order, as one stripe (`.livery-x`, `.livery-y`). It stands for the whole network, so it carries no single line's meaning: a 4px stripe under the masthead and the track of the "How each edition is made" strip. Never break it up or reorder it.
 
 ### Named Rules
 **The Fixed Line Rule.** A line colour means one research area everywhere: on the map, in bullets, on the rail, in the footer legend. Never use a line colour for a button, a heading, an illustration or a state.
 
-**The You-Are-Here Rule.** Signal yellow marks the current location: the open station, the current rail station, the active nav item, the current pipeline stage, selected text, the skip link. The one action use in the build is the single call to action inside a black band (and the Sign up hover in the masthead), where black would vanish; do not add more.
+**The You-Are-Here Rule.** Signal yellow marks the current location: the open station, the current rail station, the active nav item, the current stage of an upload, selected text, the skip link. Beyond wayfinding it appears as the Student depth, the upload drop zone's badge, and one large surface: the closing call to action on the landing page, a yellow platform sign with a black button. Do not add more yellow surfaces.
 
 **The Board Rule.** Panel grey as a standing surface belongs to boards: the station board and the "What changed" board, each topped by a 6px black edge. Elsewhere it appears only transiently (hover, loading).
 
@@ -228,7 +237,7 @@ The canonical track order is Language, Vision, Learning, Agents, Robotics, Other
 
 ## Layout
 
-One centred container (max 88rem) with a 20px gutter on phones and 32px from 640px. Sections are introduced by a full-container-width signage band and spaced 64px apart (80px at the end of landing sections). Reading text is held to a 60ch measure everywhere, including the station board summary and through-line notes.
+One centred container (max 88rem) with a 20px gutter on phones and 32px from 640px. Sections are introduced by a signage band that bleeds out across the gutter, so its title starts on the same line as the content below it (the **Aligned Sign Rule**: band text, table columns and panel text all share the content edge; a panel that sits under a band, such as the chat or the "What changed" board, bleeds by the same amount) and spaced 64px apart (80px at the end of landing sections). Reading text is held to a 60ch measure everywhere, including the station board summary and through-line notes.
 
 Responsive behaviour uses Tailwind's default breakpoints. Below 768px the metro diagram, its station board and legend are replaced by a vertical strip map (one station per paper, a 10px spine in the paper's primary line colour). From 1024px the edition list gains a 17rem sticky station rail on the right, the station board becomes three columns (title, summary, action), and the paper page becomes a 40rem article beside an 18rem sticky sidebar. Tables (the edition timetable) collapse to stacked rows below 640px.
 
@@ -258,7 +267,7 @@ The map's forms are fixed. Lines are 13-unit strokes with round caps and joins, 
 - **Text actions:** link blue, weight 600, underlined (offset 0.22em, 1.5px thickness). "Read it at your level" is the canonical wording for opening a paper.
 
 ### Signage Band
-Black bar, white sign-type title on the left, optional supporting content on the right (band-soft text, a depth switch, a link underlined in signal). Use it to name every major section and the chat panel. It is the only section-heading device.
+Black bar, white sign-type title on the left, optional supporting content right-aligned on the right (band-soft text, a depth switch, a link underlined in signal). It bleeds across the page gutter so its title lines up with the content edge; `split` sets the title and its text in the hero's two columns, so the day's headline sits under the hero description. A band heading a standalone bordered panel ("What you get back") stays inside the panel with the same inset. Use it to name every major section and the chat panel. It is the only section-heading device.
 
 ### Route Bullet
 A round bullet in the line colour carrying the line letter: 20px (labels, legend, footer), 28px (entries, board), 40px. With a label, the line name follows in condensed type. Stack two bullets for an interchange paper.

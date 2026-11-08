@@ -20,6 +20,11 @@
   --color-link: #0a5bd1;
   --color-danger: #b4232a;
 
+  /* Reading depth runs light to dark: the deeper the reading, the darker the sign */
+  --color-depth-plain: #fff1b8;
+  --color-depth-student: #ffd23f;
+  --color-depth-expert: #16171a;
+
   /* Research lines. Text on each: white, except agents and signal (ink). */
   --color-line-language: #d42a2f;
   --color-line-vision: #0a5bd1;
@@ -318,4 +323,21 @@
 }
 .depth-switch--dark .t-tabs-pill {
   background: #ffffff;
+}
+
+/*
+  The livery: all six lines in their fixed order, as one stripe. It stands for the whole
+  network, never for a single line, so it carries no line meaning of its own.
+*/
+.livery-x,
+.livery-y {
+  --livery: var(--color-line-language) 0 16.67%, var(--color-line-vision) 16.67% 33.33%,
+    var(--color-line-learning) 33.33% 50%, var(--color-line-agents) 50% 66.67%,
+    var(--color-line-robotics) 66.67% 83.33%, var(--color-line-other) 83.33% 100%;
+}
+.livery-x {
+  background: linear-gradient(90deg, var(--livery));
+}
+.livery-y {
+  background: linear-gradient(180deg, var(--livery));
 }

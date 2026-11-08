@@ -13,6 +13,8 @@ export function EditionTimetable({
   caption: string;
   header?: "band" | "plain";
 }) {
+  // Under a sign band the outer columns line up with the band's text, so they lose their outer padding
+  const flush = "[&>*:first-child]:pl-0 [&>*:last-child]:pr-0";
   return (
     <>
       {/* Phones: one stacked row per edition */}
@@ -34,7 +36,7 @@ export function EditionTimetable({
       <table className="hidden w-full border-collapse text-left sm:table">
         <caption className="sr-only">{caption}</caption>
         <thead>
-          <tr className={header === "band" ? "bg-band text-sm text-white" : "border-b-2 border-band text-sm"}>
+          <tr className={header === "band" ? "bg-band text-sm text-white" : `border-b-2 border-band text-sm ${flush}`}>
             <th scope="col" className="px-4 py-3 font-bold">
               Date
             </th>
@@ -51,7 +53,7 @@ export function EditionTimetable({
         </thead>
         <tbody>
           {editions.map((e) => (
-            <tr key={e.id} className="border-b border-rule align-top transition-colors duration-150 hover:bg-panel">
+            <tr key={e.id} className={`border-b border-rule align-top transition-colors duration-150 hover:bg-panel ${header === "plain" ? flush : ""}`}>
               <td className="whitespace-nowrap px-4 py-4">
                 <time dateTime={e.edition_date} className="font-semibold">
                   {formatEditionDate(e.edition_date)}

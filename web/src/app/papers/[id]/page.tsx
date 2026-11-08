@@ -49,12 +49,12 @@ async function Paper({ params }: { params: PageProps<"/papers/[id]">["params"] }
             ) : null}
           </header>
 
-          <section aria-labelledby="changed-title" className="mt-8 border-t-[6px] border-band bg-panel p-5 sm:p-6">
+          <section aria-labelledby="changed-title" className="-mx-5 mt-8 border-t-[6px] border-band bg-panel px-5 py-5 sm:-mx-8 sm:px-8 sm:py-6">
             <h2 id="changed-title" className="text-lg font-bold">
               What changed
             </h2>
-            <p className="mt-2 text-lg font-medium leading-relaxed">{paper.what_changed ?? "Not stated."}</p>
-            {paper.why_it_matters ? <p className="mt-3 leading-relaxed text-ink-soft">{paper.why_it_matters}</p> : null}
+            <p className="mt-2 max-w-[60ch] text-lg font-medium leading-relaxed">{paper.what_changed ?? "Not stated."}</p>
+            {paper.why_it_matters ? <p className="mt-3 max-w-[66ch] leading-relaxed text-ink-soft">{paper.why_it_matters}</p> : null}
             <Transfers items={paper.builds_on} />
           </section>
 

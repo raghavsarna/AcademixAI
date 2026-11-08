@@ -258,6 +258,21 @@
           "#d6c4b1",
           "#f9ecdf"
         ]
+      },
+      "depth-plain": {
+        "role": "depth",
+        "displayName": "Plain Depth",
+        "canonical": "#fff1b8"
+      },
+      "depth-student": {
+        "role": "depth",
+        "displayName": "Student Depth",
+        "canonical": "#ffd23f"
+      },
+      "depth-expert": {
+        "role": "depth",
+        "displayName": "Expert Depth",
+        "canonical": "#16171a"
       }
     },
     "typographyMeta": {
@@ -516,6 +531,10 @@
         "name": "The Flat Signage Rule",
         "body": "Nothing floats. If something needs emphasis, give it a black band, a black top edge or a heavier rule, never a shadow.",
         "section": "elevation"
+      },
+      {
+        "name": "The Aligned Sign Rule",
+        "body": "Sign bands bleed across the page gutter so their text starts on the content edge; panels under a band bleed by the same amount, and table columns under a band are flush with it."
       }
     ],
     "dos": [

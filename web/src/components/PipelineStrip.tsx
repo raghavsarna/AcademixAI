@@ -12,7 +12,8 @@ export function PipelineStrip({ scanned, changes, lines }: { scanned: number; ch
   ];
   return (
     <ol className="relative grid gap-8 md:grid-cols-4 md:gap-6">
-      <span aria-hidden className="absolute bottom-3 left-[0.6rem] top-3 w-2.5 bg-band md:inset-x-3 md:bottom-auto md:left-0 md:top-[0.6rem] md:h-2.5 md:w-auto" />
+      <span aria-hidden className="livery-y absolute bottom-3 left-[0.6rem] top-3 w-2.5 md:hidden" />
+      <span aria-hidden className="livery-x absolute inset-x-3 top-[0.6rem] hidden h-2.5 md:block" />
       {stops.map((stop) => (
         <li key={stop.name} className="relative grid grid-cols-[2rem_1fr] content-start gap-3 md:grid-cols-1 md:gap-4">
           <span aria-hidden className="relative z-10 size-8 rounded-full border-[4px] border-band bg-white" />

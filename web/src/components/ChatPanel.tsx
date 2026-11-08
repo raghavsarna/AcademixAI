@@ -54,15 +54,15 @@ export function ChatPanel({
   }
 
   return (
-    <section aria-labelledby={`${inputId}-title`} className="border border-t-0 border-rule">
-      <SignBand title={title} id={`${inputId}-title`}>
+    <section aria-labelledby={`${inputId}-title`} className="-mx-5 border-b border-rule sm:-mx-8 sm:border-x">
+      <SignBand title={title} id={`${inputId}-title`} bleed={false}>
         <p className="text-sm text-band-soft">
           Answers at <strong className="text-white">{DEPTH_LABELS[depth]}</strong> depth
         </p>
       </SignBand>
 
       {status === "signed-out" ? (
-        <div className="px-5 pb-6 pt-5">
+        <div className="px-5 pb-6 pt-5 sm:px-8">
           <p className="max-w-prose leading-relaxed">
             Ask anything about it and get an answer at your depth. Chat needs a free account so it can be kept fair
             for everyone.
@@ -83,7 +83,7 @@ export function ChatPanel({
           </div>
         </div>
       ) : (
-        <div className="px-5 pb-5 pt-5">
+        <div className="px-5 pb-5 pt-5 sm:px-8">
           {messages.length ? (
             <ol ref={listRef} className="grid max-h-[28rem] gap-4 overflow-y-auto pr-1" aria-live="polite">
               {messages.map((m, i) => (

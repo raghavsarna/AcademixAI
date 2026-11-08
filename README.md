@@ -12,7 +12,7 @@ Hundreds of AI papers land on arXiv every day. AcademixAI reads each day's new p
 
 - **A daily changelog, not a newsletter.** Each edition ranks the ~10 papers that change the field most, and says for each one what it claims is new, what kind of change it is, and which earlier work it extends, challenges or replaces.
 - **One paper, three readers.** Every paper is explained three times: for someone who has never read a paper, for a student meeting the idea, and for a practitioner who wants the method and the numbers. Switch depth in place; the choice is kept in the link.
-- **Explain your own paper.** Upload a PDF and get the same treatment from its full text. Re-uploading a known paper (same file, DOI or arXiv id) reuses the analysis instead of calling the model again.
+- **Explain your own paper.** Upload a PDF and get the same treatment from its full text. The analysis runs as a background job with live progress, so leaving the page, a slow model or a server restart never loses an upload (a failed one can be retried from the stored PDF). Re-uploading a known paper (same file, DOI or arXiv id) reuses the analysis instead of calling the model again.
 - **Chat at your depth.** Ask about an edition or a paper and the answer is pitched at the depth you picked.
 
 ![A paper page at Expert depth](docs/screenshots/paper.png)
@@ -85,7 +85,7 @@ python -m scripts.generate_edition --days 5    # backfill the last five weekdays
 ## Tests and checks
 
 ```bash
-pytest                                         # API: 68 tests, fake model, no key needed
+pytest                                         # API: 71 tests, fake model, no key needed
 ruff check app scripts tests migrations/env.py
 cd web && pnpm exec eslint src && pnpm exec tsc --noEmit && pnpm build
 ```
@@ -102,7 +102,9 @@ Interactive docs at `/docs` when the API is running.
 | GET | `/api/editions/latest` | | The latest edition with its ranked papers |
 | GET | `/api/editions/{date}` | | One day's edition, with previous and next dates |
 | POST | `/api/editions/{date}/chat` | ✓ | Ask about an edition (`message`, `level`) |
-| POST | `/api/papers` | ✓ | Upload a PDF to be explained |
+| POST | `/api/papers` | ✓ | Upload a PDF; answers at once with a job to poll |
+| GET | `/api/papers/jobs`, `/api/papers/jobs/{id}` | ✓ | Your uploads and how far each has got |
+| POST, DELETE | `/api/papers/jobs/{id}/retry`, `/api/papers/jobs/{id}` | ✓ | Retry a failed upload, or remove one from the list |
 | GET | `/api/papers` | ✓ | Your uploaded papers |
 | GET | `/api/papers/{id}` | | A paper with all three explanations |
 | POST | `/api/papers/{id}/chat` | ✓ | Ask about a paper (`message`, `level`) |

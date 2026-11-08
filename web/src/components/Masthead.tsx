@@ -94,6 +94,7 @@ export function Masthead() {
           )}
         </div>
       </div>
+      <div aria-hidden className="livery-x h-1" />
     </header>
   );
 }

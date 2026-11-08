@@ -10,6 +10,7 @@ from app.rate_limit import chat_limit, upload_limit
 from app.schemas import ChatRequest, ChatResponse, MyPaper, PaperDetail, PaperSummary, UploadJobOut
 from app.security import CurrentUser, DbSession
 from app.services import chat, jobs
+from app.services.papers import remove_from_library
 from app.services.pdf import InvalidPDF
 from app.storage import LocalStorage, get_storage
 
@@ -119,6 +120,18 @@ def dismiss_job(
 def get_paper(paper_id: str, db: DbSession) -> Paper:
     """A paper's analysis. Anyone with the link can view it."""
     return get_paper_or_404(db, paper_id)
+
+
+@router.delete("/{paper_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_paper(
+    paper_id: str, user: CurrentUser, db: DbSession, storage: Annotated[LocalStorage, Depends(get_storage)]
+) -> None:
+    """Remove a paper from your papers and delete your uploaded PDF.
+
+    The paper's page is deleted too unless someone else uploaded it or it is part of an edition.
+    """
+    if not remove_from_library(db, user, paper_id, storage):
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "That paper isn't in your papers.")
 
 
 @router.post("/{paper_id}/chat", response_model=ChatResponse, dependencies=[Depends(chat_limit)])

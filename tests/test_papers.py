@@ -282,3 +282,55 @@ def test_chat_about_a_paper_uses_the_chosen_depth(client, fake_llm):
     response = client.post(f"/api/papers/{paper_id}/chat", json={"message": "How?", "level": "plain"}, headers=headers)
     assert response.status_code == 200
     assert "no technical background" in fake_llm.calls[-1]["prompt"]
+
+
+def test_deleting_a_paper_removes_it_and_its_pdf(client, db, fake_llm):
+    headers = auth_headers(client)
+    fake_llm.replies.append(json.dumps(ANALYSIS))
+    job = explain(client, headers, make_pdf())
+    paper_id = job["paper_id"]
+    assert len(list(Path(UPLOAD_DIR).iterdir())) == 1
+
+    assert client.delete(f"/api/papers/{paper_id}").status_code == 401
+    assert client.delete(f"/api/papers/{paper_id}", headers=headers).status_code == 204
+
+    assert client.get("/api/papers", headers=headers).json() == []
+    assert client.get("/api/papers/jobs", headers=headers).json() == []
+    assert client.get(f"/api/papers/{paper_id}").status_code == 404
+    assert list(Path(UPLOAD_DIR).iterdir()) == []
+    assert client.delete(f"/api/papers/{paper_id}", headers=headers).status_code == 404
+
+
+def test_deleting_a_shared_paper_keeps_it_for_the_other_reader(client, db, fake_llm):
+    alice = auth_headers(client, "alice")
+    bob = auth_headers(client, "bobby")
+    fake_llm.replies.append(json.dumps(ANALYSIS))
+    data = make_pdf()
+    paper_id = explain(client, alice, data)["paper_id"]
+    explain(client, bob, data)
+
+    # Bob can't delete it from Alice's library, only from his own
+    assert client.delete(f"/api/papers/{paper_id}", headers=bob).status_code == 204
+    assert client.get("/api/papers", headers=bob).json() == []
+    assert [p["id"] for p in client.get("/api/papers", headers=alice).json()] == [paper_id]
+    assert client.get(f"/api/papers/{paper_id}").status_code == 200
+
+
+def test_deleting_an_edition_paper_keeps_its_page(client, db, fake_llm):
+    edition_paper = Paper(title="Attention Is All You Need", origin="arxiv", arxiv_id="1706.03762")
+    db.add(edition_paper)
+    db.commit()
+    headers = auth_headers(client)
+    fake_llm.replies.append(json.dumps(ANALYSIS))
+    assert explain(client, headers, make_pdf())["paper_id"] == edition_paper.id
+
+    assert client.delete(f"/api/papers/{edition_paper.id}", headers=headers).status_code == 204
+    assert client.get("/api/papers", headers=headers).json() == []
+    assert client.get(f"/api/papers/{edition_paper.id}").status_code == 200
+
+
+def test_a_paper_outside_your_library_cant_be_deleted(client, db, fake_llm):
+    fake_llm.replies.append(json.dumps(ANALYSIS))
+    paper_id = explain(client, auth_headers(client, "alice"), make_pdf())["paper_id"]
+    assert client.delete(f"/api/papers/{paper_id}", headers=auth_headers(client, "bobby")).status_code == 404
+    assert client.get(f"/api/papers/{paper_id}").status_code == 200

@@ -85,7 +85,7 @@ python -m scripts.generate_edition --days 5    # backfill the last five weekdays
 ## Tests and checks
 
 ```bash
-pytest                                         # API: 71 tests, fake model, no key needed
+pytest                                         # API: 75 tests, fake model, no key needed
 ruff check app scripts tests migrations/env.py
 cd web && pnpm exec eslint src && pnpm exec tsc --noEmit && pnpm build
 ```
@@ -107,6 +107,7 @@ Interactive docs at `/docs` when the API is running.
 | POST, DELETE | `/api/papers/jobs/{id}/retry`, `/api/papers/jobs/{id}` | ✓ | Retry a failed upload, or remove one from the list |
 | GET | `/api/papers` | ✓ | Your uploaded papers |
 | GET | `/api/papers/{id}` | | A paper with all three explanations |
+| DELETE | `/api/papers/{id}` | ✓ | Remove a paper from your papers and delete your PDF |
 | POST | `/api/papers/{id}/chat` | ✓ | Ask about a paper (`message`, `level`) |
 | POST | `/api/auth/register`, `/api/auth/token` | | Sign up, log in |
 | GET | `/api/auth/me` | ✓ | Current user |

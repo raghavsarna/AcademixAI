@@ -11,7 +11,7 @@ from sqlalchemy.orm import Session
 
 from app import llm
 from app.config import settings
-from app.models import Paper, Upload, User
+from app.models import EditionEntry, Paper, Upload, UploadJob, User
 from app.services.analysis import (
     CHANGE_FIELDS_SPEC,
     CHANGE_RULES,
@@ -209,3 +209,34 @@ def link_known_file(db: Session, user: User, filename: str, file_hash: str) -> P
         _link_upload(db, user, paper, filename, None)
         db.commit()
     return paper
+
+
+def remove_from_library(db: Session, user: User, paper_id: str, storage: LocalStorage) -> bool:
+    """Take a paper out of the user's library. False if it isn't in their library.
+
+    The user's upload and its PDF are deleted, along with their upload jobs for the paper. The
+    paper itself is deleted only when nothing else uses it: no other user's upload and no edition.
+    Otherwise it stays, so its page keeps working for everyone else.
+    """
+    upload = db.scalar(select(Upload).where(Upload.user_id == user.id, Upload.paper_id == paper_id))
+    if upload is None:
+        return False
+    paper = upload.paper
+    files = [upload.pdf_key] if upload.pdf_key else []
+    for job in db.scalars(select(UploadJob).where(UploadJob.user_id == user.id, UploadJob.paper_id == paper_id)):
+        if job.pdf_key and job.pdf_key not in files:
+            files.append(job.pdf_key)
+        db.delete(job)
+    db.delete(upload)
+    db.flush()
+
+    others = db.scalar(select(Upload.id).where(Upload.paper_id == paper_id).limit(1))
+    in_edition = db.scalar(select(EditionEntry.id).where(EditionEntry.paper_id == paper_id).limit(1))
+    if others is None and in_edition is None and paper.origin == "upload":
+        for job in db.scalars(select(UploadJob).where(UploadJob.paper_id == paper_id)):
+            job.paper_id = None
+        db.delete(paper)
+    db.commit()
+    for key in files:
+        storage.delete(key)
+    return True

@@ -85,6 +85,7 @@ export const api = {
     request<User>("/api/auth/register", { method: "POST", body: JSON.stringify({ email, username, password }) }),
   me: () => request<User>("/api/auth/me"),
   myPapers: () => request<MyPaper[]>("/api/papers"),
+  deletePaper: (id: string) => request<null>(`/api/papers/${encodeURIComponent(id)}`, { method: "DELETE" }),
   upload: (file: File) => {
     const form = new FormData();
     form.append("file", file);

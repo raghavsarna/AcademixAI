@@ -200,7 +200,7 @@ The canonical track order is Language, Vision, Learning, Agents, Robotics, Other
 Depth runs light to dark: the deeper the reading, the darker the sign. **Plain** is pale yellow (`depth-plain`), **Student** is signal yellow (`depth-student`), **Expert** is black (`depth-expert`, white type). These fill the header of each depth card in "One paper, three readers" and the depth chips; they never colour a line, a button or a link.
 
 ### The livery
-All six line colours in their fixed order, as one stripe (`.livery-x`, `.livery-y`). It stands for the whole network, so it carries no single line's meaning: a 4px stripe under the masthead and the track of the "How each edition is made" strip. Never break it up or reorder it.
+All six line colours in their fixed order, as one stripe (`.livery-x`, `.livery-y`). It stands for the whole network, so it carries no single line's meaning: it is the track of the "How each edition is made" strip, and nowhere else. The masthead has no stripe under it. Never break it up or reorder it.
 
 ### Named Rules
 **The Fixed Line Rule.** A line colour means one research area everywhere: on the map, in bullets, on the rail, in the footer legend. Never use a line colour for a button, a heading, an illustration or a state.

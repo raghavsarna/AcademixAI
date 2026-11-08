@@ -1,0 +1,542 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-08T15:30:44+00:00",
+  "title": "Design System: AcademixAI",
+  "extensions": {
+    "colorMeta": {
+      "ground": {
+        "role": "neutral",
+        "displayName": "Signage White",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#7d7d7d",
+          "#9e9e9e",
+          "#c7c7c7",
+          "#eeeeee"
+        ]
+      },
+      "panel": {
+        "role": "neutral",
+        "displayName": "Board Grey",
+        "canonical": "#f2f3f4",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#3f4040",
+          "#5d5e5e",
+          "#7c7d7e",
+          "#9e9e9f",
+          "#c7c7c8",
+          "#eeeeef"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Hairline Grey",
+        "canonical": "#d8dadd",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#232425",
+          "#3f4041",
+          "#5c5e60",
+          "#7c7d80",
+          "#9d9ea1",
+          "#c6c7c9",
+          "#eeeef0"
+        ]
+      },
+      "rule-strong": {
+        "role": "neutral",
+        "displayName": "Strong Rule Grey",
+        "canonical": "#9a9ea5",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#222427",
+          "#3d4044",
+          "#5a5e63",
+          "#7a7d84",
+          "#9b9ea4",
+          "#c5c7cb",
+          "#edeef1"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#141518",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#232426",
+          "#3f4042",
+          "#5c5d61",
+          "#7c7d81",
+          "#9d9ea1",
+          "#c6c7ca",
+          "#eeeef0"
+        ]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Soft Ink",
+        "canonical": "#575b62",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#222427",
+          "#3d4045",
+          "#5a5e64",
+          "#797d84",
+          "#9b9fa4",
+          "#c5c7cc",
+          "#edeef2"
+        ]
+      },
+      "band": {
+        "role": "primary",
+        "displayName": "Signage Black",
+        "canonical": "#16171a",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#232426",
+          "#3f4042",
+          "#5c5d61",
+          "#7c7d81",
+          "#9d9ea1",
+          "#c6c7ca",
+          "#eeeef0"
+        ]
+      },
+      "band-soft": {
+        "role": "neutral",
+        "displayName": "Band Soft",
+        "canonical": "#b9bcc1",
+        "tonalRamp": [
+          "#0a0b0c",
+          "#232426",
+          "#3e4043",
+          "#5b5e62",
+          "#7b7d82",
+          "#9c9ea2",
+          "#c6c7ca",
+          "#edeef0"
+        ]
+      },
+      "signal": {
+        "role": "primary",
+        "displayName": "Signal Yellow",
+        "canonical": "#ffd23f",
+        "tonalRamp": [
+          "#150800",
+          "#342000",
+          "#573b00",
+          "#7c5700",
+          "#9f7700",
+          "#bb9b33",
+          "#dec681",
+          "#feeec0"
+        ]
+      },
+      "link": {
+        "role": "secondary",
+        "displayName": "Route Blue",
+        "canonical": "#0a5bd1",
+        "tonalRamp": [
+          "#00072a",
+          "#001f57",
+          "#063a88",
+          "#1457be",
+          "#3378e8",
+          "#649dfb",
+          "#9dc9ff",
+          "#d1f0ff"
+        ]
+      },
+      "danger": {
+        "role": "neutral",
+        "displayName": "Danger Red",
+        "canonical": "#b4232a",
+        "tonalRamp": [
+          "#210000",
+          "#490408",
+          "#761619",
+          "#a5292c",
+          "#cf4a48",
+          "#e87973",
+          "#ffada6",
+          "#ffddd8"
+        ]
+      },
+      "line-language": {
+        "role": "tertiary",
+        "displayName": "Language Red",
+        "canonical": "#d42a2f",
+        "tonalRamp": [
+          "#230000",
+          "#4d0002",
+          "#7c030f",
+          "#ad161f",
+          "#d83d3c",
+          "#f0726a",
+          "#ffa9a0",
+          "#ffdbd4"
+        ]
+      },
+      "line-vision": {
+        "role": "tertiary",
+        "displayName": "Vision Blue",
+        "canonical": "#0a5bd1",
+        "tonalRamp": [
+          "#00072a",
+          "#001f57",
+          "#063a88",
+          "#1457be",
+          "#3378e8",
+          "#649dfb",
+          "#9dc9ff",
+          "#d1f0ff"
+        ]
+      },
+      "line-learning": {
+        "role": "tertiary",
+        "displayName": "Learning Green",
+        "canonical": "#00804a",
+        "tonalRamp": [
+          "#001103",
+          "#002e14",
+          "#004e2a",
+          "#077041",
+          "#32925e",
+          "#68b184",
+          "#a1d6b4",
+          "#d5f9e1"
+        ]
+      },
+      "line-agents": {
+        "role": "tertiary",
+        "displayName": "Agents Orange",
+        "canonical": "#f47a2a",
+        "tonalRamp": [
+          "#1f0100",
+          "#460e00",
+          "#702300",
+          "#9e3900",
+          "#c65800",
+          "#e0834f",
+          "#fcb58e",
+          "#ffe2c8"
+        ]
+      },
+      "line-robotics": {
+        "role": "tertiary",
+        "displayName": "Robotics Purple",
+        "canonical": "#7d3bb0",
+        "tonalRamp": [
+          "#130221",
+          "#311149",
+          "#522674",
+          "#763da3",
+          "#985ccb",
+          "#b586e2",
+          "#d9b6fc",
+          "#fae3ff"
+        ]
+      },
+      "line-other": {
+        "role": "tertiary",
+        "displayName": "Other Brown",
+        "canonical": "#7f6244",
+        "tonalRamp": [
+          "#110903",
+          "#2e2113",
+          "#4f3c28",
+          "#71583e",
+          "#93775b",
+          "#b29a82",
+          "#d6c4b1",
+          "#f9ecdf"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Landing headline only; 2.75rem on phones, 3.5rem from 640px, 3.875rem from 1280px; max 17ch."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Page titles; 2.25rem on phones, 3.25rem from 640px. Paper titles one step smaller (2rem to 2.75rem)."
+      },
+      "sign": {
+        "displayName": "Sign",
+        "purpose": "Title inside every black signage band; 1.25rem on phones, 1.5rem from 640px."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Station entry, board and card titles (1.25rem to 1.375rem)."
+      },
+      "body-lead": {
+        "displayName": "Body lead",
+        "purpose": "Intros and standfirsts, 60ch."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Explanation reading column, 60ch measure."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Meta lines, fact labels, table headers."
+      },
+      "station-name": {
+        "displayName": "Station name",
+        "purpose": "Condensed signage setting (font-stretch 78%) for station names, line names and stop names."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The authored map moment: lines drawing in and stations opening."
+      },
+      {
+        "name": "ease-smooth-out",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "State slides: depth-switch pill, station-board notch, explanation settle."
+      },
+      {
+        "name": "draw-line",
+        "value": "1100ms ease-out-expo, stagger 90ms per line",
+        "purpose": "Each map line draws once on load (stroke-dashoffset to 0)."
+      },
+      {
+        "name": "open-station",
+        "value": "520ms ease-out-expo, delay 500ms + 70ms per station, scale 0.4 to 1 with fade",
+        "purpose": "Stations open after the lines have drawn."
+      },
+      {
+        "name": "slide",
+        "value": "250ms ease-smooth-out",
+        "purpose": "Depth pill transform/width and the board notch left position."
+      },
+      {
+        "name": "depth-settle",
+        "value": "250ms ease-smooth-out, opacity 0.25 to 1, blur 2px to 0",
+        "purpose": "Explanation text after a depth change."
+      },
+      {
+        "name": "hover",
+        "value": "150ms colour transition",
+        "purpose": "Buttons, links, table rows, chips."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "prefers-reduced-motion: reduce collapses all animation and transition durations to 0.01ms; map animations only run under no-preference",
+        "purpose": "Content is visible by default; state changes stay, motion goes."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px",
+        "purpose": "Wider gutter (32px), larger headlines, timetable becomes a table."
+      },
+      {
+        "name": "md",
+        "value": "768px",
+        "purpose": "Metro diagram, station board and legend replace the strip map; pipeline goes horizontal."
+      },
+      {
+        "name": "lg",
+        "value": "1024px",
+        "purpose": "Sticky station rail (17rem), three-column station board, paper article plus 18rem sidebar."
+      },
+      {
+        "name": "xl",
+        "value": "1280px",
+        "purpose": "Landing display headline reaches 3.875rem."
+      }
+    ],
+    "layout": {
+      "container": "88rem",
+      "measure": "60ch",
+      "rail": "17rem",
+      "paperColumns": "minmax(0,40rem) 18rem"
+    },
+    "focus": {
+      "value": "outline: 3px solid var(--color-link); outline-offset: 2px; border-radius: 2px",
+      "purpose": "Global :focus-visible ring. Inside black signage (.bg-band) the outline colour is var(--color-signal)."
+    },
+    "mapGeometry": {
+      "viewBoxWidth": 1400,
+      "trackGap": 54,
+      "top": 64,
+      "terminalInset": 26,
+      "stationPadX": 104,
+      "strokeWidth": 13,
+      "sideBySideOffset": 18,
+      "bendAngle": "45deg",
+      "stationRing": "r10, 4-unit ink stroke, white fill",
+      "interchangeCapsule": "24 wide, rx 12, 4-unit ink stroke, white fill",
+      "outOfStationLink": "two rings joined by a 3-unit ink line",
+      "openStationRing": "38 wide, rx 19, 6-unit signal stroke",
+      "terminalBullet": "r17 circle in line colour, 17px bold letter",
+      "label": "16px bold condensed, white 6-unit halo, above or below by least collision",
+      "stationNameMax": "24 characters on the map, word-boundary cut, no trailing joining word, wraps to two lines at 18"
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The main action on white: black signage fill, white bold type.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Ride today’s changes</a>",
+      "css": ".ds-btn-primary{font-family:var(--font-sans,Archivo,ui-sans-serif,system-ui,sans-serif);display:inline-block;background:var(--color-band,#16171a);color:#fff;padding:14px 24px;border-radius:4px;font-size:1.125rem;font-weight:700;text-decoration:none;transition:background-color 150ms;} .ds-btn-primary:hover{background:var(--color-ink,#141518);} .ds-btn-primary:focus-visible{outline:3px solid var(--color-link,#0a5bd1);outline-offset:2px;}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "The second action beside a primary: white with a 2px black border.",
+      "html": "<a class=\"ds-btn-secondary\" href=\"#\">Explain a paper</a>",
+      "css": ".ds-btn-secondary{font-family:var(--font-sans,Archivo,ui-sans-serif,system-ui,sans-serif);display:inline-block;background:#fff;color:var(--color-ink,#141518);border:2px solid var(--color-band,#16171a);padding:14px 24px;border-radius:4px;font-size:1.125rem;font-weight:700;text-decoration:none;transition:background-color 150ms;} .ds-btn-secondary:hover{background:var(--color-panel,#f2f3f4);} .ds-btn-secondary:focus-visible{outline:3px solid var(--color-link,#0a5bd1);outline-offset:2px;}"
+    },
+    {
+      "name": "Signage Band",
+      "kind": "custom",
+      "refersTo": "sign-band",
+      "description": "Names every major section, like a platform sign; may carry a link or depth switch on the right.",
+      "html": "<div class=\"ds-band\"><h2>Recent editions</h2><a href=\"#\">All editions</a><a class=\"ds-band-cta\" href=\"#\">Explain a paper</a></div>",
+      "css": ".ds-band{font-family:var(--font-sans,Archivo,ui-sans-serif,system-ui,sans-serif);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 24px;background:var(--color-band,#16171a);color:#fff;padding:14px 24px;} .ds-band h2{margin:0;font-size:1.5rem;font-weight:700;letter-spacing:-0.01em;} .ds-band a{color:#fff;font-weight:600;text-decoration:underline;text-decoration-color:var(--color-signal,#ffd23f);text-decoration-thickness:2px;text-underline-offset:0.22em;} .ds-band .ds-band-cta{background:var(--color-signal,#ffd23f);color:var(--color-ink,#141518);padding:14px 24px;border-radius:4px;font-size:1.125rem;font-weight:700;text-decoration:none;transition:background-color 150ms;} .ds-band .ds-band-cta:hover{background:#fff;} .ds-band a:focus-visible{outline:3px solid var(--color-signal,#ffd23f);outline-offset:2px;}"
+    },
+    {
+      "name": "Route Bullets",
+      "kind": "chip",
+      "refersTo": "line-bullet-md",
+      "description": "Round line bullets with fixed colours and letters; labelled form for legends.",
+      "html": "<span class=\"ds-bullets\"><span class=\"ds-bullet\" style=\"background:var(--color-line-language,#d42a2f)\">L</span><span class=\"ds-bullet\" style=\"background:var(--color-line-vision,#0a5bd1)\">V</span><span class=\"ds-bullet\" style=\"background:var(--color-line-learning,#00804a)\">M</span><span class=\"ds-bullet\" style=\"background:var(--color-line-agents,#f47a2a);color:#141518\">A</span><span class=\"ds-bullet\" style=\"background:var(--color-line-robotics,#7d3bb0)\">R</span><span class=\"ds-bullet\" style=\"background:var(--color-line-other,#7f6244)\">X</span><span class=\"ds-line-name\">Agents &amp; reasoning</span></span>",
+      "css": ".ds-bullets{font-family:var(--font-sans,Archivo,ui-sans-serif,system-ui,sans-serif);display:inline-flex;align-items:center;gap:4px;} .ds-bullet{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:9999px;color:#fff;font-size:0.875rem;font-weight:700;line-height:1;} .ds-line-name{margin-left:8px;font-size:0.875rem;font-weight:600;font-stretch:78%;letter-spacing:0.01em;}"
+    },
+    {
+      "name": "Metro Map Fragment",
+      "kind": "custom",
+      "refersTo": "",
+      "description": "Two lines with a 45-degree bend through a white interchange capsule, a station ring, and the signal ring on the open station.",
+      "html": "<svg class=\"ds-map\" viewBox=\"0 0 420 150\" role=\"img\" aria-label=\"Two lines meeting at an interchange\"><path d=\"M26 50 H394\" stroke=\"#0a5bd1\" stroke-width=\"13\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M26 104 H150 L186 68 H234 L270 104 H394\" stroke=\"#d42a2f\" stroke-width=\"13\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"191\" y=\"31\" width=\"38\" height=\"56\" rx=\"19\" fill=\"none\" stroke=\"#ffd23f\" stroke-width=\"6\"/><rect x=\"198\" y=\"38\" width=\"24\" height=\"42\" rx=\"12\" fill=\"#fff\" stroke=\"#141518\" stroke-width=\"4\"/><circle cx=\"330\" cy=\"104\" r=\"10\" fill=\"#fff\" stroke=\"#141518\" stroke-width=\"4\"/><text x=\"210\" y=\"18\" text-anchor=\"middle\" class=\"ds-map-label\">Scientist World</text><text x=\"330\" y=\"138\" text-anchor=\"middle\" class=\"ds-map-label\">SpecCTMC</text></svg>",
+      "css": ".ds-map{width:100%;max-width:420px;overflow:visible;} .ds-map-label{font-family:var(--font-sans,Archivo,ui-sans-serif,system-ui,sans-serif);font-size:16px;font-weight:700;font-stretch:78%;letter-spacing:0.01em;fill:#141518;paint-order:stroke;stroke:#fff;stroke-width:6px;stroke-linejoin:round;}"
+    },
+    {
+      "name": "Station Board",
+      "kind": "card",
+      "refersTo": "station-board",
+      "description": "Panel-grey board with a 6px black top edge and a notch pointing at the open station; also the paper page's What changed board.",
+      "html": "<aside class=\"ds-board\"><span class=\"ds-board-notch\"></span><p class=\"ds-board-count\">Station 1 of 10</p><h3>Scientist World: Grow a Research World for AI-Scientists</h3><p class=\"ds-board-meta\">New method · Agents &amp; reasoning + Language</p><p>The authors introduce a framework that converts research papers into executable environments.</p><a href=\"#\">Read it at your level</a></aside>",
+      "css": ".ds-board{font-family:var(--font-sans,Archivo,ui-sans-serif,system-ui,sans-serif);position:relative;background:var(--color-panel,#f2f3f4);border-top:6px solid var(--color-band,#16171a);padding:24px;color:var(--color-ink,#141518);} .ds-board-notch{position:absolute;top:-16px;left:40px;width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-bottom:10px solid var(--color-band,#16171a);} .ds-board h3{margin:12px 0 0;font-size:1.25rem;font-weight:700;line-height:1.375;} .ds-board-count,.ds-board-meta{margin:4px 0 0;font-size:0.875rem;font-weight:600;color:var(--color-ink-soft,#575b62);} .ds-board p{max-width:60ch;line-height:1.625;} .ds-board a{color:var(--color-link,#0a5bd1);font-weight:600;text-decoration:underline;text-underline-offset:0.22em;text-decoration-thickness:1.5px;} .ds-board a:focus-visible{outline:3px solid var(--color-link,#0a5bd1);outline-offset:2px;}"
+    },
+    {
+      "name": "Transfer Sign",
+      "kind": "chip",
+      "refersTo": "transfer-sign",
+      "description": "Earlier work a paper builds on or challenges, set as interchange signs.",
+      "html": "<div class=\"ds-transfers\"><strong>Transfers</strong><span class=\"ds-transfer\"><span>Extends</span><b>Transformer</b></span><span class=\"ds-transfer\"><span>Challenges</span><b>Chain-of-thought prompting</b></span></div>",
+      "css": ".ds-transfers{font-family:var(--font-sans,Archivo,ui-sans-serif,system-ui,sans-serif);display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:0.875rem;} .ds-transfer{display:inline-flex;gap:6px;align-items:baseline;background:#fff;border:2.5px solid var(--color-ink,#141518);border-radius:10px;padding:4px 12px;line-height:1.375;} .ds-transfer span{color:var(--color-ink-soft,#575b62);} .ds-transfer b{font-weight:600;}"
+    },
+    {
+      "name": "Depth Switch",
+      "kind": "nav",
+      "refersTo": "depth-tab",
+      "description": "Plain / Student / Expert tablist; black selected tab on a panel track.",
+      "html": "<div class=\"ds-depth\" role=\"tablist\" aria-label=\"Reading depth\"><button role=\"tab\" aria-selected=\"true\">Plain</button><button role=\"tab\" aria-selected=\"false\">Student</button><button role=\"tab\" aria-selected=\"false\">Expert</button></div>",
+      "css": ".ds-depth{font-family:var(--font-sans,Archivo,ui-sans-serif,system-ui,sans-serif);display:inline-flex;gap:3px;padding:4px;background:var(--color-panel,#f2f3f4);border:1px solid var(--color-rule,#d8dadd);border-radius:6px;} .ds-depth button{font-family:var(--font-sans,Archivo,ui-sans-serif,system-ui,sans-serif);appearance:none;border:0;background:transparent;height:40px;padding:0 18px;border-radius:4px;font-size:0.9375rem;font-weight:700;color:var(--color-ink-soft,#575b62);cursor:pointer;transition:color 250ms cubic-bezier(0.22,1,0.36,1),background-color 250ms cubic-bezier(0.22,1,0.36,1);} .ds-depth button:hover{color:var(--color-ink,#141518);} .ds-depth button[aria-selected=\"true\"]{background:var(--color-band,#16171a);color:#fff;} .ds-depth button:focus-visible{outline:3px solid var(--color-link,#0a5bd1);outline-offset:2px;}"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Labelled field; blue border and ring on focus, danger border when invalid.",
+      "html": "<label class=\"ds-field\">Username or email<input placeholder=\"Ask a question about it\"></label>",
+      "css": ".ds-field{font-family:var(--font-sans,Archivo,ui-sans-serif,system-ui,sans-serif);display:grid;gap:6px;font-weight:600;color:var(--color-ink,#141518);max-width:28rem;} .ds-field input{font-family:var(--font-sans,Archivo,ui-sans-serif,system-ui,sans-serif);font-weight:400;font-size:1rem;background:#fff;border:1px solid var(--color-rule-strong,#9a9ea5);border-radius:4px;padding:10px 14px;color:var(--color-ink,#141518);} .ds-field input::placeholder{color:var(--color-ink-soft,#575b62);} .ds-field input:focus-visible{border-color:var(--color-link,#0a5bd1);outline:3px solid var(--color-link,#0a5bd1);outline-offset:2px;} .ds-field input[aria-invalid=\"true\"]{border-color:var(--color-danger,#b4232a);}"
+    },
+    {
+      "name": "Masthead",
+      "kind": "nav",
+      "refersTo": "",
+      "description": "Black signage band with the wordmark, three links and account actions; the active link carries a signal underline.",
+      "html": "<header class=\"ds-mast\"><span class=\"ds-mast-mark\">AcademixAI</span><nav><a aria-current=\"page\" href=\"#\">Today</a><a href=\"#\">All editions</a><a href=\"#\">Explain a paper</a></nav><a class=\"ds-mast-signup\" href=\"#\">Sign up</a></header>",
+      "css": ".ds-mast{font-family:var(--font-sans,Archivo,ui-sans-serif,system-ui,sans-serif);display:flex;flex-wrap:wrap;align-items:center;gap:12px 32px;background:var(--color-band,#16171a);color:#fff;padding:16px 32px;} .ds-mast-mark{font-size:1.375rem;font-weight:800;letter-spacing:-0.02em;} .ds-mast nav{display:flex;gap:4px;} .ds-mast nav a{padding:6px 8px;font-size:0.9375rem;font-weight:600;color:var(--color-band-soft,#b9bcc1);text-decoration:none;transition:color 150ms;} .ds-mast nav a:hover{color:#fff;} .ds-mast nav a[aria-current=\"page\"]{color:#fff;text-decoration:underline;text-decoration-color:var(--color-signal,#ffd23f);text-decoration-thickness:3px;text-underline-offset:10px;} .ds-mast-signup{margin-left:auto;background:#fff;color:var(--color-ink,#141518);padding:6px 12px;border-radius:4px;font-size:0.9375rem;font-weight:600;text-decoration:none;transition:background-color 150ms;} .ds-mast-signup:hover{background:var(--color-signal,#ffd23f);} .ds-mast a:focus-visible{outline:3px solid var(--color-signal,#ffd23f);outline-offset:2px;}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Transit Map",
+    "overview": "The field of AI is drawn as a metro system. Each research area is a line with a fixed colour, each day's papers are newly opened stations ranked left to right, and a paper cross-listed on two areas is an interchange. The whole interface borrows the grammar of transit signage: a white ground, near-black ink, black signage bands with white type naming every section, round line bullets, white station ticks and capsules, and geometry that turns only at 45 and 90 degrees.\n\nThe system is flat and plain on purpose. Depth comes from tone (black band, grey board, white ground) and from heavy rules, never from shadows. Colour carries meaning, not mood: the six line colours identify research areas and nothing else, signal yellow marks where you are, and link blue marks where you can go. Type is one family, Archivo, set heavy and tight for headlines and condensed on its width axis for anything that names a station or a line.\n\nThere is one authored motion moment: the lines draw in, then the stations open. Everything else changes state in 150 to 250ms or, for readers who ask for less motion, instantly.",
+    "keyCharacteristics": [
+      "White ground, black signage bands with white Archivo type naming each section.",
+      "Six line colours with fixed meanings; a line colour never decorates.",
+      "Signal yellow marks the current location only.",
+      "Panel grey is the station-board surface.",
+      "White capsules mark interchanges; white rings mark stations.",
+      "No shadows, no gradients; depth is tonal.",
+      "One motion moment: lines draw, then stations open."
+    ],
+    "rules": [
+      {
+        "name": "The Fixed Line Rule",
+        "body": "A line colour means one research area everywhere: on the map, in bullets, on the rail, in the footer legend. Never use a line colour for a button, a heading, an illustration or a state.",
+        "section": "colors"
+      },
+      {
+        "name": "The You-Are-Here Rule",
+        "body": "Signal yellow marks the current location: the open station, the current rail station, the active nav item, the current pipeline stage, selected text, the skip link. The one action use in the build is the single call to action inside a black band (and the Sign up hover in the masthead), where black would vanish; do not add more.",
+        "section": "colors"
+      },
+      {
+        "name": "The Board Rule",
+        "body": "Panel grey as a standing surface belongs to boards: the station board and the \"What changed\" board, each topped by a 6px black edge. Elsewhere it appears only transiently (hover, loading).",
+        "section": "colors"
+      },
+      {
+        "name": "The Whole Name Rule",
+        "body": "A sign shows a whole name. Station names are authored short names, or a title cut at a word boundary (24 characters on the map) that never ends on a joining word; they wrap to at most two lines and are never truncated with an ellipsis.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Count Rule",
+        "body": "Dates, counts and rank numerals use tabular figures.",
+        "section": "typography"
+      },
+      {
+        "name": "The No Kicker Rule",
+        "body": "A heading stands alone; nothing small and uppercase sits above it. Context goes in a meta line below the title or in the band beside it.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Signage Rule",
+        "body": "Nothing floats. If something needs emphasis, give it a black band, a black top edge or a heavier rule, never a shadow.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** name every major section with a black signage band carrying a white Archivo title.",
+      "**Do** keep each line colour bound to its research area and its fixed bullet letter (L, V, M, A, R, X).",
+      "**Do** use signal yellow only to mark the current location, plus at most one action inside a black band.",
+      "**Do** draw map geometry at 45 and 90 degrees only, with white rings for stations and white capsules for interchanges.",
+      "**Do** set station and line names in the condensed signage setting (78% width) and show them whole, wrapped to at most two lines.",
+      "**Do** keep reading text to a 60ch measure.",
+      "**Do** gate every animation behind `prefers-reduced-motion: no-preference` and keep the one authored moment (lines draw, stations open) as the only choreography.",
+      "**Do** use stroke SVG icons (Lucide) at 16 to 32px, hidden from assistive tech, when an icon is needed."
+    ],
+    "donts": [
+      "**Don't** put an eyebrow or kicker (small uppercase label) above a heading.",
+      "**Don't** use unicode glyphs as icons (arrows, check marks, stars, bullets).",
+      "**Don't** truncate a station name with an ellipsis.",
+      "**Don't** use a line colour for anything but its line, or add a seventh line colour.",
+      "**Don't** use signal yellow as decoration, a highlight wash or a general accent.",
+      "**Don't** use panel grey as a general card background; it belongs to boards.",
+      "**Don't** add shadows, gradients or glass; depth is tonal.",
+      "**Don't** add a hero with feature cards or a newsletter sign-up box."
+    ]
+  }
+}

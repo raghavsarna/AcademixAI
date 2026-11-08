@@ -2,103 +2,128 @@
 
 [![CI](https://github.com/raghavsarna/AcademixAI/actions/workflows/ci.yml/badge.svg)](https://github.com/raghavsarna/AcademixAI/actions/workflows/ci.yml)
 
-AcademixAI makes research papers easier to read. It publishes a daily AI digest from new arXiv papers, turns any uploaded PDF into a plain-language summary, and lets you ask questions about a paper in a chat.
+**What changed in AI research today, and every paper explained at your level.**
 
-> The backend has been rebuilt; a new web frontend is next. The current pages are served by the backend.
+Hundreds of AI papers land on arXiv every day. AcademixAI reads each day's new papers in AI, machine learning, language and vision, picks the ones that actually move the field, and draws them as a metro map: research areas are coloured lines, the day's papers are new stations, and a paper that spans two areas is an interchange. Open any paper and read it at the depth that suits you: **Plain**, **Student** or **Expert**.
 
-## Features
+![The landing page: today's edition drawn as a line diagram](docs/screenshots/landing.png)
 
-- **Daily digest:** fetches the newest AI papers from arXiv and writes an accessible newsletter about the most interesting ones.
-- **Upload a paper:** extracts the text of a PDF and produces a title, authors, DOI, summary, key findings and methodology. The same paper is never analysed twice: re-uploads are matched by file hash or DOI.
-- **Chat:** ask questions about a digest or a paper.
+## What it does
+
+- **A daily changelog, not a newsletter.** Each edition ranks the ~10 papers that change the field most, and says for each one what it claims is new, what kind of change it is, and which earlier work it extends, challenges or replaces.
+- **One paper, three readers.** Every paper is explained three times: for someone who has never read a paper, for a student meeting the idea, and for a practitioner who wants the method and the numbers. Switch depth in place; the choice is kept in the link.
+- **Explain your own paper.** Upload a PDF and get the same treatment from its full text. Re-uploading a known paper (same file, DOI or arXiv id) reuses the analysis instead of calling the model again.
+- **Chat at your depth.** Ask about an edition or a paper and the answer is pitched at the depth you picked.
+
+![A paper page at Expert depth](docs/screenshots/paper.png)
+
+## How an edition is made
+
+```
+arXiv (cs.AI, cs.LG, cs.CL, cs.CV)  ~400-600 papers a day
+        │
+        ▼
+ Triage (1 model call)       pick the ~10 that change the field most
+        │
+        ▼
+ Analyse (1 call per paper)  what changed · builds on · Plain / Student / Expert
+        │
+        ▼
+ Front matter (1 call)       a specific headline, overview and themes
+        │
+        ▼
+ Postgres / SQLite  ──►  FastAPI  ──►  Next.js line diagram
+```
+
+About a dozen model calls a day, so it runs comfortably on Gemini's free tier.
 
 ## Stack
 
-| Layer | Tools |
+| | |
 | --- | --- |
-| API | FastAPI, Pydantic, JWT auth (PyJWT + bcrypt) |
-| Data | SQLAlchemy 2, Alembic migrations, SQLite locally or PostgreSQL |
-| AI | Google Gemini via `google-genai` (Gemini 3.1 Flash-Lite, with free Gemma 4 as a rate-limit fallback) |
-| PDFs | PyMuPDF |
-| Quality | pytest (SQLite and Postgres), ruff, GitHub Actions |
+| Web | Next.js 16 (App Router, Cache Components), React 19, TypeScript, Tailwind CSS 4 |
+| API | FastAPI, Pydantic, SQLAlchemy 2, Alembic, JWT auth (PyJWT + bcrypt), per-user rate limits |
+| Data | PostgreSQL in production, SQLite locally |
+| AI | Google Gemini 3.1 Flash-Lite via `google-genai`, with free Gemma 4 as the fallback when it is rate limited or overloaded |
+| Quality | pytest (SQLite and Postgres), ruff, ESLint, TypeScript, GitHub Actions |
 
 ## Run it locally
 
-You need Python 3.12 or newer.
+You need Python 3.12+, Node 20+ and pnpm.
+
+**1. API**
 
 ```bash
-git clone https://github.com/raghavsarna/AcademixAI.git
-cd AcademixAI
 python -m venv .venv
-source .venv/bin/activate        # Windows: .venv\Scripts\activate
+source .venv/bin/activate          # Windows: .venv\Scripts\activate
 pip install -r requirements-dev.txt
-cp .env.example .env             # then add GEMINI_API_KEY and SECRET_KEY
+cp .env.example .env               # add GEMINI_API_KEY and SECRET_KEY
+python -m scripts.seed             # creates the database and loads six real editions
+uvicorn app.main:app --reload --port 8000
 ```
 
-- `GEMINI_API_KEY`: get one at https://aistudio.google.com/apikey
-- `SECRET_KEY`: generate one with `python -c "import secrets; print(secrets.token_hex(32))"`
+- `GEMINI_API_KEY`: from https://aistudio.google.com/apikey
+- `SECRET_KEY`: `python -c "import secrets; print(secrets.token_hex(32))"`
 
-Create the database, load sample data, and start the server:
+**2. Web**
 
 ```bash
-python -m scripts.seed
-uvicorn app.main:app --reload
+cd web
+pnpm install
+pnpm dev                           # http://localhost:3000
 ```
 
-Open http://localhost:8000. Interactive API docs are at http://localhost:8000/docs.
+The web app calls `/api/...` on its own origin and Next.js forwards those requests to the API (`API_URL`, default `http://127.0.0.1:8000`), so there is no CORS setup.
 
-To use PostgreSQL instead of SQLite, set `DATABASE_URL=postgresql://user:password@host:5432/academixai` in `.env` and run `python -m scripts.seed` again.
-
-## Generate today's digest
+**3. Make today's edition**
 
 ```bash
-python -m scripts.generate_digest
+python -m scripts.generate_edition             # the most recent day on arXiv
+python -m scripts.generate_edition --days 5    # backfill the last five weekdays
 ```
 
-## Tests and linting
+## Tests and checks
 
 ```bash
-pytest
+pytest                                         # API:  tests, fake model, no key needed
 ruff check app scripts tests migrations/env.py
-ruff format --check app scripts tests migrations/env.py
+cd web && pnpm exec eslint src && pnpm exec tsc --noEmit && pnpm build
 ```
 
-Tests use a temporary SQLite database and a fake model, so they need no API key. To run them against Postgres, set `TEST_DATABASE_URL`. CI runs the suite on both.
+CI runs the API tests on SQLite and on Postgres 17 (including migrations), and lints, type-checks and builds the web app.
 
 ## API
 
+Interactive docs at `/docs` when the API is running.
+
 | Method | Path | Auth | Purpose |
 | --- | --- | --- | --- |
-| POST | `/api/auth/register` | | Create an account |
-| POST | `/api/auth/token` | | Log in with username or email (OAuth2 password form) |
-| GET | `/api/auth/me` | ✓ | Current user |
-| GET | `/api/digests` | | List digests, newest first (`limit`, `offset`) |
-| GET | `/api/digests/{id}` | | A digest with its full content |
-| POST | `/api/digests/{id}/chat` | ✓ | Ask about a digest |
+| GET | `/api/editions` | | Editions, newest first |
+| GET | `/api/editions/latest` | | The latest edition with its ranked papers |
+| GET | `/api/editions/{date}` | | One day's edition, with previous and next dates |
+| POST | `/api/editions/{date}/chat` | ✓ | Ask about an edition (`message`, `level`) |
+| POST | `/api/papers` | ✓ | Upload a PDF to be explained |
 | GET | `/api/papers` | ✓ | Your uploaded papers |
-| POST | `/api/papers` | ✓ | Upload a PDF (multipart `file`) |
-| GET | `/api/papers/{id}` | | A paper's analysis (anyone with the link) |
-| POST | `/api/papers/{id}/chat` | ✓ | Ask about a paper |
-| GET | `/api/health` | | Health check |
-
-Chat and uploads are rate limited per user; login and sign-up are rate limited per IP address.
+| GET | `/api/papers/{id}` | | A paper with all three explanations |
+| POST | `/api/papers/{id}/chat` | ✓ | Ask about a paper (`message`, `level`) |
+| POST | `/api/auth/register`, `/api/auth/token` | | Sign up, log in |
+| GET | `/api/auth/me` | ✓ | Current user |
 
 ## Project layout
 
 ```
-app/
-  main.py          FastAPI app, error handling, static files
-  config.py        Settings from environment / .env
-  db.py, models.py Database engine and models
-  schemas.py       API request/response models
-  security.py      Password hashing, tokens, current user
-  rate_limit.py    Sliding-window rate limiter
-  llm.py           The single wrapper around Gemini
-  storage.py       Where uploaded PDFs are kept
-  routers/         auth, digests, papers, pages
-  services/        papers (PDF → analysis), pdf, chat, digests, markdown
-migrations/        Alembic migrations
-scripts/           migrate, seed, generate_digest
-templates/, static/, images/   Current server-rendered pages
-tests/             pytest suite
+app/            FastAPI: routers (auth, editions, papers), services (editions pipeline,
+                paper analysis, chat), models, Alembic-managed schema
+migrations/     Alembic migrations
+scripts/        seed, generate_edition, export_seed, migrate
+tests/          pytest suite
+web/            Next.js app: src/app (routes), src/components (EditionMap, DepthSwitch, ...)
+PRODUCT.md      Product positioning and principles
+DESIGN.md       The design system: the transit-map world, tokens and components
 ```
+
+## Design
+
+The interface was designed with a "transit map" visual language: white signage ground, black signage bands, Archivo set like wayfinding signage, and line colours that never change meaning (Language red, Vision blue, Learning green, Agents orange, Robotics purple). Every text colour pairing meets WCAG AA, the diagram becomes a vertical strip map on phones, and all motion respects reduced-motion settings. See [DESIGN.md](DESIGN.md).
+
+Explanations are written by a language model from each paper's abstract (or full text for uploads). Check the original paper before you cite it.

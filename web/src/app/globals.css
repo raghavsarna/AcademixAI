@@ -60,6 +60,11 @@
     border-radius: 2px;
   }
 
+  /* Blue is too dark to see on the black signage; there the ring is signal yellow */
+  .bg-band :focus-visible {
+    outline-color: var(--color-signal);
+  }
+
   a {
     text-underline-offset: 0.22em;
     text-decoration-thickness: 1.5px;

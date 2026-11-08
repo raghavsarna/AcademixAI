@@ -13,12 +13,14 @@ import hashlib
 import re
 
 from database import SessionLocal, engine, create_tables
-from models import Newsletter, User, Research, Paper, UserUpload
+from models import Newsletter, User, Paper, UserUpload
 from schemas import NewsletterBase, UserCreate, UserResponse, Token, UserLogin
 import auth
-from auth import get_current_active_user, get_current_user, ACCESS_TOKEN_EXPIRE_MINUTES
+from auth import get_current_active_user, ACCESS_TOKEN_EXPIRE_MINUTES
 from pdf_processor import process_pdf
-import google.generativeai as genai
+from llm import generate
+from config import settings
+from starlette.concurrency import run_in_threadpool
 
 app = FastAPI()
 
@@ -48,7 +50,6 @@ class NoCacheStaticFiles(StarletteStaticFiles):
 # Mount static directories with no-cache headers
 app.mount("/static", NoCacheStaticFiles(directory="static"), name="static")  # CSS and JS files
 app.mount("/images", NoCacheStaticFiles(directory="images"), name="images")  # Images
-app.mount("/videos", NoCacheStaticFiles(directory="videos"), name="videos")  # Videos
 
 # Mount pages directory for direct access to CSS files in pages
 app.mount("/pages", NoCacheStaticFiles(directory="pages"), name="pages")
@@ -107,7 +108,7 @@ def get_db():
 # Routes for HTML pages
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
-    response = templates.TemplateResponse("index.html", {"request": request})
+    response = templates.TemplateResponse(request, "index.html")
     # Add cache control headers to prevent caching
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     response.headers["Pragma"] = "no-cache"
@@ -116,11 +117,11 @@ async def read_root(request: Request):
 
 @app.get("/home", response_class=HTMLResponse)
 async def read_home(request: Request):
-    return templates.TemplateResponse("homepage.html", {"request": request})
+    return templates.TemplateResponse(request, "homepage.html")
 
 @app.get("/content", response_class=HTMLResponse)
 async def read_content(request: Request):
-    return templates.TemplateResponse("content_page.html", {"request": request})
+    return templates.TemplateResponse(request, "content_page.html")
 
 # API endpoints
 @app.get("/api/papers", response_model=List[NewsletterBase])
@@ -181,21 +182,11 @@ async def chat_with_paper(summary_id: int, message: ChatMessage, db: Session = D
         If the answer cannot be determined from the paper, say so politely.
         """
 
-        # Initialize Gemini model
-        model = genai.GenerativeModel('gemini-2.0-flash-lite')
-
-        # Generate response
-        response = model.generate_content(prompt)
-
-        # Return the response
-        return {"bot_message": response.text}
+        reply = await run_in_threadpool(generate, prompt, settings.gemini_fast_model)
+        return {"bot_message": reply}
     except Exception as e:
         logging.error(f"Error generating chat response: {str(e)}")
         return {"bot_message": f"I'm sorry, I encountered an error while processing your question. Please try again."}
-
-# Configure Gemini API
-GEMINI_API_KEY = "REDACTED_GEMINI_API_KEY"
-genai.configure(api_key=GEMINI_API_KEY)
 
 @app.post("/api/chat/paper/{doi}")
 async def chat_with_paper_by_doi(doi: str, message: ChatMessage, db: Session = Depends(get_db)):
@@ -236,14 +227,8 @@ async def chat_with_paper_by_doi(doi: str, message: ChatMessage, db: Session = D
         If the answer cannot be determined from the paper, say so politely.
         """
 
-        # Initialize Gemini model
-        model = genai.GenerativeModel('gemini-2.0-flash-lite')
-
-        # Generate response
-        response = model.generate_content(prompt)
-
-        # Return the response
-        return {"bot_message": response.text}
+        reply = await run_in_threadpool(generate, prompt, settings.gemini_fast_model)
+        return {"bot_message": reply}
     except Exception as e:
         logging.error(f"Error generating chat response: {str(e)}")
         return {"bot_message": f"I'm sorry, I encountered an error while processing your question. Please try again."}
@@ -389,22 +374,22 @@ async def get_user_papers(current_user: User = Depends(get_current_active_user),
 # Login page route
 @app.get("/login", response_class=HTMLResponse)
 async def login_page(request: Request):
-    return templates.TemplateResponse("login.html", {"request": request})
+    return templates.TemplateResponse(request, "login.html")
 
 # Register page route
 @app.get("/register", response_class=HTMLResponse)
 async def register_page(request: Request):
-    return templates.TemplateResponse("register.html", {"request": request})
+    return templates.TemplateResponse(request, "register.html")
 
 # Profile page route
 @app.get("/profile", response_class=HTMLResponse)
 async def profile_page(request: Request):
-    return templates.TemplateResponse("profile.html", {"request": request})
+    return templates.TemplateResponse(request, "profile.html")
 
 # Upload page route
 @app.get("/upload", response_class=HTMLResponse)
 async def upload_page(request: Request):
-    return templates.TemplateResponse("upload_paper.html", {"request": request})
+    return templates.TemplateResponse(request, "upload_paper.html")
 
 import requests
 import os
@@ -521,7 +506,4 @@ async def view_paper(request: Request, doi: str, db: Session = Depends(get_db)):
     }
 
     # Render the paper view template
-    return templates.TemplateResponse("paper_view.html", {
-        "request": request,
-        "paper": complete_paper
-    })
+    return templates.TemplateResponse(request, "paper_view.html", {"paper": complete_paper})

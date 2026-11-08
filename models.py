@@ -90,17 +90,3 @@ class CustomPaperPodcast(Base):
 
     # Relationships
     paper = relationship("Paper", back_populates="podcast")
-
-class Research(Base):
-    __tablename__ = "research"
-    id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, nullable=False)
-    authors = Column(String, nullable=False)
-    doi = Column(String, unique=True, index=True)
-    publication_date = Column(String)
-    venue = Column(String)  # Journal or conference name
-    abstract = Column(Text)
-    keywords = Column(String)
-    methodology = Column(Text)
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), onupdate=func.now())

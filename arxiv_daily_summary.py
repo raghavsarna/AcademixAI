@@ -8,7 +8,7 @@ and saves the result to the newsletter database.
 """
 
 import arxiv
-import google.generativeai as genai
+from llm import generate
 import datetime
 import logging
 import os
@@ -26,9 +26,6 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Configure Gemini API
-GEMINI_API_KEY = "REDACTED_GEMINI_API_KEY"
-genai.configure(api_key=GEMINI_API_KEY)
 
 def fetch_arxiv_papers(max_results: int = 200) -> List[arxiv.Result]:
     """
@@ -161,13 +158,7 @@ def summarize_with_gemini(papers: List[Dict[str, Any]], custom_prompt: str = Non
     """
 
     try:
-        # Initialize Gemini model
-        model = genai.GenerativeModel('gemini-2.0-flash')
-
-        # Generate response
-        response = model.generate_content(prompt)
-
-        return response.text
+        return generate(prompt)
     except Exception as e:
         logger.error(f"Error generating summary with Gemini: {str(e)}")
         return f"Error generating summary: {str(e)}"

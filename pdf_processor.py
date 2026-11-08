@@ -1,13 +1,14 @@
 import os
 import tempfile
-import fitz  # PyMuPDF
-import google.generativeai as genai
+import pymupdf
+from starlette.concurrency import run_in_threadpool
 import json
 import uuid
 import datetime
 from fastapi import UploadFile, HTTPException
 from sqlalchemy.orm import Session
-from models import Paper, Newsletter, UserUpload, User, Research
+from models import Paper, UserUpload
+from llm import generate
 from database import SessionLocal
 import logging
 
@@ -15,12 +16,6 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# Configure Gemini API
-GEMINI_API_KEY = "REDACTED_GEMINI_API_KEY"
-genai.configure(api_key=GEMINI_API_KEY)
-
-# Initialize Gemini model
-model = genai.GenerativeModel('gemini-2.0-flash')
 
 async def extract_text_from_pdf(file: UploadFile) -> str:
     """Extract text content from a PDF file."""
@@ -35,7 +30,7 @@ async def extract_text_from_pdf(file: UploadFile) -> str:
         # Extract text from the PDF using PyMuPDF
         text_content = ""
         try:
-            doc = fitz.open(temp_file_path)
+            doc = pymupdf.open(temp_file_path)
             for page_num in range(len(doc)):
                 page = doc.load_page(page_num)
                 text_content += page.get_text()
@@ -94,12 +89,11 @@ async def analyze_paper_with_gemini(text_content: str):
         """
 
         # Generate response from Gemini
-        response = model.generate_content(prompt)
+        response_text = await run_in_threadpool(generate, prompt)
 
         # Extract and parse the JSON response
         try:
             # The response might be in markdown code blocks, so we need to clean it
-            response_text = response.text
             if "```json" in response_text:
                 # Extract JSON from markdown code block
                 import re
@@ -233,18 +227,6 @@ async def store_paper_in_database(paper_data, user_id, original_pdf_path=None):
         # and not in the homepage's 'Latest Research' section
         new_newsletter = None
 
-        # Also keep the Research entry for backward compatibility
-        new_research = Research(
-            title=paper_data["title"],
-            authors=", ".join(paper_data["authors"]),
-            doi=paper_data.get("doi", ""),
-            publication_date=paper_data.get("publication_date", ""),
-            venue=paper_data.get("source", ""),
-            abstract=paper_data.get("abstract", ""),
-            keywords=", ".join(paper_data.get("keywords", [])),
-            methodology=""
-        )
-        db.add(new_research)
 
         db.commit()
 
